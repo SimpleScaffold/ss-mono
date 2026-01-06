@@ -92,3 +92,14 @@ yarn build
 
 각 애플리케이션은 서로 다른 도메인에서 실행될 수 있으며, 공통 패키지(`@repo/fe-ui`, `@repo/fe-utils`)를 공유합니다.
 
+## 📚 문서
+
+자세한 문서는 [`doc/kr/`](./doc/kr/index.md) 폴더를 참고하세요.
+
+- [시작하기](./doc/kr/01-getting-started.md)
+- [프로젝트 구조](./doc/kr/02-project-structure.md)
+- [공통 설정](./doc/kr/03-common-config.md)
+- [패키지 가이드](./doc/kr/04-packages/)
+- [shadcn/ui 가이드](./doc/kr/05-shadcn-guide.md)
+- [Upstream 저장소 관리](./doc/kr/07-upstream-management.md)
+

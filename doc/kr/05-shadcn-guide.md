@@ -116,3 +116,8 @@ import { Drawer } from '@repo/fe-ui/drawer';
 - Entry point 파일(`src/exports/`)은 자동 생성되므로 수동으로 수정하지 마세요
 - `package.json`의 exports 필드도 자동으로 관리되므로 직접 수정하지 마세요
 
+## 관련 문서
+
+- [@repo/fe-ui 패키지 가이드](./04-packages/fe-ui.md) - 패키지 사용법
+- [프로젝트 구조](./02-project-structure.md) - 파일 구조 설명
+
