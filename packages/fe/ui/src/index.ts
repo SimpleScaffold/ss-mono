@@ -1,6 +1,6 @@
 // Common Components
-export { Button } from './components/common/Button';
-export type { ButtonProps } from './components/common/Button';
+export { Button } from './lib/shadcn/ui/button';
+export type { ButtonProps } from './lib/shadcn/ui/button';
 
 // SS Components
 // TODO: SS 컴포넌트들 export
@@ -16,5 +16,5 @@ export type { Theme } from './theme/theme-provider';
 export * from './assets/fonts';
 
 // Utils
-export { cn } from './lib/utils/cn';
+export { cn } from './lib/shadcn/utils/cn';
 

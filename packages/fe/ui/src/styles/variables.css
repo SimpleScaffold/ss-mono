@@ -1,0 +1,57 @@
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: var(--color-neutral-950);
+    --card: 0 0% 100%;
+    --card-foreground: var(--color-neutral-950);
+    --popover: 0 0% 100%;
+    --popover-foreground: var(--color-neutral-950);
+    --primary: var(--color-primary-950);
+    --primary-foreground: var(--color-primary-50);
+    --secondary: var(--color-secondary-200);
+    --secondary-foreground: var(--color-primary-950);
+    --muted: var(--color-muted-200);
+    --muted-foreground: var(--color-neutral-600);
+    --accent: var(--color-accent-200);
+    --accent-foreground: var(--color-primary-950);
+    --destructive: var(--color-destructive-500);
+    --destructive-foreground: var(--color-primary-50);
+    --border: var(--color-neutral-200);
+    --input: var(--color-neutral-200);
+    --ring: var(--color-neutral-950);
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: var(--color-neutral-950);
+    --foreground: var(--color-primary-50);
+    --card: var(--color-neutral-950);
+    --card-foreground: var(--color-primary-50);
+    --popover: var(--color-neutral-950);
+    --popover-foreground: var(--color-primary-50);
+    --primary: var(--color-primary-50);
+    --primary-foreground: var(--color-primary-950);
+    --secondary: var(--color-secondary-800);
+    --secondary-foreground: var(--color-primary-50);
+    --muted: var(--color-muted-800);
+    --muted-foreground: var(--color-neutral-400);
+    --accent: var(--color-accent-800);
+    --accent-foreground: var(--color-primary-50);
+    --destructive: var(--color-destructive-900);
+    --destructive-foreground: var(--color-primary-50);
+    --border: var(--color-neutral-800);
+    --input: var(--color-neutral-800);
+    --ring: var(--color-neutral-300);
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+

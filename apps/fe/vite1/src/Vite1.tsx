@@ -8,6 +8,7 @@ function Vite1() {
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Vite1 Application</h1>
         <p className="text-lg text-gray-600 mb-8">
           독립적인 애플리케이션 (포트 3001)
+          <Button>Action</Button>
         </p>
         <div className="space-y-4">
           <div className="bg-white p-6 rounded-lg shadow">

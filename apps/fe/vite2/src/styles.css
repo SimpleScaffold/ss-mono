@@ -1,4 +1,3 @@
 @import "tailwindcss";
-@import "@repo/fe-ui/tokens.css";
-@import "@repo/fe-ui/base.css";
+@import "@repo/fe-ui/styles";
 

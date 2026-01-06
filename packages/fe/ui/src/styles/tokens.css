@@ -1,9 +1,7 @@
-@import "tailwindcss";
-
 @theme {
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-secondary: #e5e7eb;
-  --color-secondary-hover: #d1d5db;
+  /* Semantic Color Tokens - References to Palette */
+  /* Hover effects are handled automatically via opacity (e.g., hover:bg-primary/90) */
+  --color-primary: var(--color-primary-600);
+  --color-secondary: var(--color-secondary-200);
 }
 
