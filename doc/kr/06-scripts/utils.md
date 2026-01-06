@@ -195,7 +195,6 @@ console.log(info.platform); // 'win32', 'darwin', 'linux'
 
 - `packages/fe/ui/scripts/update-exports.js` - 컴포넌트 export 자동 업데이트
 - `packages/fe/ui/scripts/shadcn-wrapper.js` - shadcn 컴포넌트 추가 래퍼
-- `packages/fe/ui/scripts/watch-components.js` - 파일 감시 스크립트
 
 ## 관련 문서
 

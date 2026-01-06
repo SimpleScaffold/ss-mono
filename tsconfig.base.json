@@ -16,7 +16,6 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@repo/fe-ui": ["./packages/fe/ui/src"],
       "@repo/fe-ui/*": ["./packages/fe/ui/src/exports/*"],
       "@repo/fe-utils": ["./packages/fe/utils/src"],
       "@repo/shared-config": ["./packages/shared/config"]

@@ -81,7 +81,18 @@ async function updateIndexFile() {
     ensurePathExists(INDEX_FILE, 'file');
     
     const files = await readdir(UI_DIR);
-    const componentFiles = files.filter(f => f.endsWith('.tsx') || f.endsWith('.ts'));
+    const componentFiles = files.filter(f => {
+      // .tsx, .ts 파일만
+      if (!f.endsWith('.tsx') && !f.endsWith('.ts')) {
+        return false;
+      }
+      // 제외 패턴 확인
+      if (isExcludedFileName(f)) {
+        console.log(`⚠️  Excluding file: ${f}`);
+        return false;
+      }
+      return true;
+    });
     
     console.log(`Found ${componentFiles.length} component files: ${componentFiles.join(', ')}`);
     
@@ -125,12 +136,32 @@ async function updateIndexFile() {
   }
 }
 
+// 허용되지 않는 파일명 패턴 (export하면 안 되는 파일들)
+const EXCLUDED_PATTERNS = [
+  /^stories?\./i,      // stories, story
+  /\.stories?\./i,     // *.stories.ts
+  /\.test\./i,         // *.test.ts
+  /\.spec\./i,         // *.spec.ts
+  /\.mock\./i,         // *.mock.ts
+  /\.d\.ts$/i,         // *.d.ts (타입 선언 파일)
+];
+
+function isExcludedFileName(fileName) {
+  return EXCLUDED_PATTERNS.some(pattern => pattern.test(fileName));
+}
+
 async function createEntryPointFiles(components) {
   try {
     // Ensure exports directory exists
     await ensurePathExists(EXPORTS_DIR, 'directory');
     
     for (const comp of components) {
+      // 제외 패턴 확인
+      if (isExcludedFileName(comp.name)) {
+        console.warn(`⚠️  Skipping excluded file: ${comp.name}.ts`);
+        continue;
+      }
+      
       const entryPointPath = joinPath(EXPORTS_DIR, `${comp.name}.ts`);
       
       // Filter out empty exports
@@ -179,23 +210,16 @@ async function updatePackageJson(components) {
     // Keep existing exports (styles, etc.)
     const existingExports = { ...packageJson.exports };
     
-    // Build new exports object
+    // Build new exports object with wildcard pattern
     const newExports = {
-      '.': existingExports['.'] || {
-        import: './src/index.ts',
-        types: './src/index.ts'
+      // Wildcard pattern for all exports/*.ts files
+      './*': {
+        import: './src/exports/*.ts',
+        types: './src/exports/*.ts'
       }
     };
     
-    // Add component exports
-    for (const comp of components) {
-      newExports[`./${comp.name}`] = {
-        import: `./src/exports/${comp.name}.ts`,
-        types: `./src/exports/${comp.name}.ts`
-      };
-    }
-    
-    // Add back style exports
+    // Add back style exports (these need explicit paths)
     Object.keys(existingExports).forEach(key => {
       if (key.startsWith('./styles')) {
         newExports[key] = existingExports[key];
@@ -208,6 +232,7 @@ async function updatePackageJson(components) {
     const updatedContent = JSON.stringify(packageJson, null, 2) + '\n';
     await writeFileSafe(PACKAGE_JSON, updatedContent);
     console.log('✅ package.json exports updated successfully!');
+    console.log('   Using wildcard pattern: ./src/exports/*.ts');
   } catch (error) {
     console.error('Error updating package.json:', error.message);
     if (error.stack) {

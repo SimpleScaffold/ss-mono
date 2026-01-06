@@ -74,7 +74,7 @@ import { Dialog } from '@repo/fe-ui/dialog';
 import { Drawer } from '@repo/fe-ui/drawer';
 ```
 
-**참고**: `@repo/fe-ui` 루트 import는 Theme, Assets, Utils 등에만 사용됩니다. shadcn/ui 컴포넌트는 하위 경로로만 import해야 합니다.
+**참고**: 모든 export는 하위 경로로만 import합니다. 루트 import(`@repo/fe-ui`)는 사용하지 않습니다.
 
 ## 📝 자동 생성되는 파일
 
@@ -99,16 +99,10 @@ import { Drawer } from '@repo/fe-ui/drawer';
 - shadcn 컴포넌트 추가 + 자동으로 `update-exports` 실행
 - `yarn dlx shadcn@latest add` + `yarn update-exports`를 한 번에 실행
 
-### `yarn watch-components`
-- `src/lib/shadcn/ui/` 디렉토리를 감시
-- 파일이 추가/변경되면 자동으로 `update-exports` 실행
-- 개발 중 백그라운드로 실행하여 자동화 가능
-
 ## 💡 팁
 
-- **새 컴포넌트 추가 시**: `yarn shadcn add` 사용 (자동 실행)
+- **새 컴포넌트 추가 시**: `yarn shadcn add` 사용 (자동 실행) ⭐ 권장
 - **여러 컴포넌트 일괄 추가 후**: `yarn update-exports` 한 번만 실행
-- **자동화 원할 때**: 별도 터미널에서 `yarn watch-components` 실행
 
 ## ⚠️ 주의사항
 

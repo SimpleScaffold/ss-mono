@@ -18,9 +18,11 @@
 
 ## 사용법
 
+모든 export는 하위 경로로 import합니다:
+
 ### 컴포넌트 Import
 
-shadcn/ui 컴포넌트는 하위 경로로 import합니다:
+shadcn/ui 컴포넌트:
 
 ```typescript
 import { Button } from '@repo/fe-ui/button';
@@ -29,14 +31,12 @@ import { Dialog } from '@repo/fe-ui/dialog';
 import { Drawer } from '@repo/fe-ui/drawer';
 ```
 
-**⚠️ 주의**: 루트 import(`@repo/fe-ui`)로는 shadcn/ui 컴포넌트를 import할 수 없습니다.
-
 ### Theme 사용
 
-Theme는 루트 import로 사용합니다:
+Theme도 하위 경로로 import합니다:
 
 ```typescript
-import { ThemeProvider, useTheme } from '@repo/fe-ui';
+import { ThemeProvider, useTheme } from '@repo/fe-ui/theme';
 
 function App() {
   return (
@@ -47,20 +47,20 @@ function App() {
 }
 ```
 
-### Assets 사용
-
-폰트 등 Assets도 루트 import로 사용합니다:
-
-```typescript
-import '@repo/fe-ui/assets/fonts';
-```
-
 ### Utils 사용
 
-유틸리티 함수도 루트 import로 사용합니다:
+유틸리티 함수도 하위 경로로 import합니다:
 
 ```typescript
-import { cn } from '@repo/fe-ui';
+import { cn } from '@repo/fe-ui/utils';
+```
+
+### Assets 사용
+
+Assets도 하위 경로로 import합니다:
+
+```typescript
+import '@repo/fe-ui/assets';
 ```
 
 ## CSS 사용법
