@@ -9,8 +9,7 @@ ss-mono-final/
 ├── apps/                          # 애플리케이션
 │   └── fe/
 │       ├── vite1/                 # Host 애플리케이션 (포트 3001)
-│       ├── vite2/                 # Remote 애플리케이션 (포트 3002)
-│       └── vite3/                 # Remote 애플리케이션 (포트 3003)
+│       └── vite2/                 # Remote 애플리케이션 (포트 3002)
 ├── packages/                      # 공유 패키지
 │   ├── fe/
 │   │   ├── ui/                    # 공통 UI 컴포넌트 패키지
@@ -35,11 +34,6 @@ ss-mono-final/
 
 ### vite2
 - **포트**: 3002
-- **역할**: Remote 애플리케이션
-- **설명**: 독립적으로 실행되는 애플리케이션
-
-### vite3
-- **포트**: 3003
 - **역할**: Remote 애플리케이션
 - **설명**: 독립적으로 실행되는 애플리케이션
 
@@ -103,7 +97,7 @@ import { formatDate } from '@repo/fe-utils';
 ```
 
 이 설정으로 다음 디렉토리들이 워크스페이스로 인식됩니다:
-- `apps/fe/vite1`, `apps/fe/vite2`, `apps/fe/vite3`
+- `apps/fe/vite1`, `apps/fe/vite2`
 - `packages/fe/ui`, `packages/fe/utils`
 - `packages/shared/config`
 
