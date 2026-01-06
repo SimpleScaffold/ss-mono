@@ -1,4 +1,5 @@
-import { Button } from '@repo/fe-ui';
+import { Button } from '@repo/fe-ui/button';
+import { Card } from '@repo/fe-ui/card';
 import './styles.css';
 
 function Vite1() {
@@ -15,6 +16,8 @@ function Vite1() {
             <h2 className="text-xl font-semibold mb-2">Item 1</h2>
             <p className="text-gray-600 mb-4">Description of item 1</p>
             <Button>Action</Button>
+
+            <Card></Card>
           </div>
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-2">Item 2</h2>

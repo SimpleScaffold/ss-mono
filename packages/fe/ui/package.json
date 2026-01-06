@@ -10,6 +10,14 @@
       "import": "./src/index.ts",
       "types": "./src/index.ts"
     },
+    "./button": {
+      "import": "./src/button.ts",
+      "types": "./src/button.ts"
+    },
+    "./card": {
+      "import": "./src/card.ts",
+      "types": "./src/card.ts"
+    },
     "./styles": "./src/styles/index.css",
     "./styles/index.css": "./src/styles/index.css",
     "./styles/palette.css": "./src/styles/palette.css",
@@ -22,9 +30,12 @@
     "**/*.css"
   ],
   "scripts": {
-    "lint": "echo 'lint'"
+    "lint": "echo 'lint'",
+    "update-exports": "node scripts/update-exports.js",
+    "postshadcn": "yarn update-exports"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.0"

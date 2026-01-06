@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@repo/fe-ui": ["./packages/fe/ui/src"],
+      "@repo/fe-ui/*": ["./packages/fe/ui/src/*"],
       "@repo/fe-utils": ["./packages/fe/utils/src"],
       "@repo/shared-config": ["./packages/shared/config"]
     }
