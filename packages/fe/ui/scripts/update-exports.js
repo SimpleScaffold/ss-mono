@@ -10,6 +10,8 @@ import {
 
 const __dirname = getDirname(import.meta.url);
 
+
+
 // Use resolvePath to ensure absolute paths work across platforms
 const UI_DIR = resolvePath(__dirname, '../src/lib/shadcn/ui');
 const INDEX_FILE = resolvePath(__dirname, '../src/index.ts');
