@@ -5,4 +5,5 @@ export {
   CardTitle,
   CardDescription,
   CardContent,
-} from './lib/shadcn/ui/card';
+} from '../lib/shadcn/ui/card';
+

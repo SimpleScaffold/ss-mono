@@ -1,18 +1,3 @@
-// Common Components
-export {
-  Button,
-  buttonVariants,
-} from './lib/shadcn/ui/button';
-export type { ButtonProps } from './lib/shadcn/ui/button';
-export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from './lib/shadcn/ui/card';
-
 // SS Components
 // TODO: SS 컴포넌트들 export
 

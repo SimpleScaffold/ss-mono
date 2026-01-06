@@ -14,6 +14,7 @@ const __dirname = getDirname(import.meta.url);
 const UI_DIR = resolvePath(__dirname, '../src/lib/shadcn/ui');
 const INDEX_FILE = resolvePath(__dirname, '../src/index.ts');
 const SRC_DIR = resolvePath(__dirname, '../src');
+const EXPORTS_DIR = resolvePath(__dirname, '../src/exports');
 const PACKAGE_JSON = resolvePath(__dirname, '../package.json');
 
 async function getComponentExports(filePath) {
@@ -27,7 +28,7 @@ async function getComponentExports(filePath) {
     for (const match of exportMatches) {
       const items = match.match(/\{([^}]+)\}/)?.[1];
       if (items) {
-        const names = items.split(',').map(s => s.trim());
+        const names = items.split(',').map(s => s.trim()).filter(s => s.length > 0);
         exports.push(...names);
       }
     }
@@ -109,50 +110,10 @@ async function updateIndexFile() {
       return;
     }
     
-    // Read current index.ts with normalized line endings
-    const indexContent = await readFileSafe(INDEX_FILE);
-    
-    // Find the shadcn components section
-    const shadcnStart = indexContent.indexOf('// Common Components');
-    const shadcnEnd = indexContent.indexOf('// SS Components');
-    
-    if (shadcnStart === -1 || shadcnEnd === -1) {
-      console.error('Could not find Common Components section in index.ts');
-      console.error(`shadcnStart: ${shadcnStart}, shadcnEnd: ${shadcnEnd}`);
-      console.error('Make sure index.ts contains "// Common Components" and "// SS Components" markers');
-      process.exit(1);
-    }
-    
-    // Generate new exports (always use LF line endings)
-    let newExports = '// Common Components\n';
-    
-    for (const comp of components) {
-      // Export components
-      if (comp.exports.length === 1) {
-        newExports += `export { ${comp.exports[0]} } from './lib/shadcn/ui/${comp.name}';\n`;
-      } else {
-        newExports += `export {\n  ${comp.exports.join(',\n  ')},\n} from './lib/shadcn/ui/${comp.name}';\n`;
-      }
-      
-      // Export types if any
-      if (comp.types.length > 0) {
-        for (const type of comp.types) {
-          newExports += `export type { ${type} } from './lib/shadcn/ui/${comp.name}';\n`;
-        }
-      }
-    }
-    
-    // Replace the section (include everything from start to end, including the comment)
-    const before = indexContent.substring(0, shadcnStart);
-    const after = indexContent.substring(shadcnEnd);
-    
-    const newContent = before + newExports + '\n' + after;
-    
-    // Write with normalized line endings (LF)
-    await writeFileSafe(INDEX_FILE, newContent);
-    console.log('✅ index.ts updated successfully!');
-    console.log(`   Exported ${components.length} components`);
-    console.log(`   Components: ${components.map(c => c.name).join(', ')}`);
+    // Note: We no longer update index.ts with shadcn components
+    // Components are only exported via sub-path exports (e.g., @repo/fe-ui/button)
+    console.log('ℹ️  Skipping index.ts update - using sub-path exports only');
+    console.log(`   Components will be available via: @repo/fe-ui/${components.map(c => c.name).join(', @repo/fe-ui/')}`);
     
     return components;
   } catch (error) {
@@ -166,28 +127,40 @@ async function updateIndexFile() {
 
 async function createEntryPointFiles(components) {
   try {
+    // Ensure exports directory exists
+    await ensurePathExists(EXPORTS_DIR, 'directory');
+    
     for (const comp of components) {
-      const entryPointPath = joinPath(SRC_DIR, `${comp.name}.ts`);
+      const entryPointPath = joinPath(EXPORTS_DIR, `${comp.name}.ts`);
+      
+      // Filter out empty exports
+      const validExports = comp.exports.filter(e => e && e.trim().length > 0);
+      
+      if (validExports.length === 0) {
+        console.warn(`⚠️  No valid exports found for ${comp.name}, skipping entry point file`);
+        continue;
+      }
       
       let content = '';
       
-      // Export components
-      if (comp.exports.length === 1) {
-        content += `export { ${comp.exports[0]} } from './lib/shadcn/ui/${comp.name}';\n`;
+      // Export components (use relative path from exports/ to lib/shadcn/ui/)
+      if (validExports.length === 1) {
+        content += `export { ${validExports[0]} } from '../lib/shadcn/ui/${comp.name}';\n`;
       } else {
-        content += `export {\n  ${comp.exports.join(',\n  ')},\n} from './lib/shadcn/ui/${comp.name}';\n`;
+        content += `export {\n  ${validExports.join(',\n  ')},\n} from '../lib/shadcn/ui/${comp.name}';\n`;
       }
       
       // Export types if any
-      if (comp.types.length > 0) {
+      const validTypes = comp.types.filter(t => t && t.trim().length > 0);
+      if (validTypes.length > 0) {
         content += '\n';
-        for (const type of comp.types) {
-          content += `export type { ${type} } from './lib/shadcn/ui/${comp.name}';\n`;
+        for (const type of validTypes) {
+          content += `export type { ${type} } from '../lib/shadcn/ui/${comp.name}';\n`;
         }
       }
       
       await writeFileSafe(entryPointPath, content);
-      console.log(`✅ Created entry point: ${comp.name}.ts`);
+      console.log(`✅ Created entry point: exports/${comp.name}.ts`);
     }
   } catch (error) {
     console.error('Error creating entry point files:', error.message);
@@ -217,8 +190,8 @@ async function updatePackageJson(components) {
     // Add component exports
     for (const comp of components) {
       newExports[`./${comp.name}`] = {
-        import: `./src/${comp.name}.ts`,
-        types: `./src/${comp.name}.ts`
+        import: `./src/exports/${comp.name}.ts`,
+        types: `./src/exports/${comp.name}.ts`
       };
     }
     

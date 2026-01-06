@@ -1,4 +1,4 @@
-import { Button } from '@repo/fe-ui';
+import { Button } from '@repo/fe-ui/button';
 import { formatDate } from '@repo/fe-utils';
 import './styles.css';
 
