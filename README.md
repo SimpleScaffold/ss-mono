@@ -9,7 +9,8 @@ ss-mono-final/
 ├── apps/
 │   └── fe/
 │       ├── vite1/           # Host 애플리케이션 (포트 3001)
-│       └── vite2/           # Remote 애플리케이션 (포트 3002)
+│       ├── vite2/           # Remote 애플리케이션 (포트 3002)
+│       └── vite3/           # Remote 애플리케이션 (포트 3003)
 ├── packages/
 │   ├── fe/
 │   │   ├── ui/               # 공통 UI 컴포넌트 패키지
@@ -53,6 +54,10 @@ yarn dev
 # Vite2 (Remote)
 cd apps/fe/vite2
 yarn dev
+
+# Vite3 (Remote)
+cd apps/fe/vite3
+yarn dev
 ```
 
 ## 빌드
@@ -82,7 +87,8 @@ yarn build
 각 애플리케이션은 완전히 독립적으로 실행됩니다:
 
 - **vite1**: 포트 3001
-- **vite2**: 포트 3002
+- **vite2**: 포트 3002  
+- **vite3**: 포트 3003
 
 각 애플리케이션은 서로 다른 도메인에서 실행될 수 있으며, 공통 패키지(`@repo/fe-ui`, `@repo/fe-utils`)를 공유합니다.
 

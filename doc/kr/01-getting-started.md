@@ -39,6 +39,10 @@ yarn dev
 # Vite2 (포트 3002)
 cd apps/fe/vite2
 yarn dev
+
+# Vite3 (포트 3003)
+cd apps/fe/vite3
+yarn dev
 ```
 
 ## 빌드
