@@ -198,6 +198,6 @@ console.log(info.platform); // 'win32', 'darwin', 'linux'
 
 ## 관련 문서
 
-- [프로젝트 구조](../02-project-structure.md) - 스크립트 위치
-- [shadcn/ui 가이드](../05-shadcn-guide.md) - 스크립트 사용 예시
+- [프로젝트 구조](../02-project-structure/) - 스크립트 위치
+- [shadcn/ui 가이드](../05-shadcn-guide/) - 스크립트 사용 예시
 

@@ -144,6 +144,5 @@ yarn workspace @repo/fe-ui [command]
 
 ## 다음 단계
 
-- [패키지 가이드](./04-packages/) 확인
-- [shadcn/ui 가이드](./05-shadcn-guide.md) 참고
-
+- [패키지 가이드](../04-packages/) 확인
+- [shadcn/ui 가이드](../05-shadcn-guide/) 참고

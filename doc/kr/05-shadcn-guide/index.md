@@ -112,6 +112,5 @@ import { Drawer } from '@repo/fe-ui/drawer';
 
 ## 관련 문서
 
-- [@repo/fe-ui 패키지 가이드](./04-packages/fe-ui.md) - 패키지 사용법
-- [프로젝트 구조](./02-project-structure.md) - 파일 구조 설명
-
+- [@repo/fe-ui 패키지 가이드](../04-packages/fe-ui.md) - 패키지 사용법
+- [프로젝트 구조](../02-project-structure/) - 파일 구조 설명

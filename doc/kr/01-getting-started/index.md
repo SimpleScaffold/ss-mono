@@ -70,7 +70,6 @@ yarn lint
 
 ## 다음 단계
 
-- [프로젝트 구조](./02-project-structure.md) 확인
-- [공통 설정](./03-common-config.md) 이해
-- [패키지 가이드](./04-packages/) 참고
-
+- [프로젝트 구조](../02-project-structure/) 확인
+- [공통 설정](../03-common-config/) 이해
+- [패키지 가이드](../04-packages/) 참고

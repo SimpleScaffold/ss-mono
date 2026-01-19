@@ -62,7 +62,7 @@ import { Button } from '@repo/fe-ui/button';
 import { ThemeProvider } from '@repo/fe-ui';
 ```
 
-자세한 내용은 [@repo/fe-ui 가이드](./04-packages/fe-ui.md)를 참고하세요.
+자세한 내용은 [@repo/fe-ui 가이드](../04-packages/fe-ui.md)를 참고하세요.
 
 ### @repo/fe-utils
 공통 유틸리티 함수 패키지입니다.
@@ -76,7 +76,7 @@ import { ThemeProvider } from '@repo/fe-ui';
 import { formatDate } from '@repo/fe-utils';
 ```
 
-자세한 내용은 [@repo/fe-utils 가이드](./04-packages/fe-utils.md)를 참고하세요.
+자세한 내용은 [@repo/fe-utils 가이드](../04-packages/fe-utils.md)를 참고하세요.
 
 ### @repo/shared-config
 공유 설정 패키지입니다.
@@ -127,6 +127,5 @@ import { formatDate } from '@repo/fe-utils';
 
 ## 다음 단계
 
-- [공통 설정](./03-common-config.md) 확인
-- [패키지 가이드](./04-packages/) 참고
-
+- [공통 설정](../03-common-config/) 확인
+- [패키지 가이드](../04-packages/) 참고

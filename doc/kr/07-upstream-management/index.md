@@ -149,6 +149,5 @@ GitHub Actions를 사용하는 경우, 자동으로 upstream을 동기화하는 
 
 ## 관련 문서
 
-- [프로젝트 구조](./02-project-structure.md) - 프로젝트 구조 이해
-- [시작하기](./01-getting-started.md) - 기본 설정
-
+- [프로젝트 구조](../02-project-structure/) - 프로젝트 구조 이해
+- [시작하기](../01-getting-started/) - 기본 설정
