@@ -1,7 +1,0 @@
-@theme {
-  /* Semantic Color Tokens - References to Palette */
-  /* Hover effects are handled automatically via opacity (e.g., hover:bg-primary/90) */
-  --color-primary: var(--color-primary-600);
-  --color-secondary: var(--color-secondary-200);
-}
-
