@@ -67,6 +67,6 @@ export const formatCurrency = (amount: number): string => {
 
 ## 관련 문서
 
-- [프로젝트 구조](../02-project-structure.md) - 패키지 구조 설명
-- [공통 설정](../03-common-config.md) - TypeScript 설정
+- [프로젝트 구조](../02-project-structure/) - 패키지 구조 설명
+- [공통 설정](../03-common-config/) - TypeScript 설정
 

@@ -96,10 +96,10 @@ packages/fe/ui/src/
 
 ## 컴포넌트 추가
 
-새로운 shadcn/ui 컴포넌트를 추가하는 방법은 [shadcn/ui 가이드](../05-shadcn-guide.md)를 참고하세요.
+새로운 shadcn/ui 컴포넌트를 추가하는 방법은 [shadcn/ui 가이드](../05-shadcn-guide/)를 참고하세요.
 
 ## 관련 문서
 
-- [shadcn/ui 가이드](../05-shadcn-guide.md) - 컴포넌트 추가 방법
-- [공통 설정](../03-common-config.md) - TypeScript, Path Mapping 설정
+- [shadcn/ui 가이드](../05-shadcn-guide/) - 컴포넌트 추가 방법
+- [공통 설정](../03-common-config/) - TypeScript, Path Mapping 설정
 
