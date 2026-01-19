@@ -1,12 +1,24 @@
+/* 
+ * Tailwind CSS v4 스타일 관리
+ * 
+ * 1. Tailwind CSS import
+ * 2. palette.css: 색상 변수 정의 (@theme 블록)
+ * 3. variables.css: shadcn/ui용 변수 할당 (palette 변수 참조)
+ * 4. base.css: @apply로 기본 스타일 적용
+ */
+
 /* Tailwind CSS */
 @import "tailwindcss";
 
-/* Color Palette */
+/* Color Palette - 색상 변수 정의 */
 @import "./palette.css";
 
-/* CSS Variables (shadcn/ui) */
+/* CSS Variables - shadcn/ui용 변수 할당 */
 @import "./variables.css";
 
-/* Base Styles (uses @apply) */
+/* Semantic Tokens - Tailwind utilities mapping */
+@import "./semantic.css";
+
+/* Base Styles - @apply로 Tailwind 기본 스타일 적용 */
 @import "./base.css";
 
