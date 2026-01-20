@@ -1,10 +1,10 @@
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: var(--color-neutral-0);
     --foreground: var(--color-neutral-950);
-    --card: 0 0% 100%;
+    --card: var(--color-neutral-0);
     --card-foreground: var(--color-neutral-950);
-    --popover: 0 0% 100%;
+    --popover: var(--color-neutral-0);
     --popover-foreground: var(--color-neutral-950);
     --primary: var(--color-primary-950);
     --primary-foreground: var(--color-primary-50);
@@ -20,11 +20,11 @@
     --input: var(--color-neutral-200);
     --ring: var(--color-neutral-950);
     --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: var(--color-chart-1);
+    --chart-2: var(--color-chart-2);
+    --chart-3: var(--color-chart-3);
+    --chart-4: var(--color-chart-4);
+    --chart-5: var(--color-chart-5);
   }
 
   .dark {
@@ -47,11 +47,11 @@
     --border: var(--color-neutral-800);
     --input: var(--color-neutral-800);
     --ring: var(--color-neutral-300);
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-1: var(--color-chart-1-dark);
+    --chart-2: var(--color-chart-2-dark);
+    --chart-3: var(--color-chart-3-dark);
+    --chart-4: var(--color-chart-4-dark);
+    --chart-5: var(--color-chart-5-dark);
   }
 }
 
