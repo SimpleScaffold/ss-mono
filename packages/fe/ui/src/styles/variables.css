@@ -1,5 +1,9 @@
 @layer base {
   :root {
+    /* Common (light/dark shared) */
+    --radius: 0.5rem;
+
+    /* Light mode */
     --background: var(--color-neutral-0);
     --foreground: var(--color-neutral-950);
     --card: var(--color-neutral-0);
@@ -19,7 +23,6 @@
     --border: var(--color-neutral-200);
     --input: var(--color-neutral-200);
     --ring: var(--color-neutral-950);
-    --radius: 0.5rem;
     --chart-1: var(--color-chart-1);
     --chart-2: var(--color-chart-2);
     --chart-3: var(--color-chart-3);
@@ -27,6 +30,7 @@
     --chart-5: var(--color-chart-5);
   }
 
+  /* Dark mode */
   .dark {
     --background: var(--color-neutral-950);
     --foreground: var(--color-primary-50);
@@ -54,4 +58,3 @@
     --chart-5: var(--color-chart-5-dark);
   }
 }
-
