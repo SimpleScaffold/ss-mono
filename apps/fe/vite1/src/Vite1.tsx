@@ -2,7 +2,6 @@ import { Button } from '@repo/fe-ui/button';
 import { Card } from '@repo/fe-ui/card';
 import { Dialog, DialogTrigger } from '@repo/fe-ui/dialog';
 import { DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@repo/fe-ui/dialog';
-import './styles.css';
 
 function Vite1() {
   return (
@@ -11,6 +10,10 @@ function Vite1() {
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Vite1 Application</h1>
         <p className="text-lg text-gray-600 mb-8">
           독립적인 애플리케이션 (포트 3001)
+          {/* <button
+            className='bg-primary '
+          >Action</button> */}
+
           <Button>Action</Button>
         </p>
         <div className="space-y-4">
@@ -24,7 +27,9 @@ function Vite1() {
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-2">Item 2</h2>
             <p className="text-gray-600 mb-4">Description of item 2</p>
-            <Button>Action</Button>
+            <Button
+              size="sm"
+            >Action</Button>
           </div>
         </div>
 
@@ -44,10 +49,12 @@ function Vite1() {
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
-ㅁㅁㅁㅁㅁㅁㅁㅁ
+              <label className="text-sm font-medium">Name</label>
+              <input className="border p-2 rounded" placeholder="John Doe" />
             </div>
             <div className="grid gap-3">
-    ㅁㅁㅁㅁㅁㅁ
+              <label className="text-sm font-medium">Email</label>
+              <input className="border p-2 rounded" placeholder="john@example.com" />
             </div>
           </div>
           <DialogFooter>

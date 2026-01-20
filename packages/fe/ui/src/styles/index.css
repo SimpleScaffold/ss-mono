@@ -1,25 +1,43 @@
-/* 
- * Tailwind CSS v4 스타일 관리
+/**
+ * Tailwind CSS v4 통합 스타일 시스템
  * 
- * 1. Tailwind CSS import
- * 2. palette.css: 색상 변수 정의 (@theme 블록)
- * 3. variables.css: shadcn/ui용 변수 할당 (palette 변수 참조)
- * 4. semantic.css: 디자인 토큰 매핑 (@theme 블록)
- * 5. base.css: @apply로 기본 스타일 적용
+ * 모노레포의 모든 앱에서 공유하는 중앙 스타일 관리
+ * 
+ * 사용법:
+ *   각 앱의 styles.css에서: @import "@repo/fe-ui/styles";
+ * 
+ * 구조:
+ *   1. Tailwind CSS v4 - CSS-first 방식 (config 파일 없음)
+ *   2. tw-animate-css - 애니메이션 유틸리티
+ *   3. variables.css - CSS 변수 정의 (oklch 색상, shadcn/ui 호환)
+ *   4. semantic.css - 디자인 토큰 매핑 (@theme inline)
+ *   5. base.css - 기본 스타일 (@layer base)
  */
 
-/* Tailwind CSS */
+/* ============================================
+   1. Tailwind CSS v4 Core
+   ============================================ */
 @import "tailwindcss";
+@source "../**/*.{ts,tsx}";
+@import "tw-animate-css";
 
-/* Color Palette - 색상 변수 정의 */
-@import "./palette.css";
+/* ============================================
+   2. Custom Variants
+   ============================================ */
+@custom-variant dark (&:is(.dark *));
 
-/* CSS Variables - shadcn/ui용 변수 할당 */
+/* ============================================
+   3. CSS Variables (shadcn/ui 호환)
+   ============================================ */
 @import "./variables.css";
 
-/* Semantic Tokens - 디자인 토큰 매핑 */
+/* ============================================
+   4. Semantic Design Tokens
+   ============================================ */
 @import "./semantic.css";
 
-/* Base Styles - @apply로 Tailwind 기본 스타일 적용 */
+/* ============================================
+   5. Base Styles
+   ============================================ */
 @import "./base.css";
 

@@ -1,3 +1,8 @@
-@import "tailwindcss";
+/**
+ * Vite2 앱 스타일
+ * 
+ * UI 패키지의 통합 스타일 시스템을 import합니다.
+ * 이 파일 하나로 Tailwind CSS와 모든 디자인 토큰이 적용됩니다.
+ */
 @import "@repo/fe-ui/styles";
 
