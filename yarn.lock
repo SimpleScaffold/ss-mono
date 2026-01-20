@@ -828,15 +828,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@repo/shared-config@workspace:packages/shared/config":
+"@repo/host-app@workspace:apps/fe/host/vite1":
   version: 0.0.0-use.local
-  resolution: "@repo/shared-config@workspace:packages/shared/config"
-  languageName: unknown
-  linkType: soft
-
-"@repo/vite1@workspace:apps/fe/vite1":
-  version: 0.0.0-use.local
-  resolution: "@repo/vite1@workspace:apps/fe/vite1"
+  resolution: "@repo/host-app@workspace:apps/fe/host/vite1"
   dependencies:
     "@repo/fe-ui": "workspace:*"
     react: "npm:^18.2.0"
@@ -844,21 +838,27 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@repo/vite2@workspace:apps/fe/vite2":
+"@repo/remote-app1@workspace:apps/fe/remote/vite2":
   version: 0.0.0-use.local
-  resolution: "@repo/vite2@workspace:apps/fe/vite2"
+  resolution: "@repo/remote-app1@workspace:apps/fe/remote/vite2"
   dependencies:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
   languageName: unknown
   linkType: soft
 
-"@repo/vite3@workspace:apps/fe/vite3":
+"@repo/remote-app2@workspace:apps/fe/remote/vite3":
   version: 0.0.0-use.local
-  resolution: "@repo/vite3@workspace:apps/fe/vite3"
+  resolution: "@repo/remote-app2@workspace:apps/fe/remote/vite3"
   dependencies:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
+  languageName: unknown
+  linkType: soft
+
+"@repo/shared-config@workspace:packages/shared/config":
+  version: 0.0.0-use.local
+  resolution: "@repo/shared-config@workspace:packages/shared/config"
   languageName: unknown
   linkType: soft
 

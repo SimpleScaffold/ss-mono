@@ -1,5 +1,5 @@
 {
-  "name": "@repo/vite3",
+  "name": "@repo/host-app",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -10,6 +10,7 @@
     "lint": "echo 'lint'"
   },
   "dependencies": {
+    "@repo/fe-ui": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

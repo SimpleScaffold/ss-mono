@@ -8,9 +8,11 @@ SS Mono Final 모노레포의 구조를 설명합니다.
 ss-mono-final/
 ├── apps/                          # 애플리케이션
 │   └── fe/
-│       ├── vite1/                 # Host 애플리케이션 (포트 3001)
-│       ├── vite2/                 # Remote 애플리케이션 (포트 3002)
-│       └── vite3/                 # Remote 애플리케이션 (포트 3003)
+│       ├── host/                  # Host 애플리케이션 모음
+│       │   └── vite1/             # 메인 Shell 앱 (포트 3001)
+│       └── remote/                # Remote 애플리케이션 모음
+│           ├── vite2/             # Micro App 1 (포트 3002)
+│           └── vite3/             # Micro App 2 (포트 3003)
 ├── packages/                      # 공유 패키지
 │   ├── fe/
 │   │   ├── ui/                    # 공통 UI 컴포넌트 패키지
@@ -28,20 +30,26 @@ ss-mono-final/
 
 ## Apps 구조
 
-### vite1
+### host/host-app (vite1)
+- **경로**: `apps/fe/host/vite1`
+- **패키지명**: `@repo/host-app`
 - **포트**: 3001
-- **역할**: Host 애플리케이션
-- **설명**: 메인 애플리케이션
+- **역할**: Host 애플리케이션 (Shell)
+- **설명**: 메인 애플리케이션으로 각 Micro App을 런타임에 통합합니다.
 
-### vite2
+### remote/remote-app1 (vite2)
+- **경로**: `apps/fe/remote/vite2`
+- **패키지명**: `@repo/remote-app1`
 - **포트**: 3002
-- **역할**: Remote 애플리케이션
-- **설명**: 독립적으로 실행되는 애플리케이션
+- **역할**: Remote 애플리케이션 (Micro App)
+- **설명**: 특정 기능을 담당하며 독립적으로 실행 및 배포됩니다.
 
-### vite3
+### remote/remote-app2 (vite3)
+- **경로**: `apps/fe/remote/vite3`
+- **패키지명**: `@repo/remote-app2`
 - **포트**: 3003
-- **역할**: Remote 애플리케이션
-- **설명**: 독립적으로 실행되는 애플리케이션
+- **역할**: Remote 애플리케이션 (Micro App)
+- **설명**: 특정 기능을 담당하며 독립적으로 실행 및 배포됩니다.
 
 각 애플리케이션은 완전히 독립적으로 실행되며, 공통 패키지를 공유합니다.
 
@@ -95,7 +103,8 @@ import { formatDate } from '@repo/fe-utils';
 ```json
 {
   "workspaces": [
-    "apps/fe/*",
+    "apps/fe/host/*",
+    "apps/fe/remote/*",
     "packages/*",
     "packages/*/*"
   ]
@@ -103,7 +112,8 @@ import { formatDate } from '@repo/fe-utils';
 ```
 
 이 설정으로 다음 디렉토리들이 워크스페이스로 인식됩니다:
-- `apps/fe/vite1`, `apps/fe/vite2`, `apps/fe/vite3`
+- `apps/fe/host/vite1`
+- `apps/fe/remote/vite2`, `apps/fe/remote/vite3`
 - `packages/fe/ui`, `packages/fe/utils`
 - `packages/shared/config`
 

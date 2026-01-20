@@ -8,9 +8,11 @@
 ss-mono-final/
 ├── apps/
 │   └── fe/
-│       ├── vite1/           # Host 애플리케이션 (포트 3001)
-│       ├── vite2/           # Remote 애플리케이션 (포트 3002)
-│       └── vite3/           # Remote 애플리케이션 (포트 3003)
+│       ├── host/
+│       │   └── vite1/           # Host 애플리케이션 (포트 3001)
+│       └── remote/
+│           ├── vite2/           # Remote 애플리케이션 (포트 3002)
+│           └── vite3/           # Remote 애플리케이션 (포트 3003)
 ├── packages/
 │   ├── fe/
 │   │   ├── ui/               # 공통 UI 컴포넌트 패키지
@@ -48,15 +50,15 @@ yarn dev
 
 ```bash
 # Vite1 (Host)
-cd apps/fe/vite1
+cd apps/fe/host/vite1
 yarn dev
 
 # Vite2 (Remote)
-cd apps/fe/vite2
+cd apps/fe/remote/vite2
 yarn dev
 
 # Vite3 (Remote)
-cd apps/fe/vite3
+cd apps/fe/remote/vite3
 yarn dev
 ```
 

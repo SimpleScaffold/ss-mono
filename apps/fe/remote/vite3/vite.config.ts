@@ -1,5 +1,5 @@
 /**
- * Vite3 앱 설정
+ * Remote App 2 설정
  * 
  * 모노레포 구조에 맞춘 Vite 설정:
  * - React 플러그인
@@ -14,7 +14,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, '../../../');
+const repoRoot = path.resolve(__dirname, '../../../../');
 
 export default defineConfig({
   plugins: [
@@ -25,7 +25,7 @@ export default defineConfig({
     alias: [
       {
         find: /^@\//,
-        replacement: `${path.resolve(__dirname, '../../../packages/fe/ui/src')}/`,
+        replacement: `${path.resolve(__dirname, '../../../../packages/fe/ui/src')}/`,
       },
     ],
   },

@@ -3,13 +3,13 @@ import { Card } from '@repo/fe-ui/card';
 import { Dialog, DialogTrigger } from '@repo/fe-ui/dialog';
 import { DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@repo/fe-ui/dialog';
 
-function Vite1() {
+function HostApp() {
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-0">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Vite1 Application</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Host Application (Shell)</h1>
         <p className="text-lg text-gray-600 mb-8">
-          독립적인 애플리케이션 (포트 3001)
+          메인 호스트 애플리케이션 (포트 3001)
           {/* <button
             className='bg-primary '
           >Action</button> */}
@@ -71,5 +71,5 @@ function Vite1() {
   );
 }
 
-export default Vite1;
+export default HostApp;
 

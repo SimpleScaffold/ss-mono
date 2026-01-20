@@ -40,9 +40,11 @@
 ```
 ss-mono/
 ├── apps/fe/
-│   ├── vite1/          # Shell 앱 (호스트 예정)
-│   ├── vite2/          # Micro App 1 (리모트 예정)
-│   └── vite3/          # Micro App 2 (리모트 예정)
+│   ├── host/
+│   │   └── vite1/          # Shell 앱 (호스트 예정)
+│   └── remote/
+│       ├── vite2/          # Micro App 1 (리모트 예정)
+│       └── vite3/          # Micro App 2 (리모트 예정)
 ├── packages/
 │   ├── fe/
 │   │   ├── ui/         # 공통 UI 컴포넌트 (Shadcn UI)
@@ -146,7 +148,7 @@ export default defineConfig({
 ### 파일 구조 (예상)
 
 ```
-apps/fe/vite1/
+apps/fe/host/vite1/
 ├── src/
 │   ├── shell/
 │   │   ├── ShellLayout.tsx      # Shell 레이아웃
@@ -201,7 +203,7 @@ function MicroApp() {
 각 Micro App은 동일한 보일러플레이트 구조를 따릅니다:
 
 ```
-apps/fe/vite2/ (또는 vite3)
+apps/fe/remote/vite2/ (또는 vite3)
 ├── src/
 │   ├── components/          # Micro App 전용 컴포넌트
 │   ├── hooks/              # Micro App 전용 훅
@@ -222,11 +224,11 @@ Micro App 개발 시:
 
 ```bash
 # 터미널 1: Shell 앱 실행
-cd apps/fe/vite1
+cd apps/fe/host/vite1
 yarn dev
 
 # 터미널 2: Micro App 실행
-cd apps/fe/vite2
+cd apps/fe/remote/vite2
 yarn dev
 ```
 
@@ -239,7 +241,7 @@ yarn dev
 ```
 저장소 구조:
 ├── shell-repo/              # Shell 앱 레포지토리 (모노레포)
-│   ├── apps/fe/vite1/       # Shell 앱
+│   ├── apps/fe/host/vite1/  # Shell 앱
 │   └── packages/            # 공통 패키지
 │
 ├── micro-app-1-repo/        # Micro App 1 독립 레포지토리
@@ -316,7 +318,7 @@ Shell 레포지토리는 **Pull Request(PR)**를 통해 원하는 Micro App만 �
 #### Shell의 vite.config.ts 업데이트
 
 ```typescript
-// apps/fe/vite1/vite.config.ts
+// apps/fe/host/vite1/vite.config.ts
 export default defineConfig({
   plugins: [
     react(),
@@ -441,7 +443,7 @@ Vite에서 모듈 페더레이션을 사용하기 위해 `@originjs/vite-plugin-
 ### Shell 앱 설정 (vite1)
 
 ```typescript
-// apps/fe/vite1/vite.config.ts
+// apps/fe/host/vite1/vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -450,7 +452,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, '../../../');
+const repoRoot = path.resolve(__dirname, '../../../../');
 
 export default defineConfig({
   plugins: [
@@ -491,7 +493,7 @@ export default defineConfig({
     alias: [
       {
         find: /^@\//,
-        replacement: `${path.resolve(__dirname, '../../../packages/fe/ui/src')}/`,
+        replacement: `${path.resolve(__dirname, '../../../../packages/fe/ui/src')}/`,
       },
     ],
   },
@@ -512,7 +514,7 @@ export default defineConfig({
 ### Micro App 설정 (vite2, vite3)
 
 ```typescript
-// apps/fe/vite2/vite.config.ts
+// apps/fe/remote/vite2/vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -521,7 +523,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, '../../../');
+const repoRoot = path.resolve(__dirname, '../../../../');
 
 export default defineConfig({
   plugins: [
@@ -555,7 +557,7 @@ export default defineConfig({
     alias: [
       {
         find: /^@\//,
-        replacement: `${path.resolve(__dirname, '../../../packages/fe/ui/src')}/`,
+        replacement: `${path.resolve(__dirname, '../../../../packages/fe/ui/src')}/`,
       },
     ],
   },
@@ -763,15 +765,15 @@ yarn dev
 **옵션 2: 개별 실행**
 ```bash
 # 터미널 1: Shell 앱
-cd apps/fe/vite1
+cd apps/fe/host/vite1
 yarn dev
 
 # 터미널 2: Micro App 1
-cd apps/fe/vite2
+cd apps/fe/remote/vite2
 yarn dev
 
 # 터미널 3: Micro App 2
-cd apps/fe/vite3
+cd apps/fe/remote/vite3
 yarn dev
 ```
 
@@ -825,7 +827,7 @@ Shell 앱은 Shell 레포지토리에서 빌드됩니다:
 ```bash
 # Shell 레포지토리에서
 cd shell-repo
-cd apps/fe/vite1
+cd apps/fe/host/vite1
 yarn build
 ```
 
