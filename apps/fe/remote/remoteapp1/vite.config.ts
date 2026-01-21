@@ -4,9 +4,13 @@ import tailwindcss from '@tailwindcss/vite'
 import { federation } from '@module-federation/vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { getRemoteConfig, type EnvMode } from '../../../../config'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '../../../../')
+
+const envMode = (process.env.MF_ENV || 'local') as EnvMode
+const remoteConfig = getRemoteConfig(envMode)
 
 export default defineConfig({
     build: {
@@ -44,11 +48,11 @@ export default defineConfig({
         ],
     },
     server: {
-        origin: 'http://localhost:3002',
-        port: 3002,
+        origin: remoteConfig.origin,
+        port: remoteConfig.port,
         hmr: {
-            port: 3002,
-            host: 'localhost',
+            port: remoteConfig.port,
+            host: remoteConfig.origin.replace(/^https?:\/\//, '').split(':')[0] || 'localhost',
         },
         fs: {
             allow: [repoRoot],

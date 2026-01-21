@@ -11,8 +11,12 @@
         "packages/*/*"
     ],
     "scripts": {
-        "dev": "turbo run dev",
+        "dev": "MF_ENV=local turbo run dev",
+        "dev:server-dev": "MF_ENV=server-dev turbo run dev",
+        "dev:server-prod": "MF_ENV=server-prod turbo run dev",
+        "dev:remote": "MF_ENV=dev-remote turbo run dev --filter=@repo/host-app",
         "build": "turbo run build",
+        "preview": "turbo run preview",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
     },

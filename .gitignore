@@ -100,3 +100,8 @@ coverage
 *.pem
 .vercel
 .netlify
+
+# Environment config files (실제 서버 URL이 포함될 수 있음)
+config/env/server-dev.ts
+config/env/server-prod.ts
+config/env/dev-remote.ts

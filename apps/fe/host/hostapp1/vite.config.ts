@@ -7,9 +7,15 @@ import { listenForRemoteRebuilds } from '@antdevx/vite-plugin-hmr-sync'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import http from 'http'
+import { getHostConfig, getRemoteConfig, type EnvMode } from '../../../../config'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '../../../../')
+
+// 환경 모드 가져오기 (환경 변수 또는 기본값)
+const envMode = (process.env.MF_ENV || 'local') as EnvMode
+const hostConfig = getHostConfig(envMode)
+const remoteConfig = getRemoteConfig(envMode)
 
 function waitForRemote(): Plugin {
     let waitPromise: Promise<void> | null = null
@@ -17,7 +23,10 @@ function waitForRemote(): Plugin {
     return {
         name: 'wait-for-remote',
         configureServer(server) {
-            waitPromise = waitForRemoteApp()
+            // 로컬 모드일 때만 remote 대기
+            if (envMode === 'local') {
+                waitPromise = waitForRemoteApp(remoteConfig.manifestUrl)
+            }
 
             server.middlewares.use(async (req, res, next) => {
                 if (waitPromise) {
@@ -29,9 +38,11 @@ function waitForRemote(): Plugin {
         },
     }
 }
-async function waitForRemoteApp(maxRetries = 30, delay = 1000): Promise<void> {
-    const remoteUrl = 'http://localhost:3002/mf-manifest.json'
-
+async function waitForRemoteApp(
+    remoteUrl: string,
+    maxRetries = 30,
+    delay = 1000
+): Promise<void> {
     for (let i = 0; i < maxRetries; i++) {
         try {
             await new Promise<void>((resolve, reject) => {
@@ -69,10 +80,13 @@ export default defineConfig({
         react(),
         tailwindcss(),
         waitForRemote(),
-        listenForRemoteRebuilds({
-            allowedApps: ['remoteapp1'],
-            hotPayload: 'full-reload',
-        }),
+        // 로컬 모드일 때만 HMR 동기화
+        ...(envMode === 'local' ? [
+            listenForRemoteRebuilds({
+                allowedApps: ['remoteapp1'],
+                hotPayload: 'full-reload',
+            })
+        ] : []),
         federation({
             name: 'hostapp1',
             manifest: true,
@@ -80,7 +94,7 @@ export default defineConfig({
                 remoteapp1: {
                     type: 'module',
                     name: 'remoteapp1',
-                    entry: 'http://localhost:3002/mf-manifest.json',
+                    entry: remoteConfig.manifestUrl,
                 },
             },
             shared: {
@@ -106,11 +120,11 @@ export default defineConfig({
         ],
     },
     server: {
-        origin: 'http://localhost:3001',
-        port: 3001,
+        origin: hostConfig.origin,
+        port: hostConfig.port,
         hmr: {
-            port: 3001,
-            host: 'localhost',
+            port: hostConfig.port,
+            host: hostConfig.origin.replace(/^https?:\/\//, '').split(':')[0] || 'localhost',
         },
         fs: {
             allow: [repoRoot],
