@@ -1,4 +1,4 @@
-import RemoteApp1 from './Vite2';
+import RemoteApp1 from './RemoteApp1';
 
 function App() {
   return <RemoteApp1 />;

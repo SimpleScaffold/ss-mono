@@ -32,16 +32,16 @@ yarn dev
 특정 애플리케이션만 실행하려면:
 
 ```bash
-# Vite1 (Host, 포트 3001)
-cd apps/fe/host/vite1
+# HostApp1 (Host, 포트 3001)
+cd apps/fe/host/hostapp1
 yarn dev
 
-# Vite2 (Remote, 포트 3002)
-cd apps/fe/remote/vite2
+# RemoteApp1 (Remote, 포트 3002)
+cd apps/fe/remote/remoteapp1
 yarn dev
 
-# Vite3 (Remote, 포트 3003)
-cd apps/fe/remote/vite3
+# RemoteApp2 (Remote, 포트 3003)
+cd apps/fe/remote/remoteapp2
 yarn dev
 ```
 

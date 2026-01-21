@@ -828,9 +828,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@repo/host-app@workspace:apps/fe/host/vite1":
+"@repo/host-app@workspace:apps/fe/host/hostapp1":
   version: 0.0.0-use.local
-  resolution: "@repo/host-app@workspace:apps/fe/host/vite1"
+  resolution: "@repo/host-app@workspace:apps/fe/host/hostapp1"
   dependencies:
     "@repo/fe-ui": "workspace:*"
     react: "npm:^18.2.0"
@@ -838,18 +838,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@repo/remote-app1@workspace:apps/fe/remote/vite2":
+"@repo/remote-app1@workspace:apps/fe/remote/remoteapp1":
   version: 0.0.0-use.local
-  resolution: "@repo/remote-app1@workspace:apps/fe/remote/vite2"
+  resolution: "@repo/remote-app1@workspace:apps/fe/remote/remoteapp1"
   dependencies:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
   languageName: unknown
   linkType: soft
 
-"@repo/remote-app2@workspace:apps/fe/remote/vite3":
+"@repo/remote-app2@workspace:apps/fe/remote/remoteapp2":
   version: 0.0.0-use.local
-  resolution: "@repo/remote-app2@workspace:apps/fe/remote/vite3"
+  resolution: "@repo/remote-app2@workspace:apps/fe/remote/remoteapp2"
   dependencies:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"

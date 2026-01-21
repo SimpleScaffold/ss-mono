@@ -3,7 +3,7 @@ import { Card } from '@repo/fe-ui/card';
 import { Dialog, DialogTrigger } from '@repo/fe-ui/dialog';
 import { DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@repo/fe-ui/dialog';
 
-function HostApp() {
+function HostApp1() {
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-0">
       <div className="max-w-7xl mx-auto">
@@ -71,5 +71,4 @@ function HostApp() {
   );
 }
 
-export default HostApp;
-
+export default HostApp1;

@@ -30,4 +30,3 @@ function RemoteApp1() {
 }
 
 export default RemoteApp1;
-

@@ -9,10 +9,10 @@ ss-mono-final/
 ├── apps/                          # 애플리케이션
 │   └── fe/
 │       ├── host/                  # Host 애플리케이션 모음
-│       │   └── vite1/             # 메인 Shell 앱 (포트 3001)
+│       │   └── hostapp1/          # 메인 Shell 앱 (포트 3001)
 │       └── remote/                # Remote 애플리케이션 모음
-│           ├── vite2/             # Micro App 1 (포트 3002)
-│           └── vite3/             # Micro App 2 (포트 3003)
+│           ├── remoteapp1/        # Micro App 1 (포트 3002)
+│           └── remoteapp2/        # Micro App 2 (포트 3003)
 ├── packages/                      # 공유 패키지
 │   ├── fe/
 │   │   ├── ui/                    # 공통 UI 컴포넌트 패키지
@@ -30,22 +30,22 @@ ss-mono-final/
 
 ## Apps 구조
 
-### host/host-app (vite1)
-- **경로**: `apps/fe/host/vite1`
+### host/hostapp1
+- **경로**: `apps/fe/host/hostapp1`
 - **패키지명**: `@repo/host-app`
 - **포트**: 3001
 - **역할**: Host 애플리케이션 (Shell)
 - **설명**: 메인 애플리케이션으로 각 Micro App을 런타임에 통합합니다.
 
-### remote/remote-app1 (vite2)
-- **경로**: `apps/fe/remote/vite2`
+### remote/remoteapp1
+- **경로**: `apps/fe/remote/remoteapp1`
 - **패키지명**: `@repo/remote-app1`
 - **포트**: 3002
 - **역할**: Remote 애플리케이션 (Micro App)
 - **설명**: 특정 기능을 담당하며 독립적으로 실행 및 배포됩니다.
 
-### remote/remote-app2 (vite3)
-- **경로**: `apps/fe/remote/vite3`
+### remote/remoteapp2
+- **경로**: `apps/fe/remote/remoteapp2`
 - **패키지명**: `@repo/remote-app2`
 - **포트**: 3003
 - **역할**: Remote 애플리케이션 (Micro App)
@@ -112,8 +112,8 @@ import { formatDate } from '@repo/fe-utils';
 ```
 
 이 설정으로 다음 디렉토리들이 워크스페이스로 인식됩니다:
-- `apps/fe/host/vite1`
-- `apps/fe/remote/vite2`, `apps/fe/remote/vite3`
+- `apps/fe/host/hostapp1`
+- `apps/fe/remote/remoteapp1`, `apps/fe/remote/remoteapp2`
 - `packages/fe/ui`, `packages/fe/utils`
 - `packages/shared/config`
 

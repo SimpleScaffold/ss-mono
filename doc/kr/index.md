@@ -40,8 +40,8 @@ SS Mono Final 모노레포 프로젝트의 전체 문서입니다.
 
 ### 8. [Shell + Micro Apps 아키텍처](./08-shell-micro-apps/)
 - 모듈 페더레이션 기반 아키텍처
-- Shell 앱 (vite1) 역할 및 설정
-- Micro Apps (vite2, vite3) 역할 및 설정
+- Shell 앱 (hostapp1) 역할 및 설정
+- Micro Apps (remoteapp1, remoteapp2) 역할 및 설정
 - 라이브러리 및 의존성 관리
 - 스타일링 시스템
 - 개발 워크플로우 및 배포 전략

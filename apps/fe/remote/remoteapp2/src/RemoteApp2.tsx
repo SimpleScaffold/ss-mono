@@ -12,11 +12,11 @@ function RemoteApp2() {
         <div className="bg-white p-6 rounded-lg shadow max-w-2xl">
           <div className="flex items-center space-x-4 mb-6">
             <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center">
-              <span className="text-2xl font-bold text-gray-600">V</span>
+              <span className="text-2xl font-bold text-gray-600">R</span>
             </div>
             <div>
-              <h2 className="text-2xl font-semibold">Vite3 User</h2>
-              <p className="text-gray-600">vite3@example.com</p>
+              <h2 className="text-2xl font-semibold">RemoteApp2 User</h2>
+              <p className="text-gray-600">remoteapp2@example.com</p>
             </div>
           </div>
           <div className="space-y-4">
@@ -27,7 +27,7 @@ function RemoteApp2() {
               <input
                 type="text"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                defaultValue="Vite3 User"
+                defaultValue="RemoteApp2 User"
               />
             </div>
             <div>
@@ -37,7 +37,7 @@ function RemoteApp2() {
               <input
                 type="email"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                defaultValue="vite3@example.com"
+                defaultValue="remoteapp2@example.com"
               />
             </div>
             <div className="pt-4">
@@ -51,4 +51,3 @@ function RemoteApp2() {
 }
 
 export default RemoteApp2;
-

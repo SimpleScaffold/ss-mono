@@ -6,8 +6,8 @@
 
 - [개요](#개요)
 - [아키텍처 구조](#아키텍처-구조)
-- [Shell 앱 (vite1)](#shell-앱-vite1)
-- [Micro Apps (vite2, vite3)](#micro-apps-vite2-vite3)
+- [Shell 앱 (hostapp1)](#shell-앱-hostapp1)
+- [Micro Apps (remoteapp1, remoteapp2)](#micro-apps-remoteapp1-remoteapp2)
 - [저장소 관리 전략](#저장소-관리-전략)
 - [모듈 페더레이션 설정](#모듈-페더레이션-설정)
 - [라이브러리 및 의존성 관리](#라이브러리-및-의존성-관리)
@@ -41,10 +41,10 @@
 ss-mono/
 ├── apps/fe/
 │   ├── host/
-│   │   └── vite1/          # Shell 앱 (호스트 예정)
+│   │   └── hostapp1/       # Shell 앱 (호스트 예정)
 │   └── remote/
-│       ├── vite2/          # Micro App 1 (리모트 예정)
-│       └── vite3/          # Micro App 2 (리모트 예정)
+│       ├── remoteapp1/     # Micro App 1 (리모트 예정)
+│       └── remoteapp2/     # Micro App 2 (리모트 예정)
 ├── packages/
 │   ├── fe/
 │   │   ├── ui/         # 공통 UI 컴포넌트 (Shadcn UI)
@@ -62,7 +62,7 @@ ss-mono/
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    Shell App (vite1)                    │
+│                    Shell App (hostapp1)                    │
 │  ┌──────────────────────────────────────────────────┐   │
 │  │  - Cesium Viewer (단일 인스턴스)                 │   │
 │  │  - 공통 컴포넌트 Expose (@repo/fe-ui)            │   │
@@ -75,7 +75,7 @@ ss-mono/
 │    ┌────▼────┐      ┌─────▼─────┐   ┌─────▼─────┐     │
 │    │ Micro   │      │  Micro    │   │  Micro    │     │
 │    │ App 1   │      │  App 2    │   │  App N    │     │
-│    │(vite2)  │      │ (vite3)   │   │  (추가)   │     │
+│    │ (remoteapp1) │      │ (remoteapp2)   │   │  (추가)   │     │
 │    └─────────┘      └───────────┘   └───────────┘     │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -85,7 +85,7 @@ ss-mono/
 - 공통 컴포넌트는 Shell에서 Expose하여 Micro Apps가 공유 사용
 - 각 Micro App은 독립적으로 빌드 및 배포 가능
 
-## Shell 앱 (vite1)
+## Shell 앱 (hostapp1)
 
 ### 역할 및 책임
 
@@ -148,7 +148,7 @@ export default defineConfig({
 ### 파일 구조 (예상)
 
 ```
-apps/fe/host/vite1/
+apps/fe/host/hostapp1/
 ├── src/
 │   ├── shell/
 │   │   ├── ShellLayout.tsx      # Shell 레이아웃
@@ -162,7 +162,7 @@ apps/fe/host/vite1/
 └── package.json
 ```
 
-## Micro Apps (vite2, vite3)
+## Micro Apps (remoteapp1, remoteapp2)
 
 ### 역할 및 책임
 
@@ -203,7 +203,7 @@ function MicroApp() {
 각 Micro App은 동일한 보일러플레이트 구조를 따릅니다:
 
 ```
-apps/fe/remote/vite2/ (또는 vite3)
+apps/fe/remote/remoteapp1/ (또는 remoteapp2)
 ├── src/
 │   ├── components/          # Micro App 전용 컴포넌트
 │   ├── hooks/              # Micro App 전용 훅
@@ -224,11 +224,11 @@ Micro App 개발 시:
 
 ```bash
 # 터미널 1: Shell 앱 실행
-cd apps/fe/host/vite1
+cd apps/fe/host/hostapp1
 yarn dev
 
 # 터미널 2: Micro App 실행
-cd apps/fe/remote/vite2
+cd apps/fe/remote/remoteapp1
 yarn dev
 ```
 
@@ -241,7 +241,7 @@ yarn dev
 ```
 저장소 구조:
 ├── shell-repo/              # Shell 앱 레포지토리 (모노레포)
-│   ├── apps/fe/host/vite1/  # Shell 앱
+│   ├── apps/fe/host/hostapp1/  # Shell 앱
 │   └── packages/            # 공통 패키지
 │
 ├── micro-app-1-repo/        # Micro App 1 독립 레포지토리
@@ -318,7 +318,7 @@ Shell 레포지토리는 **Pull Request(PR)**를 통해 원하는 Micro App만 �
 #### Shell의 vite.config.ts 업데이트
 
 ```typescript
-// apps/fe/host/vite1/vite.config.ts
+// apps/fe/host/hostapp1/vite.config.ts
 export default defineConfig({
   plugins: [
     react(),
@@ -440,10 +440,10 @@ yarn dev
 
 Vite에서 모듈 페더레이션을 사용하기 위해 `@originjs/vite-plugin-federation` 플러그인을 사용합니다.
 
-### Shell 앱 설정 (vite1)
+### Shell 앱 설정 (hostapp1)
 
 ```typescript
-// apps/fe/host/vite1/vite.config.ts
+// apps/fe/host/hostapp1/vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -511,10 +511,10 @@ export default defineConfig({
 });
 ```
 
-### Micro App 설정 (vite2, vite3)
+### Micro App 설정 (remoteapp1, remoteapp2)
 
 ```typescript
-// apps/fe/remote/vite2/vite.config.ts
+// apps/fe/remote/remoteapp1/vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -567,7 +567,7 @@ export default defineConfig({
     cssCodeSplit: false,
   },
   server: {
-    port: 3002, // vite3는 3003
+    port: 3002, // remoteapp2는 3003
     fs: {
       allow: [repoRoot],
     },
@@ -765,23 +765,23 @@ yarn dev
 **옵션 2: 개별 실행**
 ```bash
 # 터미널 1: Shell 앱
-cd apps/fe/host/vite1
+cd apps/fe/host/hostapp1
 yarn dev
 
 # 터미널 2: Micro App 1
-cd apps/fe/remote/vite2
+cd apps/fe/remote/remoteapp1
 yarn dev
 
 # 터미널 3: Micro App 2
-cd apps/fe/remote/vite3
+cd apps/fe/remote/remoteapp2
 yarn dev
 ```
 
 #### 3. 개발 포트
 
-- Shell 앱 (vite1): `http://localhost:3001`
-- Micro App 1 (vite2): `http://localhost:3002`
-- Micro App 2 (vite3): `http://localhost:3003`
+- Shell 앱 (hostapp1): `http://localhost:3001`
+- Micro App 1 (remoteapp1): `http://localhost:3002`
+- Micro App 2 (remoteapp2): `http://localhost:3003`
 
 ### Micro App 개발 프로세스
 
@@ -827,7 +827,7 @@ Shell 앱은 Shell 레포지토리에서 빌드됩니다:
 ```bash
 # Shell 레포지토리에서
 cd shell-repo
-cd apps/fe/host/vite1
+cd apps/fe/host/hostapp1
 yarn build
 ```
 
@@ -945,7 +945,7 @@ export default defineConfig({
 ## 다음 단계
 
 1. **모듈 페더레이션 플러그인 설치**: `@originjs/vite-plugin-federation` 추가
-2. **Shell 앱 설정**: vite1에 모듈 페더레이션 Host 설정 추가
+2. **Shell 앱 설정**: hostapp1에 모듈 페더레이션 Host 설정 추가
 3. **Micro Apps 독립 레포지토리 생성**: 각 Micro App을 위한 독립 Git 레포지토리 생성
 4. **Micro Apps 설정**: 각 Micro App 레포지토리에 모듈 페더레이션 Remote 설정 추가
 5. **PR 템플릿 작성**: Shell 레포지토리에 Micro App 통합을 위한 PR 템플릿 작성
