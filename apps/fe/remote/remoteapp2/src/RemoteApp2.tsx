@@ -1,4 +1,5 @@
 import { Button } from '@repo/fe-ui/button'
+import { formatDate } from '@repo/fe-utils'
 import './styles.css'
 
 function RemoteApp2() {
@@ -24,6 +25,9 @@ function RemoteApp2() {
                             </h2>
                             <p className="text-gray-600">
                                 remoteapp2@example.com
+                            </p>
+                            <p className="mt-1 text-sm text-gray-500">
+                                Last updated: {formatDate(new Date())}
                             </p>
                         </div>
                     </div>

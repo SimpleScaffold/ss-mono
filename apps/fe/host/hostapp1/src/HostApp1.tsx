@@ -12,6 +12,7 @@ import {
 import { Suspense, lazy } from 'react'
 
 const RemoteApp1 = lazy(() => import('remoteapp1/RemoteApp1'))
+const RemoteApp2 = lazy(() => import('remoteapp2/RemoteApp2'))
 
 function HostApp1() {
     return (
@@ -37,6 +38,20 @@ function HostApp1() {
                         }
                     >
                         <RemoteApp1 />
+                    </Suspense>
+                </div>
+                <div className="mt-8 border-t pt-8">
+                    <h2 className="mb-4 text-2xl font-bold text-gray-900">
+                        Remote App 2 (Module Federation)
+                    </h2>
+                    <Suspense
+                        fallback={
+                            <div className="py-8 text-center">
+                                Loading Remote App 2...
+                            </div>
+                        }
+                    >
+                        <RemoteApp2 />
                     </Suspense>
                 </div>
                 <div className="space-y-4">

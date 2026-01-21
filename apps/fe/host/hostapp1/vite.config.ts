@@ -25,7 +25,12 @@ function waitForRemote(): Plugin {
         configureServer(server) {
             // 로컬 모드일 때만 remote 대기
             if (envMode === 'local') {
-                waitPromise = waitForRemoteApp(remoteConfig.manifestUrl)
+                const remoteapp1Url = remoteConfig.manifestUrl
+                const remoteapp2Url = 'http://localhost:3003/mf-manifest.json'
+                waitPromise = Promise.all([
+                    waitForRemoteApp(remoteapp1Url),
+                    waitForRemoteApp(remoteapp2Url),
+                ]).then(() => {})
             }
 
             server.middlewares.use(async (req, res, next) => {
@@ -83,7 +88,7 @@ export default defineConfig({
         // 로컬 모드일 때만 HMR 동기화
         ...(envMode === 'local' ? [
             listenForRemoteRebuilds({
-                allowedApps: ['remoteapp1'],
+                allowedApps: ['remoteapp1', 'remoteapp2'],
                 hotPayload: 'full-reload',
             })
         ] : []),
@@ -95,6 +100,13 @@ export default defineConfig({
                     type: 'module',
                     name: 'remoteapp1',
                     entry: remoteConfig.manifestUrl,
+                },
+                remoteapp2: {
+                    type: 'module',
+                    name: 'remoteapp2',
+                    entry: envMode === 'local' 
+                        ? 'http://localhost:3003/mf-manifest.json'
+                        : remoteConfig.manifestUrl.replace('3002', '3003'),
                 },
             },
             shared: {
