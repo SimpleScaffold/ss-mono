@@ -9,8 +9,21 @@ import { getRemoteConfig, type EnvMode } from '../../../../config'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '../../../../')
 
-const envMode = (process.env.MF_ENV || 'local') as EnvMode
+const DEFAULT_ENV_MODE = 'local' as const
+
+const envMode = (process.env.MF_ENV || DEFAULT_ENV_MODE) as EnvMode
 const remoteConfig = getRemoteConfig(envMode)
+
+const SHARED_DEPENDENCIES = {
+    react: { singleton: true },
+    'react/': { singleton: true },
+    'react-dom': { singleton: true },
+} as const
+
+function extractHostFromOrigin(origin: string): string {
+    const match = origin.replace(/^https?:\/\//, '').split(':')[0]
+    return match || 'localhost'
+}
 
 export default defineConfig({
     build: {
@@ -25,17 +38,7 @@ export default defineConfig({
             exposes: {
                 './RemoteApp1': './src/RemoteApp1.tsx',
             },
-            shared: {
-                react: {
-                    singleton: true,
-                },
-                'react/': {
-                    singleton: true,
-                },
-                'react-dom': {
-                    singleton: true,
-                },
-            },
+            shared: SHARED_DEPENDENCIES,
             dts: false,
         }),
     ],
@@ -52,7 +55,7 @@ export default defineConfig({
         port: remoteConfig.port,
         hmr: {
             port: remoteConfig.port,
-            host: remoteConfig.origin.replace(/^https?:\/\//, '').split(':')[0] || 'localhost',
+            host: extractHostFromOrigin(remoteConfig.origin),
         },
         fs: {
             allow: [repoRoot],
