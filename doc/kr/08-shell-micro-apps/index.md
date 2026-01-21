@@ -6,14 +6,16 @@
 
 - [개요](#개요)
 - [아키텍처 구조](#아키텍처-구조)
-- [Shell 앱 (hostapp1)](#shell-앱-hostapp1)
-- [Micro Apps (remoteapp1, remoteapp2)](#micro-apps-remoteapp1-remoteapp2)
-- [저장소 관리 전략](#저장소-관리-전략)
+- [Host 앱 (hostapp1)](#host-앱-hostapp1)
+- [Remote Apps (remoteapp1, remoteapp2)](#remote-apps-remoteapp1-remoteapp2)
 - [모듈 페더레이션 설정](#모듈-페더레이션-설정)
+- [실제 구현 예시](#실제-구현-예시)
+- [저장소 관리 전략](#저장소-관리-전략)
 - [라이브러리 및 의존성 관리](#라이브러리-및-의존성-관리)
 - [스타일링 시스템](#스타일링-시스템)
 - [개발 워크플로우](#개발-워크플로우)
 - [배포 전략](#배포-전략)
+- [구현 상태](#구현-상태)
 
 ## 개요
 
@@ -35,16 +37,16 @@
 
 ## 아키텍처 구조
 
-### 현재 구조 (모듈 페더레이션 적용 전)
+### 현재 구조 (모듈 페더레이션 적용 완료)
 
 ```
 ss-mono/
 ├── apps/fe/
 │   ├── host/
-│   │   └── hostapp1/       # Shell 앱 (호스트 예정)
+│   │   └── hostapp1/       # Shell 앱 (호스트) - 포트 3001
 │   └── remote/
-│       ├── remoteapp1/     # Micro App 1 (리모트 예정)
-│       └── remoteapp2/     # Micro App 2 (리모트 예정)
+│       ├── remoteapp1/     # Micro App 1 (리모트) - 포트 3002 ✅
+│       └── remoteapp2/     # Micro App 2 (리모트) - 포트 3003
 ├── packages/
 │   ├── fe/
 │   │   ├── ui/         # 공통 UI 컴포넌트 (Shadcn UI)
@@ -54,11 +56,14 @@ ss-mono/
 ```
 
 **현재 상태:**
+- ✅ Host App (hostapp1): 모듈 페더레이션 Host 설정 완료
+- ✅ Remote App 1 (remoteapp1): 모듈 페더레이션 Remote 설정 완료
+- ⏳ Remote App 2 (remoteapp2): 모듈 페더레이션 설정 예정
 - 각 앱은 독립적으로 실행됨 (포트 3001, 3002, 3003)
 - 공통 패키지(`@repo/fe-ui`)를 빌드 타임에 공유
-- 모듈 페더레이션 설정 없음
+- 런타임에 Host App이 Remote App 1을 동적으로 로드
 
-### 향후 구조 (모듈 페더레이션 적용 후)
+### 런타임 통합 구조
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -81,113 +86,113 @@ ss-mono/
 ```
 
 **런타임 통합:**
-- Shell 앱이 각 Micro App을 동적으로 로드
-- 공통 컴포넌트는 Shell에서 Expose하여 Micro Apps가 공유 사용
-- 각 Micro App은 독립적으로 빌드 및 배포 가능
+- ✅ Host 앱이 Remote App 1을 동적으로 로드 (구현 완료)
+- 공통 컴포넌트는 빌드 타임에 `@repo/fe-ui` 패키지로 공유
+- 각 Remote App은 독립적으로 빌드 및 배포 가능
+- HMR(Hot Module Replacement) 동기화 지원
 
-## Shell 앱 (hostapp1)
+## Host 앱 (hostapp1)
 
 ### 역할 및 책임
 
-Shell 앱은 전체 애플리케이션의 **호스트(Host)** 역할을 수행합니다.
+Host 앱은 전체 애플리케이션의 **호스트(Host)** 역할을 수행합니다. ✅ **구현 완료**
 
-#### 1. Cesium Viewer 관리
-- **단일 인스턴스**: 메모리 효율성을 위해 Shell에서 단일 Cesium Viewer 인스턴스를 생성하고 관리
-- **공유 리소스**: Micro Apps는 Shell이 제공하는 Cesium Viewer 인스턴스를 사용
-
-```typescript
-// Shell 앱에서 Cesium Viewer 초기화
-import * as Cesium from 'cesium';
-
-const viewer = new Cesium.Viewer('cesiumContainer');
-
-// Micro Apps에 Cesium Viewer 제공
-export { viewer };
-```
-
-#### 2. 공통 컴포넌트 Expose (SSOT)
-- **Shadcn UI 컴포넌트**: `@repo/fe-ui` 패키지의 컴포넌트를 모듈 페더레이션으로 Expose
-- **Single Source of Truth**: 디자인 변경 시 Shell만 업데이트하면 모든 Micro Apps에 즉시 반영
-- **버전 일관성**: 모든 Micro Apps가 동일한 버전의 컴포넌트 사용
-
-```typescript
-// Shell의 vite.config.ts에서 Expose 설정
-export default defineConfig({
-  plugins: [
-    react(),
-    federation({
-      name: 'shell',
-      remotes: {
-        microApp1: 'http://localhost:3002/assets/remoteEntry.js',
-        microApp2: 'http://localhost:3003/assets/remoteEntry.js',
-      },
-      exposes: {
-        './Button': './packages/fe/ui/src/exports/button.ts',
-        './Dialog': './packages/fe/ui/src/exports/dialog.ts',
-        './Theme': './packages/fe/ui/src/exports/theme.ts',
-      },
-      shared: {
-        react: { singleton: true, requiredVersion: '^18.2.0' },
-        'react-dom': { singleton: true, requiredVersion: '^18.2.0' },
-      },
-    }),
-  ],
-});
-```
-
-#### 3. Shell 레이아웃 및 네비게이션
-- **공통 레이아웃**: 헤더, 사이드바, 푸터 등 공통 UI 구조
-- **라우팅 관리**: Micro Apps 간 네비게이션 및 라우팅 통합
-- **상태 관리**: 전역 상태 관리 (필요 시)
-
-#### 4. 런타임 모듈 로더
-- **동적 로딩**: Micro Apps를 런타임에 동적으로 로드
+#### 1. Remote App 동적 로드 ✅
+- **런타임 로딩**: `lazy()`와 `Suspense`를 사용하여 Remote App을 동적으로 로드
 - **에러 핸들링**: 로딩 실패 시 처리
 - **로딩 상태**: 로딩 중 UI 표시
 
-### 파일 구조 (예상)
+**현재 구현:**
+- ✅ Remote App 1 (remoteapp1) 동적 로드 구현 완료
+- ⏳ Remote App 2 (remoteapp2) 로드 예정
+
+#### 2. 공통 컴포넌트 공유 (현재: 빌드 타임)
+- **현재**: `@repo/fe-ui` 패키지를 빌드 타임에 공유
+- **향후**: 모듈 페더레이션으로 런타임에 Expose 가능
+- **Single Source of Truth**: 디자인 변경 시 공통 패키지만 업데이트하면 모든 앱에 반영
+
+#### 3. 개발 환경 안정성 ✅
+- **Remote App 대기**: Remote App이 준비될 때까지 자동 대기 (`waitForRemote` 플러그인)
+- **HMR 동기화**: `@antdevx/vite-plugin-hmr-sync`로 Hot Reload 지원
+- **Manifest 방식**: `mf-manifest.json`을 통한 안정적인 모듈 로딩
+
+#### 4. 향후 계획
+- ⏳ Cesium Viewer 관리: 단일 인스턴스로 공유
+- ⏳ Shell 레이아웃 및 네비게이션: 공통 레이아웃 구조
+- ⏳ 공통 컴포넌트 런타임 Expose: 모듈 페더레이션으로 런타임 공유
+
+### 파일 구조 (실제 구현)
 
 ```
 apps/fe/host/hostapp1/
 ├── src/
-│   ├── shell/
-│   │   ├── ShellLayout.tsx      # Shell 레이아웃
-│   │   ├── CesiumViewer.tsx     # Cesium Viewer 컴포넌트
-│   │   └── ModuleLoader.tsx     # Micro App 로더
-│   ├── routes/
-│   │   └── index.tsx            # 라우팅 설정
-│   ├── App.tsx
-│   └── main.tsx
-├── vite.config.ts               # 모듈 페더레이션 설정 포함
-└── package.json
+│   ├── HostApp1.tsx            # Host 앱 메인 컴포넌트 ✅
+│   ├── App.tsx                 # App 래퍼
+│   ├── main.tsx                # 진입점
+│   ├── remoteapp1.d.ts         # Remote App 타입 선언 ✅
+│   └── styles.css              # 스타일
+├── vite.config.ts              # 모듈 페더레이션 Host 설정 ✅
+├── package.json
+├── tsconfig.json
+└── index.html
 ```
 
-## Micro Apps (remoteapp1, remoteapp2)
+**주요 파일 설명:**
+- `vite.config.ts`: 모듈 페더레이션 Host 설정, Remote App 대기 플러그인, HMR 동기화 플러그인 포함
+- `HostApp1.tsx`: `lazy()`와 `Suspense`를 사용하여 Remote App 1을 동적으로 로드
+- `remoteapp1.d.ts`: TypeScript 타입 선언 파일
+
+## Remote Apps (remoteapp1, remoteapp2)
 
 ### 역할 및 책임
 
-Micro Apps는 **리모트(Remote)** 역할을 수행하는 독립적인 애플리케이션입니다.
+Remote Apps는 **리모트(Remote)** 역할을 수행하는 독립적인 애플리케이션입니다.
+
+**구현 상태:**
+- ✅ Remote App 1 (remoteapp1): 모듈 페더레이션 설정 완료
+- ⏳ Remote App 2 (remoteapp2): 모듈 페더레이션 설정 예정
 
 #### 1. 독립적 기능 개발
 - **기능 격리**: 각 Micro App은 특정 기능 영역을 담당
 - **독립 개발**: Shell 앱의 핵심 코드를 수정하지 않고 자체 기능만 개발
 - **독립 배포**: 각 Micro App은 독립적으로 빌드 및 배포 가능
 
-#### 2. Shell 리소스 사용
-- **공통 컴포넌트**: Shell에서 Expose한 컴포넌트를 동적으로 Import
-- **Cesium Viewer**: Shell이 제공하는 Cesium Viewer 인스턴스 사용
-- **API 클라이언트**: Shell이 제공하는 공통 API 클라이언트 사용
+#### 2. 공통 패키지 사용
+- **공통 컴포넌트**: `@repo/fe-ui` 패키지의 컴포넌트를 빌드 타임에 Import (현재 구현)
+- **공통 유틸리티**: `@repo/fe-utils` 패키지의 유틸리티 함수 사용
+- **향후**: Shell에서 런타임에 Expose한 컴포넌트를 동적으로 Import 가능
+
+**현재 구현 (빌드 타임 공유):**
 
 ```typescript
-// Micro App에서 Shell의 컴포넌트 사용
-const Button = React.lazy(() => import('shell/Button'));
-const Dialog = React.lazy(() => import('shell/Dialog'));
+// Remote App에서 공통 패키지 사용
+import { Button } from '@repo/fe-ui/button';
+import { formatDate } from '@repo/fe-utils';
 
-function MicroApp() {
+function RemoteApp1() {
   return (
     <div>
       <Button>Click me</Button>
-      <Dialog>...</Dialog>
+      <p>Date: {formatDate(new Date())}</p>
+    </div>
+  );
+}
+```
+
+**향후 구현 (런타임 공유):**
+
+```typescript
+// Remote App에서 Shell의 컴포넌트를 동적으로 Import
+const Button = React.lazy(() => import('hostapp1/Button'));
+const Dialog = React.lazy(() => import('hostapp1/Dialog'));
+
+function RemoteApp1() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Button>Click me</Button>
+        <Dialog>...</Dialog>
+      </Suspense>
     </div>
   );
 }
@@ -198,21 +203,41 @@ function MicroApp() {
 - **격리**: Shell의 핵심 코드를 직접 수정하거나 오염시킬 수 없음
 - **독립성**: 각 Micro App은 자체 상태 관리 및 로직 보유
 
-### 표준 템플릿
+### 파일 구조 (실제 구현)
 
-각 Micro App은 동일한 보일러플레이트 구조를 따릅니다:
+**Remote App 1 (remoteapp1) ✅**
 
 ```
-apps/fe/remote/remoteapp1/ (또는 remoteapp2)
+apps/fe/remote/remoteapp1/
 ├── src/
-│   ├── components/          # Micro App 전용 컴포넌트
-│   ├── hooks/              # Micro App 전용 훅
-│   ├── utils/              # Micro App 전용 유틸리티
-│   ├── App.tsx
-│   └── main.tsx
-├── vite.config.ts          # 모듈 페더레이션 Remote 설정
-└── package.json
+│   ├── RemoteApp1.tsx      # Remote App 메인 컴포넌트 ✅
+│   ├── App.tsx             # App 래퍼
+│   ├── main.tsx            # 진입점
+│   └── styles.css          # 스타일
+├── vite.config.ts          # 모듈 페더레이션 Remote 설정 ✅
+├── package.json
+├── tsconfig.json
+└── index.html
 ```
+
+**Remote App 2 (remoteapp2) ⏳**
+
+```
+apps/fe/remote/remoteapp2/
+├── src/
+│   ├── RemoteApp2.tsx      # Remote App 메인 컴포넌트
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── styles.css
+├── vite.config.ts          # 모듈 페더레이션 설정 예정
+├── package.json
+├── tsconfig.json
+└── index.html
+```
+
+**주요 파일 설명:**
+- `vite.config.ts`: 모듈 페더레이션 Remote 설정, `exposes`로 컴포넌트를 외부에 노출
+- `RemoteApp1.tsx`: Host App에서 로드될 메인 컴포넌트, `@repo/fe-ui` 패키지의 컴포넌트 사용 가능
 
 ### 로컬 개발 환경
 
@@ -438,72 +463,77 @@ yarn dev
 
 ### Vite 플러그인
 
-Vite에서 모듈 페더레이션을 사용하기 위해 `@originjs/vite-plugin-federation` 플러그인을 사용합니다.
+Vite에서 모듈 페더레이션을 사용하기 위해 `@module-federation/vite` 플러그인을 사용합니다.
 
-### Shell 앱 설정 (hostapp1)
+### Host 앱 설정 (hostapp1) ✅
+
+**실제 구현된 설정:**
 
 ```typescript
 // apps/fe/host/hostapp1/vite.config.ts
-import { defineConfig } from 'vite';
+import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
-import federation from '@originjs/vite-plugin-federation';
+import { federation } from '@module-federation/vite';
+import { listenForRemoteRebuilds } from '@antdevx/vite-plugin-hmr-sync';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import http from 'http';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '../../../../');
 
+// Remote app이 준비될 때까지 기다리는 플러그인
+function waitForRemote(): Plugin {
+  // ... 구현 내용
+}
+
 export default defineConfig({
+  build: {
+    target: 'chrome89', // top-level await 지원을 위해 필요
+  },
   plugins: [
     react(),
     tailwindcss(),
+    waitForRemote(), // Remote app 대기 플러그인
+    listenForRemoteRebuilds({
+      allowedApps: ['remoteapp1'],
+      hotPayload: 'full-reload',
+    }),
     federation({
-      name: 'shell',
-      filename: 'remoteEntry.js',
-      // Remote Apps 설정
+      name: 'hostapp1',
+      manifest: true, // manifest 방식 사용
       remotes: {
-        microApp1: 'http://localhost:3002/assets/remoteEntry.js',
-        microApp2: 'http://localhost:3003/assets/remoteEntry.js',
+        remoteapp1: {
+          type: 'module',
+          name: 'remoteapp1',
+          entry: 'http://localhost:3002/mf-manifest.json',
+        },
       },
-      // Expose할 모듈 (공통 컴포넌트)
-      exposes: {
-        './Button': './packages/fe/ui/src/exports/button.ts',
-        './Dialog': './packages/fe/ui/src/exports/dialog.ts',
-        './Drawer': './packages/fe/ui/src/exports/drawer.ts',
-        './Card': './packages/fe/ui/src/exports/card.ts',
-        './Theme': './packages/fe/ui/src/exports/theme.ts',
-        './Utils': './packages/fe/ui/src/exports/utils.ts',
-        './CesiumViewer': './src/shell/CesiumViewer.tsx',
-      },
-      // 공유 의존성
       shared: {
         react: {
           singleton: true,
-          requiredVersion: '^18.2.0',
+        },
+        'react/': {
+          singleton: true,
         },
         'react-dom': {
           singleton: true,
-          requiredVersion: '^18.2.0',
         },
+      },
+      dts: false, // 개발 모드에서 타입 생성 비활성화
+      dev: {
+        disableRuntimePlugins: false,
       },
     }),
   ],
-  resolve: {
-    alias: [
-      {
-        find: /^@\//,
-        replacement: `${path.resolve(__dirname, '../../../../packages/fe/ui/src')}/`,
-      },
-    ],
-  },
-  build: {
-    target: 'esnext',
-    minify: false,
-    cssCodeSplit: false,
-  },
   server: {
+    origin: 'http://localhost:3001',
     port: 3001,
+    hmr: {
+      port: 3001,
+      host: 'localhost',
+    },
     fs: {
       allow: [repoRoot],
     },
@@ -511,14 +541,53 @@ export default defineConfig({
 });
 ```
 
-### Micro App 설정 (remoteapp1, remoteapp2)
+**주요 특징:**
+- ✅ `manifest: true` 옵션으로 manifest 방식 사용 (`mf-manifest.json`)
+- ✅ Remote app 대기 플러그인으로 개발 환경 안정성 향상
+- ✅ HMR 동기화 플러그인으로 Hot Reload 지원
+- ✅ React, react-dom을 singleton으로 공유
+
+**Host 앱에서 Remote App 사용:**
+
+```typescript
+// apps/fe/host/hostapp1/src/HostApp1.tsx
+import { Suspense, lazy } from 'react';
+
+// Module Federation을 통해 RemoteApp1 동적 로드
+const RemoteApp1 = lazy(() => import('remoteapp1/RemoteApp1'));
+
+function HostApp1() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading Remote App 1...</div>}>
+        <RemoteApp1 />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+**타입 선언:**
+
+```typescript
+// apps/fe/host/hostapp1/src/remoteapp1.d.ts
+declare module 'remoteapp1/RemoteApp1' {
+  import { ComponentType } from 'react';
+  const RemoteApp1: ComponentType;
+  export default RemoteApp1;
+}
+```
+
+### Remote App 설정 (remoteapp1) ✅
+
+**실제 구현된 설정:**
 
 ```typescript
 // apps/fe/remote/remoteapp1/vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
-import federation from '@originjs/vite-plugin-federation';
+import { federation } from '@module-federation/vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -526,48 +595,42 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '../../../../');
 
 export default defineConfig({
+  build: {
+    target: 'chrome89',
+  },
   plugins: [
     react(),
     tailwindcss(),
     federation({
-      name: 'microApp1', // 또는 'microApp2'
-      filename: 'remoteEntry.js',
-      // Expose할 Micro App 컴포넌트
+      name: 'remoteapp1',
+      manifest: true, // manifest 방식 사용
       exposes: {
-        './MicroApp': './src/App.tsx',
+        './RemoteApp1': './src/RemoteApp1.tsx',
       },
-      // Shell에서 제공하는 모듈 사용
-      remotes: {
-        shell: 'http://localhost:3001/assets/remoteEntry.js',
-      },
-      // 공유 의존성
       shared: {
         react: {
           singleton: true,
-          requiredVersion: '^18.2.0',
+        },
+        'react/': {
+          singleton: true,
         },
         'react-dom': {
           singleton: true,
-          requiredVersion: '^18.2.0',
         },
+      },
+      dts: false,
+      dev: {
+        disableRuntimePlugins: false,
       },
     }),
   ],
-  resolve: {
-    alias: [
-      {
-        find: /^@\//,
-        replacement: `${path.resolve(__dirname, '../../../../packages/fe/ui/src')}/`,
-      },
-    ],
-  },
-  build: {
-    target: 'esnext',
-    minify: false,
-    cssCodeSplit: false,
-  },
   server: {
-    port: 3002, // remoteapp2는 3003
+    origin: 'http://localhost:3002',
+    port: 3002,
+    hmr: {
+      port: 3002,
+      host: 'localhost',
+    },
     fs: {
       allow: [repoRoot],
     },
@@ -575,11 +638,149 @@ export default defineConfig({
 });
 ```
 
-### 패키지 의존성 추가
+**주요 특징:**
+- ✅ `RemoteApp1` 컴포넌트를 `./RemoteApp1` 경로로 Expose
+- ✅ manifest 방식 사용
+- ✅ React, react-dom을 singleton으로 공유
+
+**Remote App 컴포넌트:**
+
+```typescript
+// apps/fe/remote/remoteapp1/src/RemoteApp1.tsx
+import { Button } from '@repo/fe-ui/button';
+import { formatDate } from '@repo/fe-utils';
+import './styles.css';
+
+function RemoteApp1() {
+  return (
+    <div>
+      <h1>Remote App 1</h1>
+      {/* ... */}
+    </div>
+  );
+}
+
+export default RemoteApp1;
+```
+
+### Remote App 2 설정 (remoteapp2) ⏳
+
+현재 Remote App 2는 모듈 페더레이션 설정이 아직 적용되지 않았습니다. Remote App 1과 동일한 방식으로 설정할 수 있습니다.
+
+### 패키지 의존성
 
 ```bash
-# 루트 package.json에 추가
-yarn add -D -W @originjs/vite-plugin-federation
+# Host App
+cd apps/fe/host/hostapp1
+yarn add -D @module-federation/vite @antdevx/vite-plugin-hmr-sync
+
+# Remote App
+cd apps/fe/remote/remoteapp1
+yarn add -D @module-federation/vite
+```
+
+## 실제 구현 예시
+
+### Host App에서 Remote App 로드
+
+**HostApp1.tsx:**
+
+```typescript
+import { Suspense, lazy } from 'react';
+
+// Module Federation을 통해 RemoteApp1 동적 로드
+const RemoteApp1 = lazy(() => import('remoteapp1/RemoteApp1'));
+
+function HostApp1() {
+  return (
+    <div>
+      <h1>Host Application (Shell)</h1>
+      
+      {/* Remote App 1 로드 */}
+      <div className="mt-8">
+        <h2>Remote App 1 (Module Federation)</h2>
+        <Suspense fallback={<div>Loading Remote App 1...</div>}>
+          <RemoteApp1 />
+        </Suspense>
+      </div>
+    </div>
+  );
+}
+```
+
+**타입 선언 (remoteapp1.d.ts):**
+
+```typescript
+declare module 'remoteapp1/RemoteApp1' {
+  import { ComponentType } from 'react';
+  const RemoteApp1: ComponentType;
+  export default RemoteApp1;
+}
+```
+
+### Remote App 컴포넌트 구현
+
+**RemoteApp1.tsx:**
+
+```typescript
+import { Button } from '@repo/fe-ui/button';
+import { formatDate } from '@repo/fe-utils';
+import './styles.css';
+
+function RemoteApp1() {
+  return (
+    <div>
+      <h1>Remote App 1</h1>
+      <p>독립적인 리모트 애플리케이션 (포트 3002)</p>
+      <div>
+        <h2>Item #1</h2>
+        <p>Date: {formatDate(new Date())}</p>
+        <Button variant="secondary">View Details</Button>
+      </div>
+    </div>
+  );
+}
+
+export default RemoteApp1;
+```
+
+### 개발 환경 실행
+
+**터미널 1 - Remote App 실행:**
+
+```bash
+cd apps/fe/remote/remoteapp1
+yarn dev
+# http://localhost:3002 에서 실행
+```
+
+**터미널 2 - Host App 실행:**
+
+```bash
+cd apps/fe/host/hostapp1
+yarn dev
+# http://localhost:3001 에서 실행
+# Remote App이 준비될 때까지 자동 대기
+```
+
+### 빌드 및 배포
+
+**Remote App 빌드:**
+
+```bash
+cd apps/fe/remote/remoteapp1
+yarn build
+# dist/ 폴더에 빌드 결과물 생성
+# mf-manifest.json 파일이 생성됨
+```
+
+**Host App 빌드:**
+
+```bash
+cd apps/fe/host/hostapp1
+yarn build
+# dist/ 폴더에 빌드 결과물 생성
+# Remote App의 manifest 파일을 참조하여 동적으로 로드
 ```
 
 ## 라이브러리 및 의존성 관리
@@ -779,9 +980,25 @@ yarn dev
 
 #### 3. 개발 포트
 
-- Shell 앱 (hostapp1): `http://localhost:3001`
-- Micro App 1 (remoteapp1): `http://localhost:3002`
-- Micro App 2 (remoteapp2): `http://localhost:3003`
+- ✅ Host 앱 (hostapp1): `http://localhost:3001`
+- ✅ Remote App 1 (remoteapp1): `http://localhost:3002`
+- ⏳ Remote App 2 (remoteapp2): `http://localhost:3003` (모듈 페더레이션 미설정)
+
+#### 4. 실행 순서
+
+모듈 페더레이션을 사용할 때는 **Remote App을 먼저 실행**한 후 Host App을 실행해야 합니다:
+
+```bash
+# 터미널 1: Remote App 1 실행 (먼저 실행)
+cd apps/fe/remote/remoteapp1
+yarn dev
+
+# 터미널 2: Host App 실행 (Remote App 준비 후 실행)
+cd apps/fe/host/hostapp1
+yarn dev
+```
+
+Host App은 자동으로 Remote App이 준비될 때까지 대기합니다 (`waitForRemote` 플러그인).
 
 ### Micro App 개발 프로세스
 
@@ -795,8 +1012,9 @@ yarn dev
 
 ### Hot Module Replacement (HMR)
 
-- **각 앱 독립 HMR**: 각 앱의 변경사항이 해당 앱에만 반영
-- **크로스 앱 HMR**: Shell의 컴포넌트 변경 시 모든 Micro Apps에 반영 (런타임)
+- ✅ **각 앱 독립 HMR**: 각 앱의 변경사항이 해당 앱에만 반영
+- ✅ **크로스 앱 HMR**: `@antdevx/vite-plugin-hmr-sync` 플러그인으로 Remote App 변경 시 Host App에 자동 반영
+- ✅ **전체 새로고침**: `hotPayload: 'full-reload'` 옵션으로 안정적인 HMR 동작
 
 ### 디버깅
 
@@ -937,18 +1155,28 @@ export default defineConfig({
 
 ### 외부 자료
 
-- [Module Federation 공식 문서](https://module-federation.github.io/)
-- [@originjs/vite-plugin-federation](https://github.com/originjs/vite-plugin-federation)
+- [Module Federation 공식 문서](https://module-federation.io/)
+- [@module-federation/vite](https://github.com/module-federation/vite) - 공식 Vite 플러그인
+- [@antdevx/vite-plugin-hmr-sync](https://github.com/antdevx/vite-plugin-hmr-sync) - HMR 동기화 플러그인
 - [Tailwind CSS v4 문서](https://tailwindcss.com/docs)
 - [Shadcn UI 문서](https://ui.shadcn.com/)
 
-## 다음 단계
+## 구현 상태
 
-1. **모듈 페더레이션 플러그인 설치**: `@originjs/vite-plugin-federation` 추가
-2. **Shell 앱 설정**: hostapp1에 모듈 페더레이션 Host 설정 추가
-3. **Micro Apps 독립 레포지토리 생성**: 각 Micro App을 위한 독립 Git 레포지토리 생성
-4. **Micro Apps 설정**: 각 Micro App 레포지토리에 모듈 페더레이션 Remote 설정 추가
-5. **PR 템플릿 작성**: Shell 레포지토리에 Micro App 통합을 위한 PR 템플릿 작성
-6. **Cesium 통합**: Shell 앱에 Cesium Viewer 추가
-7. **공통 컴포넌트 Expose**: Shell에서 `@repo/fe-ui` 컴포넌트 Expose 설정
-8. **CI/CD 파이프라인 설정**: 각 Micro App 레포지토리에 독립적인 CI/CD 파이프라인 구성
+### ✅ 완료된 작업
+
+1. ✅ **모듈 페더레이션 플러그인 설치**: `@module-federation/vite` 추가
+2. ✅ **Host 앱 설정**: hostapp1에 모듈 페더레이션 Host 설정 완료
+3. ✅ **Remote App 1 설정**: remoteapp1에 모듈 페더레이션 Remote 설정 완료
+4. ✅ **HMR 동기화**: `@antdevx/vite-plugin-hmr-sync` 플러그인 적용
+5. ✅ **Remote App 대기 플러그인**: 개발 환경 안정성 향상
+6. ✅ **타입 선언**: TypeScript 타입 지원
+
+### ⏳ 진행 예정
+
+1. ⏳ **Remote App 2 설정**: remoteapp2에 모듈 페더레이션 설정 추가
+2. ⏳ **공통 컴포넌트 Expose**: Host에서 `@repo/fe-ui` 컴포넌트를 런타임에 Expose (현재는 빌드 타임 공유)
+3. ⏳ **Cesium 통합**: Host 앱에 Cesium Viewer 추가
+4. ⏳ **Micro Apps 독립 레포지토리**: 각 Micro App을 위한 독립 Git 레포지토리 생성
+5. ⏳ **PR 템플릿 작성**: Micro App 통합을 위한 PR 템플릿 작성
+6. ⏳ **CI/CD 파이프라인**: 각 Micro App 레포지토리에 독립적인 CI/CD 파이프라인 구성
