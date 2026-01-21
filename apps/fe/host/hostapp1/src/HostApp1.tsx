@@ -9,7 +9,7 @@ import {
     DialogFooter,
     DialogClose,
 } from '@repo/fe-ui/dialog'
-import { Suspense, lazy, useId } from 'react'
+import { Suspense, lazy, useId, useState } from 'react'
 
 const RemoteApp1 = lazy(() => import('remoteapp1/RemoteApp1'))
 const RemoteApp2 = lazy(() => import('remoteapp2/RemoteApp2'))
@@ -128,6 +128,8 @@ const ITEMS: ItemData[] = [
 ]
 
 function HostApp1() {
+    const [num, setNum] = useState(0)
+
     return (
         <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-0">
             <div className="mx-auto max-w-7xl">
@@ -138,20 +140,25 @@ function HostApp1() {
                     <p className="text-lg text-gray-600">
                         메인 호스트 애플리케이션 (포트 3001)
                     </p>
+                    <div className="mt-4 rounded-lg bg-white p-4 shadow">
+                        <p className="text-lg font-semibold">
+                            Host 앱 상태: num = {num}
+                        </p>
+                    </div>
                 </header>
 
                 <RemoteAppSection
                     title="Remote App 1 (Module Federation)"
                     appName="Remote App 1"
                 >
-                    <RemoteApp1 />
+                    <RemoteApp1 num={num} setNum={setNum} />
                 </RemoteAppSection>
 
                 <RemoteAppSection
                     title="Remote App 2 (Module Federation)"
                     appName="Remote App 2"
                 >
-                    <RemoteApp2 />
+                    <RemoteApp2 num={num} setNum={setNum} />
                 </RemoteAppSection>
 
                 <section className="mt-8 space-y-4">

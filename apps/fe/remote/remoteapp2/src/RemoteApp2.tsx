@@ -31,7 +31,12 @@ function FormField({
     )
 }
 
-function RemoteApp2() {
+interface RemoteApp2Props {
+    num?: number
+    setNum?: (value: number | ((prev: number) => number)) => void
+}
+
+function RemoteApp2({ num, setNum }: RemoteApp2Props) {
     const nameId = useId()
     const emailId = useId()
     const currentDate = new Date()
@@ -46,6 +51,27 @@ function RemoteApp2() {
                     <p className="text-lg text-gray-600">
                         독립적인 리모트 애플리케이션 (포트 3003)
                     </p>
+                    {num !== undefined && setNum && (
+                        <div className="mt-4 rounded-lg bg-green-50 p-4">
+                            <p className="mb-2 text-lg font-semibold text-green-900">
+                                Host 앱 상태 접근: num = {num}
+                            </p>
+                            <div className="flex gap-2">
+                                <Button
+                                    onClick={() => setNum((prev) => prev + 10)}
+                                    variant="default"
+                                >
+                                    +10 증가
+                                </Button>
+                                <Button
+                                    onClick={() => setNum((prev) => prev - 10)}
+                                    variant="outline"
+                                >
+                                    -10 감소
+                                </Button>
+                            </div>
+                        </div>
+                    )}
                 </header>
 
                 <section className="max-w-2xl rounded-lg bg-white p-6 shadow">
