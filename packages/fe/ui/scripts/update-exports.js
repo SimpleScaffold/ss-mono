@@ -10,7 +10,6 @@ import {
 
 const __dirname = getDirname(import.meta.url)
 
-// Use resolvePath to ensure absolute paths work across platforms
 const UI_DIR = resolvePath(__dirname, '../src/lib/shadcn/ui')
 const INDEX_FILE = resolvePath(__dirname, '../src/index.ts')
 const SRC_DIR = resolvePath(__dirname, '../src')
@@ -48,7 +47,6 @@ async function getTypeExports(filePath) {
         const content = await readFileSafe(filePath)
         const types = []
 
-        // Match: export type { ... }
         const typeExportMatches = content.match(/export\s+type\s+\{([^}]+)\}/g)
         if (typeExportMatches) {
             for (const match of typeExportMatches) {
@@ -62,7 +60,6 @@ async function getTypeExports(filePath) {
             }
         }
 
-        // Match: export interface ButtonProps
         const interfaceMatches = content.match(/export\s+interface\s+(\w+)/g)
         if (interfaceMatches) {
             for (const match of interfaceMatches) {
@@ -81,17 +78,14 @@ async function getTypeExports(filePath) {
 
 async function updateIndexFile() {
     try {
-        // Validate paths exist using cross-platform utility
         ensurePathExists(UI_DIR, 'directory')
         ensurePathExists(INDEX_FILE, 'file')
 
         const files = await readdir(UI_DIR)
         const componentFiles = files.filter((f) => {
-            // .tsx, .ts 파일만
             if (!f.endsWith('.tsx') && !f.endsWith('.ts')) {
                 return false
             }
-            // 제외 패턴 확인
             if (isExcludedFileName(f)) {
                 console.log(`⚠️  Excluding file: ${f}`)
                 return false
@@ -130,8 +124,6 @@ async function updateIndexFile() {
             return
         }
 
-        // Note: We no longer update index.ts with shadcn components
-        // Components are only exported via sub-path exports (e.g., @repo/fe-ui/button)
         console.log(
             'ℹ️  Skipping index.ts update - using sub-path exports only',
         )
@@ -149,7 +141,6 @@ async function updateIndexFile() {
     }
 }
 
-// 허용되지 않는 파일명 패턴 (export하면 안 되는 파일들)
 const EXCLUDED_PATTERNS = [
     /^stories?\./i, // stories, story
     /\.stories?\./i, // *.stories.ts
@@ -165,11 +156,9 @@ function isExcludedFileName(fileName) {
 
 async function createEntryPointFiles(components) {
     try {
-        // Ensure exports directory exists
         await ensurePathExists(EXPORTS_DIR, 'directory')
 
         for (const comp of components) {
-            // 제외 패턴 확인
             if (isExcludedFileName(comp.name)) {
                 console.warn(`⚠️  Skipping excluded file: ${comp.name}.ts`)
                 continue
@@ -177,7 +166,6 @@ async function createEntryPointFiles(components) {
 
             const entryPointPath = joinPath(EXPORTS_DIR, `${comp.name}.ts`)
 
-            // Filter out empty exports
             const validExports = comp.exports.filter(
                 (e) => e && e.trim().length > 0,
             )
@@ -191,14 +179,12 @@ async function createEntryPointFiles(components) {
 
             let content = ''
 
-            // Export components (use relative path from exports/ to lib/shadcn/ui/)
             if (validExports.length === 1) {
                 content += `export { ${validExports[0]} } from '../lib/shadcn/ui/${comp.name}';\n`
             } else {
                 content += `export {\n  ${validExports.join(',\n  ')},\n} from '../lib/shadcn/ui/${comp.name}';\n`
             }
 
-            // Export types if any
             const validTypes = comp.types.filter(
                 (t) => t && t.trim().length > 0,
             )
@@ -226,19 +212,15 @@ async function updatePackageJson(components) {
         const packageJsonContent = await readFileSafe(PACKAGE_JSON)
         const packageJson = JSON.parse(packageJsonContent)
 
-        // Keep existing exports (styles, etc.)
         const existingExports = { ...packageJson.exports }
 
-        // Build new exports object with wildcard pattern
         const newExports = {
-            // Wildcard pattern for all exports/*.ts files
             './*': {
                 import: './src/exports/*.ts',
                 types: './src/exports/*.ts',
             },
         }
 
-        // Add back style exports (these need explicit paths)
         Object.keys(existingExports).forEach((key) => {
             if (key.startsWith('./styles')) {
                 newExports[key] = existingExports[key]
@@ -247,7 +229,6 @@ async function updatePackageJson(components) {
 
         packageJson.exports = newExports
 
-        // Write back with proper formatting
         const updatedContent = JSON.stringify(packageJson, null, 2) + '\n'
         await writeFileSafe(PACKAGE_JSON, updatedContent)
         console.log('✅ package.json exports updated successfully!')

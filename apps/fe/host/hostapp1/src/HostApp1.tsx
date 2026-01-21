@@ -11,7 +11,6 @@ import {
 } from '@repo/fe-ui/dialog'
 import { Suspense, lazy } from 'react'
 
-// Module Federation을 통해 RemoteApp1 동적 로드
 const RemoteApp1 = lazy(() => import('remoteapp1/RemoteApp1'))
 
 function HostApp1() {
@@ -23,13 +22,9 @@ function HostApp1() {
                 </h1>
                 <p className="mb-8 text-lg text-gray-600">
                     메인 호스트 애플리케이션 (포트 3001)
-                    {/* <button
-            className='bg-primary '
-          >Action</button> */}
                     <Button>Action</Button>
                 </p>
 
-                {/* Remote App 1 로드 */}
                 <div className="mt-8 border-t pt-8">
                     <h2 className="mb-4 text-2xl font-bold text-gray-900">
                         Remote App 1 (Module Federation)

@@ -1,4 +1,3 @@
-// 디자인 토큰
 export const tokens = {
     colors: {
         primary: {

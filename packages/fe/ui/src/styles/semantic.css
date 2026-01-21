@@ -1,5 +1,4 @@
 @theme inline {
-    /* Border Radius - Tailwind CSS v4에서 rounded-md 등이 작동하도록 */
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: var(--radius);
     --radius-lg: calc(var(--radius) + 2px);
@@ -8,7 +7,6 @@
     --radius-3xl: calc(var(--radius) + 12px);
     --radius-4xl: calc(var(--radius) + 16px);
 
-    /* Colors - Tailwind CSS v4에서 bg-primary 등이 작동하도록 */
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
