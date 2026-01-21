@@ -5,6 +5,13 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
+"@antdevx/vite-plugin-hmr-sync@npm:^1.0.0":
+  version: 1.1.2
+  resolution: "@antdevx/vite-plugin-hmr-sync@npm:1.1.2"
+  checksum: 10c0/9a01fef74b31a5b1010b3499992c69fee047bacb73694eabb59369d3a90e5e24c1f5c8cdf0fad676218e3dd322dbbb2c162c5fddf20109557dd3e6da4eac4a5d
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.27.1":
   version: 7.27.1
   resolution: "@babel/code-frame@npm:7.27.1"
@@ -925,7 +932,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@repo/fe-utils@workspace:packages/fe/utils":
+"@repo/fe-utils@workspace:*, @repo/fe-utils@workspace:packages/fe/utils":
   version: 0.0.0-use.local
   resolution: "@repo/fe-utils@workspace:packages/fe/utils"
   dependencies:
@@ -937,10 +944,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@repo/host-app@workspace:apps/fe/host/hostapp1"
   dependencies:
+    "@antdevx/vite-plugin-hmr-sync": "npm:^1.0.0"
     "@module-federation/vite": "npm:^1.9.5"
     "@repo/fe-ui": "workspace:*"
+    "@tailwindcss/vite": "npm:^4.0.0"
+    "@vitejs/plugin-react": "npm:^4.0.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
+    vite: "npm:^5.0.0"
   languageName: unknown
   linkType: soft
 
@@ -949,8 +960,13 @@ __metadata:
   resolution: "@repo/remote-app1@workspace:apps/fe/remote/remoteapp1"
   dependencies:
     "@module-federation/vite": "npm:^1.9.5"
+    "@repo/fe-ui": "workspace:*"
+    "@repo/fe-utils": "workspace:*"
+    "@tailwindcss/vite": "npm:^4.0.0"
+    "@vitejs/plugin-react": "npm:^4.0.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
+    vite: "npm:^5.0.0"
   languageName: unknown
   linkType: soft
 
