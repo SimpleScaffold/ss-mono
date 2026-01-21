@@ -8,7 +8,7 @@ function RemoteApp1() {
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Remote App 1</h1>
         <p className="text-lg text-gray-600 mb-8">
-          독립적인 리모트 애플리케이션 (포트 3002)
+          독립적인 리모트 애플리케이션 (포트 3002)zzzzzzzzzzzzzzㅊㅊㅊㅊㅊㅊㅊㅊㅊㅊ
         </p>
         <div className="space-y-4">
           <div className="bg-white p-6 rounded-lg shadow">

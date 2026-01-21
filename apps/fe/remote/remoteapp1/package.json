@@ -10,6 +10,7 @@
     "lint": "echo 'lint'"
   },
   "dependencies": {
+    "@module-federation/vite": "^1.9.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

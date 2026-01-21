@@ -13,5 +13,8 @@
     "@repo/fe-ui": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@module-federation/vite": "^1.9.5"
   }
 }

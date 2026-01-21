@@ -2,6 +2,10 @@ import { Button } from '@repo/fe-ui/button';
 import { Card } from '@repo/fe-ui/card';
 import { Dialog, DialogTrigger } from '@repo/fe-ui/dialog';
 import { DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@repo/fe-ui/dialog';
+import { Suspense, lazy } from 'react';
+
+// Module Federation을 통해 RemoteApp1 동적 로드
+const RemoteApp1 = lazy(() => import('remoteapp1/RemoteApp1'));
 
 function HostApp1() {
   return (
@@ -16,6 +20,14 @@ function HostApp1() {
 
           <Button>Action</Button>
         </p>
+        
+        {/* Remote App 1 로드 */}
+        <div className="mt-8 border-t pt-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Remote App 1 (Module Federation)</h2>
+          <Suspense fallback={<div className="text-center py-8">Loading Remote App 1...</div>}>
+            <RemoteApp1 />
+          </Suspense>
+        </div>
         <div className="space-y-4">
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-2">Item 1</h2>
