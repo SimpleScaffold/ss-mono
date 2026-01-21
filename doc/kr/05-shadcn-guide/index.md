@@ -20,6 +20,7 @@ yarn update-exports
 ```
 
 **예시:**
+
 ```bash
 cd packages/fe/ui
 yarn dlx shadcn@latest add button
@@ -36,12 +37,14 @@ yarn shadcn add [컴포넌트명]
 ```
 
 **예시:**
+
 ```bash
 cd packages/fe/ui
 yarn shadcn add button
 ```
 
 이 방법을 사용하면:
+
 1. `yarn dlx shadcn@latest add` 실행
 2. 컴포넌트 파일 생성
 3. **자동으로** `yarn update-exports` 실행
@@ -68,10 +71,10 @@ packages/fe/ui/src/
 shadcn/ui 컴포넌트는 하위 경로로만 import할 수 있습니다:
 
 ```typescript
-import { Button } from '@repo/fe-ui/button';
-import { Card } from '@repo/fe-ui/card';
-import { Dialog } from '@repo/fe-ui/dialog';
-import { Drawer } from '@repo/fe-ui/drawer';
+import { Button } from '@repo/fe-ui/button'
+import { Card } from '@repo/fe-ui/card'
+import { Dialog } from '@repo/fe-ui/dialog'
+import { Drawer } from '@repo/fe-ui/drawer'
 ```
 
 **참고**: 모든 export는 하위 경로로만 import합니다. 루트 import(`@repo/fe-ui`)는 사용하지 않습니다.
@@ -81,21 +84,23 @@ import { Drawer } from '@repo/fe-ui/drawer';
 `yarn update-exports` 또는 `yarn shadcn add` 실행 시 자동으로 생성/업데이트되는 파일:
 
 1. **Entry point 파일**: `src/exports/[컴포넌트명].ts`
-   - 컴포넌트와 타입을 re-export하는 파일
+    - 컴포넌트와 타입을 re-export하는 파일
 
-2. **package.json exports**: 
-   - `"./[컴포넌트명]"` 경로가 자동으로 추가됩니다
+2. **package.json exports**:
+    - `"./[컴포넌트명]"` 경로가 자동으로 추가됩니다
 
 **참고**: `src/index.ts`는 더 이상 shadcn/ui 컴포넌트를 export하지 않습니다. 모든 컴포넌트는 하위 경로로만 import할 수 있습니다.
 
 ## 🛠️ 스크립트 설명
 
 ### `yarn update-exports`
+
 - `src/lib/shadcn/ui/` 디렉토리의 모든 컴포넌트를 스캔
 - 각 컴포넌트의 export를 분석
 - Entry point 파일과 `package.json` exports 자동 생성/업데이트
 
 ### `yarn shadcn add [컴포넌트명]`
+
 - shadcn 컴포넌트 추가 + 자동으로 `update-exports` 실행
 - `yarn dlx shadcn@latest add` + `yarn update-exports`를 한 번에 실행
 

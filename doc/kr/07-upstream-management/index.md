@@ -7,6 +7,7 @@ Upstream 저장소를 관리하고 동기화하는 방법을 안내합니다.
 이 프로젝트는 upstream 저장소의 변경사항을 추적하고, 필요할 때 동기화하는 워크플로우를 사용합니다.
 
 **워크플로우 구조:**
+
 - `upstream-main`: upstream 저장소의 상태를 그대로 보관하는 브랜치
 - `main`: 내 작업을 진행하는 브랜치
 - 필요할 때 `upstream-main`을 `main`으로 merge/rebase

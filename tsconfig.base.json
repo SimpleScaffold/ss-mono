@@ -1,27 +1,26 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./packages/fe/ui/src/*"],
-      "@repo/fe-ui/*": ["./packages/fe/ui/src/exports/*"],
-      "@repo/fe-utils": ["./packages/fe/utils/src"],
-      "@repo/shared-config": ["./packages/shared/config"]
-    }
-  },
-  "exclude": ["node_modules", "dist"]
+    "compilerOptions": {
+        "target": "ES2020",
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
+        "skipLibCheck": true,
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./packages/fe/ui/src/*"],
+            "@repo/fe-ui/*": ["./packages/fe/ui/src/exports/*"],
+            "@repo/fe-utils": ["./packages/fe/utils/src"],
+            "@repo/shared-config": ["./packages/shared/config"]
+        }
+    },
+    "exclude": ["node_modules", "dist"]
 }
-

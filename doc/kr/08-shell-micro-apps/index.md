@@ -56,6 +56,7 @@ ss-mono/
 ```
 
 **현재 상태:**
+
 - ✅ Host App (hostapp1): 모듈 페더레이션 Host 설정 완료
 - ✅ Remote App 1 (remoteapp1): 모듈 페더레이션 Remote 설정 완료
 - ⏳ Remote App 2 (remoteapp2): 모듈 페더레이션 설정 예정
@@ -86,6 +87,7 @@ ss-mono/
 ```
 
 **런타임 통합:**
+
 - ✅ Host 앱이 Remote App 1을 동적으로 로드 (구현 완료)
 - 공통 컴포넌트는 빌드 타임에 `@repo/fe-ui` 패키지로 공유
 - 각 Remote App은 독립적으로 빌드 및 배포 가능
@@ -98,25 +100,30 @@ ss-mono/
 Host 앱은 전체 애플리케이션의 **호스트(Host)** 역할을 수행합니다. ✅ **구현 완료**
 
 #### 1. Remote App 동적 로드 ✅
+
 - **런타임 로딩**: `lazy()`와 `Suspense`를 사용하여 Remote App을 동적으로 로드
 - **에러 핸들링**: 로딩 실패 시 처리
 - **로딩 상태**: 로딩 중 UI 표시
 
 **현재 구현:**
+
 - ✅ Remote App 1 (remoteapp1) 동적 로드 구현 완료
 - ⏳ Remote App 2 (remoteapp2) 로드 예정
 
 #### 2. 공통 컴포넌트 공유 (현재: 빌드 타임)
+
 - **현재**: `@repo/fe-ui` 패키지를 빌드 타임에 공유
 - **향후**: 모듈 페더레이션으로 런타임에 Expose 가능
 - **Single Source of Truth**: 디자인 변경 시 공통 패키지만 업데이트하면 모든 앱에 반영
 
 #### 3. 개발 환경 안정성 ✅
+
 - **Remote App 대기**: Remote App이 준비될 때까지 자동 대기 (`waitForRemote` 플러그인)
 - **HMR 동기화**: `@antdevx/vite-plugin-hmr-sync`로 Hot Reload 지원
 - **Manifest 방식**: `mf-manifest.json`을 통한 안정적인 모듈 로딩
 
 #### 4. 향후 계획
+
 - ⏳ Cesium Viewer 관리: 단일 인스턴스로 공유
 - ⏳ Shell 레이아웃 및 네비게이션: 공통 레이아웃 구조
 - ⏳ 공통 컴포넌트 런타임 Expose: 모듈 페더레이션으로 런타임 공유
@@ -138,6 +145,7 @@ apps/fe/host/hostapp1/
 ```
 
 **주요 파일 설명:**
+
 - `vite.config.ts`: 모듈 페더레이션 Host 설정, Remote App 대기 플러그인, HMR 동기화 플러그인 포함
 - `HostApp1.tsx`: `lazy()`와 `Suspense`를 사용하여 Remote App 1을 동적으로 로드
 - `remoteapp1.d.ts`: TypeScript 타입 선언 파일
@@ -149,15 +157,18 @@ apps/fe/host/hostapp1/
 Remote Apps는 **리모트(Remote)** 역할을 수행하는 독립적인 애플리케이션입니다.
 
 **구현 상태:**
+
 - ✅ Remote App 1 (remoteapp1): 모듈 페더레이션 설정 완료
 - ⏳ Remote App 2 (remoteapp2): 모듈 페더레이션 설정 예정
 
 #### 1. 독립적 기능 개발
+
 - **기능 격리**: 각 Micro App은 특정 기능 영역을 담당
 - **독립 개발**: Shell 앱의 핵심 코드를 수정하지 않고 자체 기능만 개발
 - **독립 배포**: 각 Micro App은 독립적으로 빌드 및 배포 가능
 
 #### 2. 공통 패키지 사용
+
 - **공통 컴포넌트**: `@repo/fe-ui` 패키지의 컴포넌트를 빌드 타임에 Import (현재 구현)
 - **공통 유틸리티**: `@repo/fe-utils` 패키지의 유틸리티 함수 사용
 - **향후**: Shell에서 런타임에 Expose한 컴포넌트를 동적으로 Import 가능
@@ -199,6 +210,7 @@ function RemoteApp1() {
 ```
 
 #### 3. 단방향 데이터 흐름
+
 - **읽기 전용**: Shell의 리소스는 자유롭게 사용 가능
 - **격리**: Shell의 핵심 코드를 직접 수정하거나 오염시킬 수 없음
 - **독립성**: 각 Micro App은 자체 상태 관리 및 로직 보유
@@ -236,6 +248,7 @@ apps/fe/remote/remoteapp2/
 ```
 
 **주요 파일 설명:**
+
 - `vite.config.ts`: 모듈 페더레이션 Remote 설정, `exposes`로 컴포넌트를 외부에 노출
 - `RemoteApp1.tsx`: Host App에서 로드될 메인 컴포넌트, `@repo/fe-ui` 패키지의 컴포넌트 사용 가능
 
@@ -324,17 +337,20 @@ Shell 레포지토리는 **Pull Request(PR)**를 통해 원하는 Micro App만 �
 ## Micro App 통합 요청
 
 ### Micro App 정보
+
 - **이름**: Micro App 1
 - **레포지토리**: https://github.com/org/micro-app-1-repo
 - **버전**: v1.2.0
 - **배포 URL**: https://cdn.example.com/micro-app-1/v1.2.0/
 
 ### 변경 사항
+
 - [ ] Shell의 vite.config.ts에 Remote 추가
 - [ ] 환경 변수 설정 추가
 - [ ] 문서 업데이트
 
 ### 테스트 체크리스트
+
 - [ ] 로컬 환경에서 통합 테스트 완료
 - [ ] Shell과의 호환성 확인
 - [ ] 공통 컴포넌트 사용 확인
@@ -345,22 +361,26 @@ Shell 레포지토리는 **Pull Request(PR)**를 통해 원하는 Micro App만 �
 ```typescript
 // apps/fe/host/hostapp1/vite.config.ts
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-    federation({
-      name: 'shell',
-      remotes: {
-        // PR을 통해 승인된 Micro App만 추가
-        microApp1: process.env.VITE_MICRO_APP_1_URL || 'http://localhost:3002/assets/remoteEntry.js',
-        microApp2: process.env.VITE_MICRO_APP_2_URL || 'http://localhost:3003/assets/remoteEntry.js',
-        // 새로 통합할 Micro App
-        // microApp3: process.env.VITE_MICRO_APP_3_URL || 'http://localhost:3004/assets/remoteEntry.js',
-      },
-      // ...
-    }),
-  ],
-});
+    plugins: [
+        react(),
+        tailwindcss(),
+        federation({
+            name: 'shell',
+            remotes: {
+                // PR을 통해 승인된 Micro App만 추가
+                microApp1:
+                    process.env.VITE_MICRO_APP_1_URL ||
+                    'http://localhost:3002/assets/remoteEntry.js',
+                microApp2:
+                    process.env.VITE_MICRO_APP_2_URL ||
+                    'http://localhost:3003/assets/remoteEntry.js',
+                // 새로 통합할 Micro App
+                // microApp3: process.env.VITE_MICRO_APP_3_URL || 'http://localhost:3004/assets/remoteEntry.js',
+            },
+            // ...
+        }),
+    ],
+})
 ```
 
 ### 통합 관리 전략
@@ -471,77 +491,78 @@ Vite에서 모듈 페더레이션을 사용하기 위해 `@module-federation/vit
 
 ```typescript
 // apps/fe/host/hostapp1/vite.config.ts
-import { defineConfig, Plugin } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
-import { federation } from '@module-federation/vite';
-import { listenForRemoteRebuilds } from '@antdevx/vite-plugin-hmr-sync';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import http from 'http';
+import { defineConfig, Plugin } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import { federation } from '@module-federation/vite'
+import { listenForRemoteRebuilds } from '@antdevx/vite-plugin-hmr-sync'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import http from 'http'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, '../../../../');
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const repoRoot = path.resolve(__dirname, '../../../../')
 
 // Remote app이 준비될 때까지 기다리는 플러그인
 function waitForRemote(): Plugin {
-  // ... 구현 내용
+    // ... 구현 내용
 }
 
 export default defineConfig({
-  build: {
-    target: 'chrome89', // top-level await 지원을 위해 필요
-  },
-  plugins: [
-    react(),
-    tailwindcss(),
-    waitForRemote(), // Remote app 대기 플러그인
-    listenForRemoteRebuilds({
-      allowedApps: ['remoteapp1'],
-      hotPayload: 'full-reload',
-    }),
-    federation({
-      name: 'hostapp1',
-      manifest: true, // manifest 방식 사용
-      remotes: {
-        remoteapp1: {
-          type: 'module',
-          name: 'remoteapp1',
-          entry: 'http://localhost:3002/mf-manifest.json',
-        },
-      },
-      shared: {
-        react: {
-          singleton: true,
-        },
-        'react/': {
-          singleton: true,
-        },
-        'react-dom': {
-          singleton: true,
-        },
-      },
-      dts: false, // 개발 모드에서 타입 생성 비활성화
-      dev: {
-        disableRuntimePlugins: false,
-      },
-    }),
-  ],
-  server: {
-    origin: 'http://localhost:3001',
-    port: 3001,
-    hmr: {
-      port: 3001,
-      host: 'localhost',
+    build: {
+        target: 'chrome89', // top-level await 지원을 위해 필요
     },
-    fs: {
-      allow: [repoRoot],
+    plugins: [
+        react(),
+        tailwindcss(),
+        waitForRemote(), // Remote app 대기 플러그인
+        listenForRemoteRebuilds({
+            allowedApps: ['remoteapp1'],
+            hotPayload: 'full-reload',
+        }),
+        federation({
+            name: 'hostapp1',
+            manifest: true, // manifest 방식 사용
+            remotes: {
+                remoteapp1: {
+                    type: 'module',
+                    name: 'remoteapp1',
+                    entry: 'http://localhost:3002/mf-manifest.json',
+                },
+            },
+            shared: {
+                react: {
+                    singleton: true,
+                },
+                'react/': {
+                    singleton: true,
+                },
+                'react-dom': {
+                    singleton: true,
+                },
+            },
+            dts: false, // 개발 모드에서 타입 생성 비활성화
+            dev: {
+                disableRuntimePlugins: false,
+            },
+        }),
+    ],
+    server: {
+        origin: 'http://localhost:3001',
+        port: 3001,
+        hmr: {
+            port: 3001,
+            host: 'localhost',
+        },
+        fs: {
+            allow: [repoRoot],
+        },
     },
-  },
-});
+})
 ```
 
 **주요 특징:**
+
 - ✅ `manifest: true` 옵션으로 manifest 방식 사용 (`mf-manifest.json`)
 - ✅ Remote app 대기 플러그인으로 개발 환경 안정성 향상
 - ✅ HMR 동기화 플러그인으로 Hot Reload 지원
@@ -572,9 +593,9 @@ function HostApp1() {
 ```typescript
 // apps/fe/host/hostapp1/src/remoteapp1.d.ts
 declare module 'remoteapp1/RemoteApp1' {
-  import { ComponentType } from 'react';
-  const RemoteApp1: ComponentType;
-  export default RemoteApp1;
+    import { ComponentType } from 'react'
+    const RemoteApp1: ComponentType
+    export default RemoteApp1
 }
 ```
 
@@ -584,61 +605,62 @@ declare module 'remoteapp1/RemoteApp1' {
 
 ```typescript
 // apps/fe/remote/remoteapp1/vite.config.ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
-import { federation } from '@module-federation/vite';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import { federation } from '@module-federation/vite'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, '../../../../');
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const repoRoot = path.resolve(__dirname, '../../../../')
 
 export default defineConfig({
-  build: {
-    target: 'chrome89',
-  },
-  plugins: [
-    react(),
-    tailwindcss(),
-    federation({
-      name: 'remoteapp1',
-      manifest: true, // manifest 방식 사용
-      exposes: {
-        './RemoteApp1': './src/RemoteApp1.tsx',
-      },
-      shared: {
-        react: {
-          singleton: true,
-        },
-        'react/': {
-          singleton: true,
-        },
-        'react-dom': {
-          singleton: true,
-        },
-      },
-      dts: false,
-      dev: {
-        disableRuntimePlugins: false,
-      },
-    }),
-  ],
-  server: {
-    origin: 'http://localhost:3002',
-    port: 3002,
-    hmr: {
-      port: 3002,
-      host: 'localhost',
+    build: {
+        target: 'chrome89',
     },
-    fs: {
-      allow: [repoRoot],
+    plugins: [
+        react(),
+        tailwindcss(),
+        federation({
+            name: 'remoteapp1',
+            manifest: true, // manifest 방식 사용
+            exposes: {
+                './RemoteApp1': './src/RemoteApp1.tsx',
+            },
+            shared: {
+                react: {
+                    singleton: true,
+                },
+                'react/': {
+                    singleton: true,
+                },
+                'react-dom': {
+                    singleton: true,
+                },
+            },
+            dts: false,
+            dev: {
+                disableRuntimePlugins: false,
+            },
+        }),
+    ],
+    server: {
+        origin: 'http://localhost:3002',
+        port: 3002,
+        hmr: {
+            port: 3002,
+            host: 'localhost',
+        },
+        fs: {
+            allow: [repoRoot],
+        },
     },
-  },
-});
+})
 ```
 
 **주요 특징:**
+
 - ✅ `RemoteApp1` 컴포넌트를 `./RemoteApp1` 경로로 Expose
 - ✅ manifest 방식 사용
 - ✅ React, react-dom을 singleton으로 공유
@@ -695,7 +717,7 @@ function HostApp1() {
   return (
     <div>
       <h1>Host Application (Shell)</h1>
-      
+
       {/* Remote App 1 로드 */}
       <div className="mt-8">
         <h2>Remote App 1 (Module Federation)</h2>
@@ -712,9 +734,9 @@ function HostApp1() {
 
 ```typescript
 declare module 'remoteapp1/RemoteApp1' {
-  import { ComponentType } from 'react';
-  const RemoteApp1: ComponentType;
-  export default RemoteApp1;
+    import { ComponentType } from 'react'
+    const RemoteApp1: ComponentType
+    export default RemoteApp1
 }
 ```
 
@@ -790,10 +812,12 @@ yarn build
 모듈 페더레이션에서 공유되는 의존성은 `singleton: true`로 설정하여 단일 인스턴스를 보장합니다.
 
 **현재 공유 의존성:**
+
 - `react`: ^18.2.0
 - `react-dom`: ^18.2.0
 
 **향후 추가 가능한 공유 의존성:**
+
 - `cesium`: Cesium 라이브러리 (Shell에서만 관리)
 - `@repo/fe-ui`: 공통 UI 컴포넌트 (Shell에서 Expose)
 - `@repo/fe-utils`: 공통 유틸리티
@@ -807,26 +831,29 @@ yarn build
 ```json
 // 루트 package.json
 {
-  "overrides": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  }
+    "overrides": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    }
 }
 ```
 
 ### 코드 공유 전략
 
 #### 1. 공통 컴포넌트 (`@repo/fe-ui`)
+
 - **위치**: `packages/fe/ui`
 - **공유 방식**: Shell에서 Expose하여 런타임에 공유
 - **장점**: 빌드 타임 의존성 없이 런타임에 동적 로드
 
 #### 2. 공통 유틸리티 (`@repo/fe-utils`)
+
 - **위치**: `packages/fe/utils`
 - **공유 방식**: Shell에서 Expose 또는 각 앱에서 직접 Import
 - **용도**: 날짜 포맷팅, 데이터 변환 등 유틸리티 함수
 
 #### 3. 공통 설정 (`@repo/shared-config`)
+
 - **위치**: `packages/shared/config`
 - **공유 방식**: 빌드 타임에 각 앱에서 확장하여 사용
 - **용도**: TypeScript 설정, ESLint 설정
@@ -847,8 +874,8 @@ yarn build
 
 ```css
 /* 각 앱의 styles.css */
-@import "tailwindcss";
-@import "@repo/fe-ui/styles";
+@import 'tailwindcss';
+@import '@repo/fe-ui/styles';
 ```
 
 #### 스타일 격리
@@ -873,6 +900,7 @@ packages/fe/ui/src/
 #### 사용 방법
 
 **Shell에서 Expose:**
+
 ```typescript
 // Shell의 vite.config.ts
 exposes: {
@@ -882,10 +910,11 @@ exposes: {
 ```
 
 **Micro App에서 사용:**
+
 ```typescript
 // Micro App에서 동적 Import
-const Button = React.lazy(() => import('shell/Button'));
-const Dialog = React.lazy(() => import('shell/Dialog'));
+const Button = React.lazy(() => import('shell/Button'))
+const Dialog = React.lazy(() => import('shell/Dialog'))
 ```
 
 #### SSOT (Single Source of Truth)
@@ -921,10 +950,10 @@ function MicroApp() {
 ```css
 /* packages/fe/ui/src/styles/variables.css */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  /* ... */
+    --radius: 0.625rem;
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    /* ... */
 }
 ```
 
@@ -935,6 +964,7 @@ function MicroApp() {
 #### 1. 저장소 클론
 
 **Shell 레포지토리 클론:**
+
 ```bash
 git clone <shell-repository-url>
 cd shell-repo
@@ -942,6 +972,7 @@ yarn install
 ```
 
 **Micro App 레포지토리 클론 (필요 시):**
+
 ```bash
 # Micro App 1 개발 시
 git clone <micro-app-1-repository-url>
@@ -959,11 +990,13 @@ yarn install
 #### 2. 개발 서버 실행
 
 **옵션 1: 모든 앱 동시 실행**
+
 ```bash
 yarn dev
 ```
 
 **옵션 2: 개별 실행**
+
 ```bash
 # 터미널 1: Shell 앱
 cd apps/fe/host/hostapp1
@@ -1028,10 +1061,10 @@ Host App은 자동으로 Remote App이 준비될 때까지 대기합니다 (`wai
 
 ```typescript
 // Shell 앱에서
-console.log('[Shell] Module loaded');
+console.log('[Shell] Module loaded')
 
 // Micro App에서
-console.log('[MicroApp1] Component rendered');
+console.log('[MicroApp1] Component rendered')
 ```
 
 ## 배포 전략
@@ -1094,12 +1127,16 @@ yarn build
 ```typescript
 // vite.config.ts
 export default defineConfig({
-  // ...
-  remotes: {
-    microApp1: process.env.VITE_MICRO_APP_1_URL || 'http://localhost:3002/assets/remoteEntry.js',
-    microApp2: process.env.VITE_MICRO_APP_2_URL || 'http://localhost:3003/assets/remoteEntry.js',
-  },
-});
+    // ...
+    remotes: {
+        microApp1:
+            process.env.VITE_MICRO_APP_1_URL ||
+            'http://localhost:3002/assets/remoteEntry.js',
+        microApp2:
+            process.env.VITE_MICRO_APP_2_URL ||
+            'http://localhost:3003/assets/remoteEntry.js',
+    },
+})
 ```
 
 #### Micro App
@@ -1107,11 +1144,13 @@ export default defineConfig({
 ```typescript
 // vite.config.ts
 export default defineConfig({
-  // ...
-  remotes: {
-    shell: process.env.VITE_SHELL_URL || 'http://localhost:3001/assets/remoteEntry.js',
-  },
-});
+    // ...
+    remotes: {
+        shell:
+            process.env.VITE_SHELL_URL ||
+            'http://localhost:3001/assets/remoteEntry.js',
+    },
+})
 ```
 
 ### CDN 배포

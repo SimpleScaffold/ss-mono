@@ -8,21 +8,20 @@
  * 여기서는 기본 스타일만 적용합니다.
  */
 @layer base {
-  /* 모든 요소에 기본 border와 outline 색상 적용 */
-  * {
-    @apply border-border outline-ring/50;
-  }
-  
-  /* body에 배경색과 텍스트 색상 적용 */
-  body {
-    @apply bg-background text-foreground;
-  }
-  
-  /* button 요소는 shadcn/ui 컴포넌트에서 스타일 관리 */
-  /* Preflight의 기본 스타일은 유지하되, 컴포넌트 스타일이 우선 적용됨 */
-  /* button 요소에 대한 추가 기본 스타일은 적용하지 않음 */
-  button {
-    /* shadcn/ui Button 컴포넌트가 모든 스타일을 관리 */
-  }
-}
+    /* 모든 요소에 기본 border와 outline 색상 적용 */
+    * {
+        @apply border-border outline-ring/50;
+    }
 
+    /* body에 배경색과 텍스트 색상 적용 */
+    body {
+        @apply bg-background text-foreground;
+    }
+
+    /* button 요소는 shadcn/ui 컴포넌트에서 스타일 관리 */
+    /* Preflight의 기본 스타일은 유지하되, 컴포넌트 스타일이 우선 적용됨 */
+    /* button 요소에 대한 추가 기본 스타일은 적용하지 않음 */
+    button {
+        /* shadcn/ui Button 컴포넌트가 모든 스타일을 관리 */
+    }
+}

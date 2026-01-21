@@ -1,14 +1,13 @@
 {
-  "extends": "../../../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "paths": {
-      "@/*": ["./packages/fe/ui/src/*"]
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "paths": {
+            "@/*": ["./packages/fe/ui/src/*"]
+        },
+        "moduleResolution": "node",
+        "allowImportingTsExtensions": false
     },
-    "moduleResolution": "node",
-    "allowImportingTsExtensions": false
-  },
-  "include": ["src"]
+    "include": ["src"]
 }
-

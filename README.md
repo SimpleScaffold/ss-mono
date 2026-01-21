@@ -79,9 +79,9 @@ yarn build
 ### 공통 UI 패키지의 CSS 사용
 
 ```css
-@import "tailwindcss";
-@import "@repo/fe-ui/tokens.css";
-@import "@repo/fe-ui/base.css";
+@import 'tailwindcss';
+@import '@repo/fe-ui/tokens.css';
+@import '@repo/fe-ui/base.css';
 ```
 
 ## 애플리케이션 구조
@@ -89,7 +89,7 @@ yarn build
 각 애플리케이션은 완전히 독립적으로 실행됩니다:
 
 - **hostapp1**: 포트 3001
-- **remoteapp1**: 포트 3002  
+- **remoteapp1**: 포트 3002
 - **remoteapp2**: 포트 3003
 
 각 애플리케이션은 서로 다른 도메인에서 실행될 수 있으며, 공통 패키지(`@repo/fe-ui`, `@repo/fe-utils`)를 공유합니다.
@@ -104,4 +104,3 @@ yarn build
 - [패키지 가이드](./doc/kr/04-packages/index.md)
 - [shadcn/ui 가이드](./doc/kr/05-shadcn-guide/index.md)
 - [Upstream 저장소 관리](./doc/kr/07-upstream-management/index.md)
-

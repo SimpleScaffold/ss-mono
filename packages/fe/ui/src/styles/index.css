@@ -17,9 +17,9 @@
 /* ============================================
    1. Tailwind CSS v4 Core
    ============================================ */
-@import "tailwindcss";
+@import 'tailwindcss';
 @source "../**/*.{ts,tsx}";
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 /* ============================================
    2. Custom Variants
@@ -29,15 +29,14 @@
 /* ============================================
    3. CSS Variables (shadcn/ui 호환)
    ============================================ */
-@import "./variables.css";
+@import './variables.css';
 
 /* ============================================
    4. Semantic Design Tokens
    ============================================ */
-@import "./semantic.css";
+@import './semantic.css';
 
 /* ============================================
    5. Base Styles
    ============================================ */
-@import "./base.css";
-
+@import './base.css';

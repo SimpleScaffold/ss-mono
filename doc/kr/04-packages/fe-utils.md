@@ -15,7 +15,7 @@
 ### Import
 
 ```typescript
-import { formatDate } from '@repo/fe-utils';
+import { formatDate } from '@repo/fe-utils'
 ```
 
 ## 제공 함수
@@ -27,10 +27,10 @@ import { formatDate } from '@repo/fe-utils';
 **예시:**
 
 ```typescript
-import { formatDate } from '@repo/fe-utils';
+import { formatDate } from '@repo/fe-utils'
 
-const date = new Date();
-const formatted = formatDate(date);
+const date = new Date()
+const formatted = formatDate(date)
 // 예: "2024. 1. 15."
 ```
 
@@ -54,19 +54,18 @@ packages/fe/utils/src/
 ```typescript
 // packages/fe/utils/src/index.ts
 export const formatDate = (date: Date): string => {
-  return date.toLocaleDateString('ko-KR');
-};
+    return date.toLocaleDateString('ko-KR')
+}
 
 export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('ko-KR', {
-    style: 'currency',
-    currency: 'KRW'
-  }).format(amount);
-};
+    return new Intl.NumberFormat('ko-KR', {
+        style: 'currency',
+        currency: 'KRW',
+    }).format(amount)
+}
 ```
 
 ## 관련 문서
 
 - [프로젝트 구조](../02-project-structure/) - 패키지 구조 설명
 - [공통 설정](../03-common-config/) - TypeScript 설정
-

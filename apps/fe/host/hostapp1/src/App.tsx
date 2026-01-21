@@ -1,8 +1,7 @@
-import HostApp1 from './HostApp1';
+import HostApp1 from './HostApp1'
 
 function App() {
-  return <HostApp1 />;
+    return <HostApp1 />
 }
 
-export default App;
-
+export default App

@@ -1,2 +1,1 @@
-export * from '../assets/fonts';
-
+export * from '../assets/fonts'

@@ -1,14 +1,8 @@
 {
-  "css.lint.unknownAtRules": "warning",
-  "scss.lint.unknownAtRules": "warning",
-  "less.lint.unknownAtRules": "warning",
-  "css.customData": [
-    ".vscode/tailwindcss.custom-data.json"
-  ],
-  "scss.customData": [
-    ".vscode/tailwindcss.custom-data.json"
-  ],
-  "less.customData": [
-    ".vscode/tailwindcss.custom-data.json"
-  ]
+    "css.lint.unknownAtRules": "warning",
+    "scss.lint.unknownAtRules": "warning",
+    "less.lint.unknownAtRules": "warning",
+    "css.customData": [".vscode/tailwindcss.custom-data.json"],
+    "scss.customData": [".vscode/tailwindcss.custom-data.json"],
+    "less.customData": [".vscode/tailwindcss.custom-data.json"]
 }

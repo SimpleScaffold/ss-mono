@@ -1,44 +1,44 @@
 {
-  "name": "@repo/fe-ui",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "exports": {
-    "./*": {
-      "import": "./src/exports/*.ts",
-      "types": "./src/exports/*.ts"
+    "name": "@repo/fe-ui",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "exports": {
+        "./*": {
+            "import": "./src/exports/*.ts",
+            "types": "./src/exports/*.ts"
+        },
+        "./styles": "./src/styles/index.css",
+        "./styles/*": "./src/styles/*.css"
     },
-    "./styles": "./src/styles/index.css",
-    "./styles/*": "./src/styles/*.css"
-  },
-  "sideEffects": [
-    "**/*.css"
-  ],
-  "scripts": {
-    "lint": "echo 'lint'",
-    "update-exports": "node scripts/update-exports.js",
-    "postshadcn": "yarn update-exports",
-    "shadcn": "node scripts/shadcn-wrapper.js",
-    "shadcn:add": "node scripts/shadcn-wrapper.js add"
-  },
-  "dependencies": {
-    "@radix-ui/react-dialog": "^1.1.15",
-    "@radix-ui/react-slot": "^1.2.4",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
-    "lucide-react": "^0.562.0",
-    "tailwind-merge": "^2.2.0",
-    "vaul": "^1.1.2"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "typescript": "*"
-  },
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  }
+    "sideEffects": [
+        "**/*.css"
+    ],
+    "scripts": {
+        "lint": "echo 'lint'",
+        "update-exports": "node scripts/update-exports.js",
+        "postshadcn": "yarn update-exports",
+        "shadcn": "node scripts/shadcn-wrapper.js",
+        "shadcn:add": "node scripts/shadcn-wrapper.js add"
+    },
+    "dependencies": {
+        "@radix-ui/react-dialog": "^1.1.15",
+        "@radix-ui/react-slot": "^1.2.4",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.0",
+        "lucide-react": "^0.562.0",
+        "tailwind-merge": "^2.2.0",
+        "vaul": "^1.1.2"
+    },
+    "devDependencies": {
+        "@types/react": "^18.2.0",
+        "@types/react-dom": "^18.2.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "typescript": "*"
+    },
+    "peerDependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    }
 }

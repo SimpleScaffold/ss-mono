@@ -1,10 +1,10 @@
 {
-  "name": "@repo/shared-config",
-  "version": "1.0.0",
-  "private": true,
-  "main": "./tsconfig.json",
-  "files": [
-    "tsconfig.json",
-    "eslint.config.js"
-  ]
+    "name": "@repo/shared-config",
+    "version": "1.0.0",
+    "private": true,
+    "main": "./tsconfig.json",
+    "files": [
+        "tsconfig.json",
+        "eslint.config.js"
+    ]
 }

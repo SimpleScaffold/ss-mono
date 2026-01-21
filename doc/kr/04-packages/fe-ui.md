@@ -7,6 +7,7 @@
 `@repo/fe-ui`는 프로젝트 전반에서 사용하는 공통 UI 컴포넌트를 제공하는 패키지입니다.
 
 **주요 기능:**
+
 - shadcn/ui 기반 컴포넌트
 - Theme 시스템
 - Assets (폰트, 아이콘 등)
@@ -25,10 +26,10 @@
 shadcn/ui 컴포넌트:
 
 ```typescript
-import { Button } from '@repo/fe-ui/button';
-import { Card } from '@repo/fe-ui/card';
-import { Dialog } from '@repo/fe-ui/dialog';
-import { Drawer } from '@repo/fe-ui/drawer';
+import { Button } from '@repo/fe-ui/button'
+import { Card } from '@repo/fe-ui/card'
+import { Dialog } from '@repo/fe-ui/dialog'
+import { Drawer } from '@repo/fe-ui/drawer'
 ```
 
 ### Theme 사용
@@ -52,7 +53,7 @@ function App() {
 유틸리티 함수도 하위 경로로 import합니다:
 
 ```typescript
-import { cn } from '@repo/fe-ui/utils';
+import { cn } from '@repo/fe-ui/utils'
 ```
 
 ### Assets 사용
@@ -60,7 +61,7 @@ import { cn } from '@repo/fe-ui/utils';
 Assets도 하위 경로로 import합니다:
 
 ```typescript
-import '@repo/fe-ui/assets';
+import '@repo/fe-ui/assets'
 ```
 
 ## CSS 사용법
@@ -70,9 +71,9 @@ import '@repo/fe-ui/assets';
 앱의 CSS 파일에서 다음과 같이 import합니다:
 
 ```css
-@import "tailwindcss";
-@import "@repo/fe-ui/tokens.css";
-@import "@repo/fe-ui/base.css";
+@import 'tailwindcss';
+@import '@repo/fe-ui/tokens.css';
+@import '@repo/fe-ui/base.css';
 ```
 
 ### 사용 가능한 CSS 파일
@@ -102,4 +103,3 @@ packages/fe/ui/src/
 
 - [shadcn/ui 가이드](../05-shadcn-guide/) - 컴포넌트 추가 방법
 - [공통 설정](../03-common-config/) - TypeScript, Path Mapping 설정
-

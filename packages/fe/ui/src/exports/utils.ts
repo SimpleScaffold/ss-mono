@@ -1,2 +1,1 @@
-export { cn } from '../lib/shadcn/utils/cn';
-
+export { cn } from '../lib/shadcn/utils/cn'
