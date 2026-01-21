@@ -16,6 +16,7 @@
 - [개발 워크플로우](#개발-워크플로우)
 - [배포 전략](#배포-전략)
 - [구현 상태](#구현-상태)
+- [Host 앱과 Remote 앱 기능 정의](./host-remote-features.md) - 기능 분리 가이드
 
 ## 개요
 
@@ -1189,6 +1190,7 @@ export default defineConfig({
 ### 관련 문서
 
 - [프로젝트 구조](../02-project-structure/) - 전체 모노레포 구조
+- [Host 앱과 Remote 앱 기능 정의](./host-remote-features.md) - 기능 분리 가이드
 - [@repo/fe-ui 가이드](../04-packages/fe-ui.md) - 공통 UI 컴포넌트 패키지
 - [shadcn/ui 가이드](../05-shadcn-guide/) - 컴포넌트 추가 방법
 

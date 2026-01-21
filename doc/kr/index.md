@@ -50,6 +50,7 @@ SS Mono Final 모노레포 프로젝트의 전체 문서입니다.
 - 모듈 페더레이션 기반 아키텍처
 - Shell 앱 (hostapp1) 역할 및 설정
 - Micro Apps (remoteapp1, remoteapp2) 역할 및 설정
+- [Host 앱과 Remote 앱 기능 정의](./08-shell-micro-apps/host-remote-features.md) - 기능 분리 가이드
 - 라이브러리 및 의존성 관리
 - 스타일링 시스템
 - 개발 워크플로우 및 배포 전략
