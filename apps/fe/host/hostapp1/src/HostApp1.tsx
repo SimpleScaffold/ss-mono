@@ -116,10 +116,16 @@ function ProfileDialog() {
     )
 }
 
-const ITEMS = [
+interface ItemData {
+    title: string
+    description: string
+    buttonSize?: 'default' | 'sm'
+}
+
+const ITEMS: ItemData[] = [
     { title: 'Item 1', description: 'Description of item 1' },
-    { title: 'Item 2', description: 'Description of item 2', buttonSize: 'sm' as const },
-] as const
+    { title: 'Item 2', description: 'Description of item 2', buttonSize: 'sm' },
+]
 
 function HostApp1() {
     return (
