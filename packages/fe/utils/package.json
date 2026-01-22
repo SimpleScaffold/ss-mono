@@ -8,7 +8,11 @@
     "scripts": {
         "lint": "echo 'lint'"
     },
+    "dependencies": {
+        "culori": "^4.0.1"
+    },
     "devDependencies": {
+        "@types/culori": "^4",
         "typescript": "*"
     }
 }

@@ -106,3 +106,7 @@ coverage
 config/env/server-dev.ts
 config/env/server-prod.ts
 config/env/dev-remote.ts
+
+# Remote and Host folders - ignore contents but keep folder structure
+apps/fe/remote/*/
+apps/fe/host/*/

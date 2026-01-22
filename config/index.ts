@@ -37,6 +37,10 @@ export function getHostConfig(mode?: EnvMode) {
     return getConfig(mode).host
 }
 
+export function getGlobalAppConfig(mode?: EnvMode) {
+    return getConfig(mode).globalApp
+}
+
 export function getRemoteConfig(mode?: EnvMode) {
     return getConfig(mode).remote
 }

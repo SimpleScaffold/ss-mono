@@ -5,6 +5,7 @@
  * 
  * 모든 앱을 로컬에서 실행합니다.
  * - Host app: http://localhost:3001
+ * - Global app: http://localhost:3004
  * - Remote app: http://localhost:3002
  */
 export const localConfig = {
@@ -12,6 +13,11 @@ export const localConfig = {
         port: 3001,
         origin: 'http://localhost:3001',
         url: 'http://localhost:3001',
+    },
+    globalApp: {
+        port: 3004,
+        origin: 'http://localhost:3004',
+        url: 'http://localhost:3004',
     },
     remote: {
         port: 3002,
