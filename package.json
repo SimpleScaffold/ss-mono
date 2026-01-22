@@ -11,7 +11,7 @@
         "packages/shared/*"
     ],
     "scripts": {
-        "dev": "MF_ENV=local turbo run dev",
+        "dev": "MF_ENV=local turbo run dev --filter='@repo/remote-app*' & node scripts/wait-for-remote.js && MF_ENV=local turbo run dev --filter='@repo/host-app*'",
         "dev:server-dev": "MF_ENV=server-dev turbo run dev",
         "dev:server-prod": "MF_ENV=server-prod turbo run dev",
         "dev:remote": "MF_ENV=dev-remote turbo run dev --filter=@repo/host-app",

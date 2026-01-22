@@ -35,12 +35,12 @@ cp config/env/dev-remote.example.ts config/env/dev-remote.ts
 ```typescript
 export const serverDevConfig = {
     host: {
-        port: 3001,
+        port: 11000,
         origin: 'https://dev.example.com',
         url: 'https://dev.example.com',
     },
     remote: {
-        port: 3002,
+        port: 12000,
         origin: 'https://dev-remote.example.com',
         url: 'https://dev-remote.example.com',
         manifestUrl: 'https://dev-remote.example.com/mf-manifest.json',
@@ -54,12 +54,12 @@ export const serverDevConfig = {
 ```typescript
 export const serverDevConfig = {
     host: {
-        port: 3001,
+        port: 11000,
         origin: 'https://dev.example.com/host',
         url: 'https://dev.example.com/host',
     },
     remote: {
-        port: 3002,
+        port: 12000,
         origin: 'https://dev.example.com/remote',
         url: 'https://dev.example.com/remote',
         manifestUrl: 'https://dev.example.com/remote/mf-manifest.json',

@@ -10,17 +10,17 @@
  * 이 모드는 Host app 개발 시 Remote app의 최신 프로덕션 버전을 테스트할 때 유용합니다.
  * 
  * 예시:
- * - Host는 로컬: http://localhost:3001
+ * - Host는 로컬: http://localhost:11000
  * - Remote는 프로덕션: https://prod-remote.example.com
  */
 export const devRemoteConfig = {
     host: {
-        port: 3001,
-        origin: 'http://localhost:3001',
-        url: 'http://localhost:3001',
+        port: 11000,
+        origin: 'http://localhost:11000',
+        url: 'http://localhost:11000',
     },
     remote: {
-        port: 3002,
+        port: 12000,
         origin: 'https://prod-remote.example.com',
         url: 'https://prod-remote.example.com',
         manifestUrl: 'https://prod-remote.example.com/mf-manifest.json',

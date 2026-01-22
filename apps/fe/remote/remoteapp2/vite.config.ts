@@ -10,7 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '../../../../')
 
 const DEFAULT_ENV_MODE = 'local' as const
-const REMOTE_APP_2_PORT = 3003
+const REMOTE_APP_2_PORT = 12001
 
 const envMode = (process.env.MF_ENV || DEFAULT_ENV_MODE) as EnvMode
 const remoteConfig = getRemoteConfig(envMode)

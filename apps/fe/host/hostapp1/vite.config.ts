@@ -16,7 +16,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '../../../../')
 
 const DEFAULT_ENV_MODE = 'local' as const
-const REMOTE_APP_2_PORT = 3003
+const REMOTE_APP_2_PORT = 12001
 const HTTP_TIMEOUT_MS = 1000
 const MAX_RETRIES = 30
 const RETRY_DELAY_MS = 1000
@@ -119,7 +119,7 @@ const SHARED_DEPENDENCIES = {
 const REMOTE_APP_2_ENTRY =
     envMode === 'local'
         ? REMOTE_APP_URLS.remoteapp2
-        : remoteConfig.manifestUrl.replace('3002', String(REMOTE_APP_2_PORT))
+        : remoteConfig.manifestUrl.replace('12000', String(REMOTE_APP_2_PORT))
 
 function extractHostFromOrigin(origin: string): string {
     const match = origin.replace(/^https?:\/\//, '').split(':')[0]
@@ -170,11 +170,11 @@ export default defineConfig({
         ],
     },
     server: {
-        origin: hostConfig.origin,
-        port: hostConfig.port,
+        origin: 'http://localhost:11001',
+        port: 11001,
         hmr: {
-            port: hostConfig.port,
-            host: extractHostFromOrigin(hostConfig.origin),
+            port: 11001,
+            host: 'localhost',
         },
         fs: {
             allow: [repoRoot],

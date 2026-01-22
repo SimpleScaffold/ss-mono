@@ -17,12 +17,12 @@
  */
 export const serverProdConfig = {
     host: {
-        port: 3001,
+        port: 11000,
         origin: 'https://prod.example.com',
         url: 'https://prod.example.com',
     },
     remote: {
-        port: 3002,
+        port: 12000,
         origin: 'https://prod-remote.example.com',
         url: 'https://prod-remote.example.com',
         manifestUrl: 'https://prod-remote.example.com/mf-manifest.json',
