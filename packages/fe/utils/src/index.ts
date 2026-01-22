@@ -5,4 +5,3 @@ export const formatDate = (date: Date): string => {
 export * from './colorUtils'
 export * from './debounce'
 export * from './useCSSVariable'
-export * from './themeUtils'
