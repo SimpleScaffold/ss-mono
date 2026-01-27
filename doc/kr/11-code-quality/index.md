@@ -149,6 +149,19 @@ yarn prettier --check "**/*.{js,jsx,ts,tsx,json,css,scss,md}"
 # 모든 파일 린팅
 yarn lint
 
+
+
+
+
+ㅊㅊㅊㅊㅊㅊ
+
+
+
+
+
+
+
+
 # 특정 파일/디렉토리 린팅
 yarn eslint "src/**/*.{ts,tsx}"
 
