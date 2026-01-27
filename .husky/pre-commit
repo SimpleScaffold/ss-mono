@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Cross-platform support: Use Node.js script for better compatibility
+# Works on Windows (Git Bash, CMD, PowerShell), Linux, macOS, and WSL
+node scripts/hooks/pre-commit.js
