@@ -210,6 +210,15 @@ Prettier의 `prettier-plugin-tailwindcss` 플러그인이 Tailwind CSS 클래스
 
 프로젝트는 **husky**와 **lint-staged**를 사용하여 커밋 전 자동으로 포맷팅과 린팅을 실행합니다.
 
+#### 🎯 핵심 원칙 (중요)
+
+> **로컬 hook은 개발 편의용 (soft-fail)**  
+> **모든 강제 검증은 CI에서만 수행**
+
+- ✅ 로컬 hook 실패해도 커밋 허용 (개발 편의성 우선)
+- ✅ 최종 검증은 CI에서만 수행 (일관성 보장)
+- ✅ 다양한 환경(WSL/nvm/yarn/corepack/Windows/macOS) 지원
+
 #### 설정 방법
 
 1. **의존성 설치** (이미 설정됨):
@@ -220,17 +229,24 @@ Prettier의 `prettier-plugin-tailwindcss` 플러그인이 Tailwind CSS 클래스
 2. **Husky 초기화**:
    ```bash
    yarn prepare
+   # 또는 직접 실행
+   yarn husky
    ```
+   
+   **참고**: Husky 9.x에서는 `husky install`이 deprecated되었고, `husky`만 실행하면 됩니다.
 
 3. **Pre-commit Hook 설정**:
-   `.husky/pre-commit` 파일이 자동으로 생성되며, 크로스 플랫폼 호환성을 위해 Node.js 스크립트를 사용합니다:
+   `.husky/pre-commit` 파일은 단순히 Node.js 스크립트를 호출합니다:
    ```bash
    #!/usr/bin/env sh
-   . "$(dirname -- "$0")/_/husky.sh"
+   # Husky 9.x - Simple trigger only
+   # 로컬 hook은 개발 편의용 (soft-fail)
+   # 모든 강제 검증은 CI에서만 수행
    
-   # Cross-platform support: Use Node.js script
-   node scripts/hooks/pre-commit.js
+   node scripts/hooks/pre-commit.js || exit 0
    ```
+   
+   **중요**: `|| exit 0`으로 실패해도 커밋을 허용합니다 (soft-fail).
 
 4. **lint-staged 설정**:
    `.lintstagedrc.js` 파일에서 스테이징된 파일에만 포맷팅과 린팅을 적용합니다:
@@ -244,27 +260,42 @@ Prettier의 `prettier-plugin-tailwindcss` 플러그인이 Tailwind CSS 클래스
    }
    ```
 
+#### 아키텍처 설계
+
+**구조:**
+```
+repo/
+├─ scripts/
+│  └─ hooks/
+│     └─ pre-commit.js    # 단일 진입점 (모든 로직 처리)
+├─ .husky/
+│  └─ pre-commit          # 단순 트리거만 (soft-fail)
+└─ .lintstagedrc.js       # lint-staged 설정
+```
+
+**원칙:**
+- ❌ Husky에서 복잡한 로직 처리 금지
+- ❌ PATH 의존적인 명령어 직접 호출 금지
+- ✅ 모든 분기 처리는 JS 안에서만 수행
+- ✅ 실패 시 soft-fail (커밋 허용)
+
 #### 크로스 플랫폼 지원
 
 프로젝트는 다음 환경에서 작동하도록 설계되었습니다:
 
-- ✅ **Windows** (Git Bash, CMD, PowerShell)
+- ✅ **Windows** (Git Bash, CMD, PowerShell, GitHub Desktop)
 - ✅ **Linux**
 - ✅ **macOS**
 - ✅ **WSL** (Windows Subsystem for Linux)
+- ✅ **NVM** (Node Version Manager)
+- ✅ **Corepack** (Yarn/PNPM 관리)
 
 **구현 방식:**
 
-- `.husky/pre-commit`은 shell 스크립트로 작성되어 모든 플랫폼에서 작동
-- 실제 로직은 `scripts/hooks/pre-commit.js` Node.js 스크립트로 구현
-- `scripts/utils/cross-platform.js` 유틸리티를 사용하여 플랫폼별 차이 처리
-- `lint-staged`와 `prettier`, `eslint`는 모두 크로스 플랫폼 도구
-
-**Windows 사용자 참고:**
-
-- Git for Windows를 설치하면 Git Bash가 함께 설치되어 자동으로 작동합니다
-- CMD나 PowerShell에서도 Git이 설치되어 있으면 정상 작동합니다
-- WSL 환경에서는 Linux와 동일하게 작동합니다
+- `.husky/pre-commit`은 단순히 Node.js 스크립트 호출만 담당
+- `scripts/hooks/pre-commit.js`에서 모든 환경 분기 처리
+- 여러 패키지 매니저(pnpm/yarn/npm) 자동 감지 및 시도
+- 실패해도 경고만 출력하고 계속 진행 (soft-fail)
 
 #### 동작 방식
 
@@ -272,14 +303,18 @@ Prettier의 `prettier-plugin-tailwindcss` 플러그인이 Tailwind CSS 클래스
 
 1. **스테이징된 파일만 체크**: `lint-staged`가 Git에 스테이징된 파일만 선택
 2. **Prettier 포맷팅**: 자동으로 코드 포맷팅
-3. **ESLint 린팅**: 자동 수정 가능한 문제는 수정, 경고가 있으면 커밋 실패
+3. **ESLint 린팅**: 자동 수정 가능한 문제는 수정
 4. **변경사항 자동 스테이징**: 포맷팅/수정된 파일이 자동으로 다시 스테이징됨
+5. **Soft-fail**: 실패해도 커밋 허용 (경고만 출력)
 
-#### 커밋 실패 시
+#### 로컬 Hook vs CI 검증
 
-- **ESLint 오류**: 수정 불가능한 오류가 있으면 커밋이 중단됩니다
-- **ESLint 경고**: `--max-warnings=0` 설정으로 경고도 커밋을 막습니다
-- **수동 우회**: `--no-verify` 플래그로 우회 가능하지만 권장하지 않습니다
+| 항목 | 로컬 Hook | CI |
+|------|-----------|-----|
+| 목적 | 개발 편의성 | 코드 품질 보장 |
+| 실패 시 | 커밋 허용 (soft-fail) | 커밋 차단 (hard-fail) |
+| 환경 | 다양한 환경 지원 | 표준화된 환경 |
+| 우회 | 가능 (정상 동작) | 불가능 |
 
 #### 예제
 
@@ -287,20 +322,43 @@ Prettier의 `prettier-plugin-tailwindcss` 플러그인이 Tailwind CSS 클래스
 # 정상적인 커밋 (자동으로 포맷팅/린팅 실행)
 git add .
 git commit -m "feat: 새로운 기능 추가"
+# ✅ 포맷팅/린팅 성공 → 커밋 완료
 
-# 포맷팅/린팅 실패 시
+# 포맷팅/린팅 실패 시 (로컬 hook)
 git add .
 git commit -m "feat: 새로운 기능 추가"
-# ❌ ESLint 오류로 인해 커밋 실패
-# → 오류 수정 후 다시 커밋
+# ⚠️  로컬 hook 실패 (soft-fail)
+# → 경고만 출력하고 커밋 허용
+# → 최종 검증은 CI에서 수행
 
-# 우회 (권장하지 않음)
-git commit -m "feat: 새로운 기능 추가" --no-verify
+# CI에서 실패 시
+# ❌ CI 검증 실패 → PR 머지 불가
+# → 코드 수정 후 다시 커밋 필요
 ```
 
-#### 추가 설정
+#### CI 설정 (필수)
 
-더 복잡한 검증이 필요한 경우 `scripts/examples/husky-example.js`를 참고하여 커스텀 hook을 추가할 수 있습니다.
+로컬 hook은 soft-fail이므로, **반드시 CI에서 검증을 수행**해야 합니다:
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint        # ESLint 검증
+      - run: yarn format:check  # Prettier 검증
+```
+
+**중요**: CI에서 실패하면 PR 머지가 불가능하므로, 코드 품질이 보장됩니다.
 
 ### 5. IDE 통합
 
@@ -338,9 +396,71 @@ git commit -m "feat: 새로운 기능 추가" --no-verify
 2. 필요한 플러그인이 설치되어 있는지 확인
 3. TypeScript 설정이 올바른지 확인
 
+
+
 ### 충돌하는 규칙이 있는 경우
 
 Prettier와 ESLint가 충돌하는 경우, `eslint-config-prettier`를 사용하여 ESLint의 포맷팅 관련 규칙을 비활성화할 수 있습니다. 현재 프로젝트에서는 충돌이 없도록 설정되어 있습니다.
+
+### 로컬 Hook 문제 해결
+
+로컬 hook은 **soft-fail 전략**을 사용하므로, 실패해도 커밋이 허용됩니다. 이는 정상 동작입니다.
+
+#### 로컬 Hook이 작동하지 않는 경우
+
+**중요**: 로컬 hook 실패는 정상입니다. 최종 검증은 CI에서 수행됩니다.
+
+1. **수동 실행 테스트**:
+   ```bash
+   # 터미널에서 직접 테스트
+   node scripts/hooks/pre-commit.js
+   ```
+
+2. **패키지 매니저 확인**:
+   ```bash
+   # 사용 가능한 패키지 매니저 확인
+   which pnpm yarn npm
+   pnpm --version || yarn --version || npm --version
+   ```
+
+3. **node_modules 확인**:
+   ```bash
+   # lint-staged 설치 확인
+   ls -la node_modules/.bin/lint-staged
+   ls -la node_modules/lint-staged/bin/lint-staged.js
+   ```
+
+4. **수동 실행**:
+   ```bash
+   # 스테이징된 파일이 있는 상태에서
+   yarn lint-staged
+   # 또는
+   npx lint-staged
+   ```
+
+#### GitHub Desktop 사용자
+
+GitHub Desktop에서 hook이 작동하지 않아도 **정상**입니다:
+
+- 로컬 hook은 개발 편의용입니다
+- 실패해도 커밋이 허용됩니다 (soft-fail)
+- 최종 검증은 CI에서 수행됩니다
+
+**대안**: 터미널에서 커밋하면 정상 작동합니다:
+```bash
+git add .
+git commit -m "feat: 새로운 기능"
+```
+
+#### CI 검증 확인
+
+로컬 hook이 작동하지 않아도, CI에서 검증이 수행되므로 코드 품질은 보장됩니다:
+
+1. GitHub에서 PR 생성
+2. CI 실행 확인
+3. CI 실패 시 코드 수정 후 다시 커밋
+
+**핵심**: 로컬 hook 실패 = 정상 동작 (CI에서 최종 검증)
 
 ## 참고 자료
 

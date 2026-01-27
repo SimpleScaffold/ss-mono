@@ -21,7 +21,7 @@
         "lint:fix": "turbo run lint -- --fix",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path .prettierignore",
         "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path .prettierignore",
-        "prepare": "husky install"
+        "prepare": "husky"
     },
     "devDependencies": {
         "@antdevx/vite-plugin-hmr-sync": "^1.0.0",

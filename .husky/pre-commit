@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# Husky 9.x - Simple trigger only
+# 로컬 hook은 개발 편의용 (soft-fail)
+# 모든 강제 검증은 CI에서만 수행
 
-# Cross-platform support: Use Node.js script for better compatibility
-# Works on Windows (Git Bash, CMD, PowerShell), Linux, macOS, and WSL
-node scripts/hooks/pre-commit.js
+node scripts/hooks/pre-commit.js || exit 0
