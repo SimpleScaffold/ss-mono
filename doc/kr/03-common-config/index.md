@@ -84,6 +84,8 @@ export default [
 ]
 ```
 
+**자세한 내용:** [코드 품질 관리 가이드](../11-code-quality/) 참고
+
 ## Tailwind CSS 설정
 
 이 프로젝트는 Tailwind CSS v4의 CSS-first 방식을 사용합니다.
@@ -140,7 +142,14 @@ yarn workspace @repo/fe-ui [command]
 
 각 패키지/앱의 `package.json`에서 해당 스크립트를 정의하면 Turborepo가 자동으로 감지합니다.
 
+## Prettier 설정
+
+코드 포맷팅은 Prettier를 사용합니다. 설정은 루트의 `.prettierrc` 파일에서 관리됩니다.
+
+**자세한 내용:** [코드 품질 관리 가이드](../11-code-quality/) 참고
+
 ## 다음 단계
 
 - [패키지 가이드](../04-packages/) 확인
 - [shadcn/ui 가이드](../05-shadcn-guide/) 참고
+- [코드 품질 관리 가이드](../11-code-quality/) 참고
