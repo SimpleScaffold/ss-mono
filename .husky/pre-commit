@@ -1,11 +1,20 @@
 #!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"
 
-# 로컬 hook은 개발 편의용 (soft-fail)
-# node가 없거나 스크립트가 실패해도 커밋을 막지 않습니다.
+# 1. 로컬 환경의 node 명령어 확인
 if command -v node >/dev/null 2>&1; then
     node scripts/hooks/pre-commit.js || exit 0
-else
-    # GitHub Desktop 등 node가 PATH에 없는 경우 조용히 넘어갑니다.
     exit 0
 fi
+
+# 2. Windows에서 WSL의 node를 호출 시도 (GitHub Desktop 사용자 등)
+if command -v wsl >/dev/null 2>&1; then
+    # WSL 내부에서 node가 있는지 확인 후 실행
+    if wsl command -v node >/dev/null 2>&1; then
+        wsl node scripts/hooks/pre-commit.js || exit 0
+        exit 0
+    fi
+fi
+
+# 3. 모든 환경에서 node를 찾지 못한 경우 (Soft-fail)
+exit 0
