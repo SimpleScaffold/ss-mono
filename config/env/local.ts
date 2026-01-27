@@ -1,8 +1,8 @@
 /**
  * 로컬 개발 환경 설정
- * 
+ *
  * 사용법: yarn dev
- * 
+ *
  * 모든 앱을 로컬에서 실행합니다.
  * - Host apps: http://localhost:11000, http://localhost:11001, ...
  * - Global app: http://localhost:11002

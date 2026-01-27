@@ -16,7 +16,12 @@ const REMOTE_APP_URLS = {
     remoteapp2: 'http://localhost:12001/mf-manifest.json',
 }
 
-function waitForRemoteApp(remoteUrl, remoteName, maxRetries = MAX_RETRIES, delay = RETRY_DELAY_MS) {
+function waitForRemoteApp(
+    remoteUrl,
+    remoteName,
+    maxRetries = MAX_RETRIES,
+    delay = RETRY_DELAY_MS,
+) {
     return new Promise((resolve) => {
         let retryCount = 0
 
@@ -29,8 +34,8 @@ function waitForRemoteApp(remoteUrl, remoteName, maxRetries = MAX_RETRIES, delay
                         } else {
                             reject(
                                 new Error(
-                                    `HTTP ${response.statusCode ?? 'unknown'}`
-                                )
+                                    `HTTP ${response.statusCode ?? 'unknown'}`,
+                                ),
                             )
                         }
                     })
@@ -53,7 +58,7 @@ function waitForRemoteApp(remoteUrl, remoteName, maxRetries = MAX_RETRIES, delay
 
                 if (retryCount >= maxRetries) {
                     console.warn(
-                        `⚠ ${remoteName} did not become ready after ${maxRetries} attempts, continuing anyway...`
+                        `⚠ ${remoteName} did not become ready after ${maxRetries} attempts, continuing anyway...`,
                     )
                     resolve()
                     return
@@ -73,7 +78,7 @@ async function main() {
         waitForRemoteApp(REMOTE_APP_URLS.remoteapp1, 'remoteapp1'),
         waitForRemoteApp(REMOTE_APP_URLS.remoteapp2, 'remoteapp2'),
     ])
-    
+
     console.log('✓ All remote apps are ready')
     process.exit(0)
 }

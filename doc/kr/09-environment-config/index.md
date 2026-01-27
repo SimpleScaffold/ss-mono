@@ -246,15 +246,18 @@ export default defineConfig({
 Module Federation이 런타임에 remote app을 로드하기 위해 필요하므로, 빌드 산출물에 URL이 포함되는 것은 정상입니다.
 
 #### 안전한 경우
+
 - 공개적으로 접근 가능한 프론트엔드 서버 URL
 - 클라이언트가 접근해야 하는 URL
 
 #### 위험한 경우
+
 - 내부 네트워크 전용 서버 URL
 - 인증이 필요한 내부 API 서버 URL
 - VPN이나 방화벽으로 보호된 서버 URL
 
 **권장사항**:
+
 - 내부 서버 URL은 프론트엔드에서 직접 접근하지 않도록 아키텍처를 설계하세요
 - CI/CD에서 환경 변수로 관리하는 것을 권장합니다
 
@@ -263,35 +266,38 @@ Module Federation이 런타임에 remote app을 로드하기 위해 필요하므
 ### 환경 변수가 적용되지 않는 경우
 
 1. 환경 변수 확인:
-   ```bash
-   echo $MF_ENV
-   ```
+
+    ```bash
+    echo $MF_ENV
+    ```
 
 2. 스크립트에서 환경 변수 확인:
-   ```bash
-   MF_ENV=server-dev yarn dev
-   ```
+
+    ```bash
+    MF_ENV=server-dev yarn dev
+    ```
 
 3. Windows 사용자의 경우 `cross-env` 사용:
-   ```json
-   {
-     "scripts": {
-       "dev": "cross-env MF_ENV=local turbo run dev"
-     }
-   }
-   ```
+    ```json
+    {
+        "scripts": {
+            "dev": "cross-env MF_ENV=local turbo run dev"
+        }
+    }
+    ```
 
 ### 설정 파일을 찾을 수 없는 경우
 
 1. 설정 파일이 존재하는지 확인:
-   ```bash
-   ls config/env/server-dev.ts
-   ```
+
+    ```bash
+    ls config/env/server-dev.ts
+    ```
 
 2. 예시 파일에서 복사:
-   ```bash
-   cp config/env/server-dev.example.ts config/env/server-dev.ts
-   ```
+    ```bash
+    cp config/env/server-dev.example.ts config/env/server-dev.ts
+    ```
 
 ### 빌드 시 잘못된 URL이 포함되는 경우
 

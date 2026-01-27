@@ -4,11 +4,11 @@ import fs from 'fs'
 
 /**
  * 폰트 파일을 자동으로 preload하는 Vite 플러그인
- * 
+ *
  * 사용법:
  * ```ts
  * import { fontPreloadPlugin } from '../../../../scripts/utils/vite-font-preload-plugin'
- * 
+ *
  * export default defineConfig({
  *   plugins: [
  *     fontPreloadPlugin(),
@@ -25,7 +25,7 @@ export function fontPreloadPlugin(): Plugin {
                 const repoRoot = path.resolve(__dirname, '../../../../')
                 const fontDir = path.resolve(
                     repoRoot,
-                    'packages/fe/ui/src/assets/fonts'
+                    'packages/fe/ui/src/assets/fonts',
                 )
 
                 if (!fs.existsSync(fontDir)) {
@@ -64,7 +64,7 @@ export function fontPreloadPlugin(): Plugin {
                                 const publicPath = `/${relativePath}`
 
                                 preloadLinks.push(
-                                    `<link rel="preload" href="${publicPath}" as="font" type="font/woff2" crossorigin="anonymous">`
+                                    `<link rel="preload" href="${publicPath}" as="font" type="font/woff2" crossorigin="anonymous">`,
                                 )
                             }
                         }
@@ -76,7 +76,7 @@ export function fontPreloadPlugin(): Plugin {
                 if (preloadLinks.length > 0) {
                     return html.replace(
                         '</head>',
-                        `    ${preloadLinks.join('\n    ')}\n</head>`
+                        `    ${preloadLinks.join('\n    ')}\n</head>`,
                     )
                 }
 

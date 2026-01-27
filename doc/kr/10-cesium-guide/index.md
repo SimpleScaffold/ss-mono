@@ -35,12 +35,12 @@ Cesium 패키지는 이미 설치되어 있습니다:
 
 ```json
 {
-  "dependencies": {
-    "cesium": "^1.137.0"
-  },
-  "devDependencies": {
-    "vite-plugin-static-copy": "^3.1.5"
-  }
+    "dependencies": {
+        "cesium": "^1.137.0"
+    },
+    "devDependencies": {
+        "vite-plugin-static-copy": "^3.1.5"
+    }
 }
 ```
 
@@ -55,21 +55,21 @@ const cesiumSource = 'node_modules/cesium/Build/Cesium'
 const cesiumBaseUrl = 'cesiumStatic'
 
 export default defineConfig({
-  plugins: [
-    // ... 다른 플러그인들
-    cesiumStaticPlugin(), // 개발 서버용 정적 파일 서빙
-    viteStaticCopy({
-      targets: [
-        { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },
-        { src: `${cesiumSource}/Workers`, dest: cesiumBaseUrl },
-        { src: `${cesiumSource}/Assets`, dest: cesiumBaseUrl },
-        { src: `${cesiumSource}/Widgets`, dest: cesiumBaseUrl },
-      ],
-    }),
-  ],
-  define: {
-    CESIUM_BASE_URL: JSON.stringify(cesiumBaseUrl),
-  },
+    plugins: [
+        // ... 다른 플러그인들
+        cesiumStaticPlugin(), // 개발 서버용 정적 파일 서빙
+        viteStaticCopy({
+            targets: [
+                { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },
+                { src: `${cesiumSource}/Workers`, dest: cesiumBaseUrl },
+                { src: `${cesiumSource}/Assets`, dest: cesiumBaseUrl },
+                { src: `${cesiumSource}/Widgets`, dest: cesiumBaseUrl },
+            ],
+        }),
+    ],
+    define: {
+        CESIUM_BASE_URL: JSON.stringify(cesiumBaseUrl),
+    },
 })
 ```
 
@@ -81,12 +81,12 @@ export default defineConfig({
 import { cesiumSaga, cesiumSlice } from 'src/globals/cesium/cesiumReducer'
 
 const reducers = {
-  // ... 다른 reducer들
-  cesiumReducer: cesiumSlice.reducer,
+    // ... 다른 reducer들
+    cesiumReducer: cesiumSlice.reducer,
 }
 
 export function* rootSaga() {
-  yield all([/* ... */, cesiumSaga()])
+    yield all([, /* ... */ cesiumSaga()])
 }
 ```
 
@@ -101,12 +101,12 @@ import { MapViewer } from 'src/globals/cesium/ui/MapViewer'
 import { MapControls } from 'src/globals/cesium/ui/MapControls'
 
 function MyComponent() {
-  return (
-    <div>
-      <MapControls />
-      <MapViewer height="600px" />
-    </div>
-  )
+    return (
+        <div>
+            <MapControls />
+            <MapViewer height="600px" />
+        </div>
+    )
 }
 ```
 
@@ -114,10 +114,10 @@ function MyComponent() {
 
 ```typescript
 interface MapViewerProps {
-  className?: string           // 추가 CSS 클래스
-  height?: string             // 지도 높이 (기본: '600px')
-  options?: Partial<ViewerOptions>  // Cesium Viewer 옵션
-  onViewerReady?: (viewer: Viewer) => void  // Viewer 준비 완료 콜백
+    className?: string // 추가 CSS 클래스
+    height?: string // 지도 높이 (기본: '600px')
+    options?: Partial<ViewerOptions> // Cesium Viewer 옵션
+    onViewerReady?: (viewer: Viewer) => void // Viewer 준비 완료 콜백
 }
 ```
 
@@ -129,16 +129,16 @@ Viewer 인스턴스는 Redux state에서 관리됩니다:
 import { useAppSelector } from 'src/globals/store/redux/reduxHooks'
 
 function MyComponent() {
-  const { viewer, isLoading, error, isInitialized } = useAppSelector(
-    (state) => state.cesiumReducer
-  )
+    const { viewer, isLoading, error, isInitialized } = useAppSelector(
+        (state) => state.cesiumReducer,
+    )
 
-  if (isLoading) return <div>로딩 중...</div>
-  if (error) return <div>오류: {error}</div>
-  if (!isInitialized) return <div>초기화되지 않음</div>
+    if (isLoading) return <div>로딩 중...</div>
+    if (error) return <div>오류: {error}</div>
+    if (!isInitialized) return <div>초기화되지 않음</div>
 
-  // viewer 사용
-  return <div>Viewer 준비됨</div>
+    // viewer 사용
+    return <div>Viewer 준비됨</div>
 }
 ```
 
@@ -149,21 +149,21 @@ import { useAppDispatch } from 'src/globals/store/redux/reduxHooks'
 import { cesiumAction } from 'src/globals/cesium/cesiumReducer'
 
 function MyComponent() {
-  const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch()
 
-  const handleReset = () => {
-    dispatch(cesiumAction.reset())
-  }
+    const handleReset = () => {
+        dispatch(cesiumAction.reset())
+    }
 
-  const handleSetError = (message: string) => {
-    dispatch(cesiumAction.setError(message))
-  }
+    const handleSetError = (message: string) => {
+        dispatch(cesiumAction.setError(message))
+    }
 
-  return (
-    <div>
-      <button onClick={handleReset}>리셋</button>
-    </div>
-  )
+    return (
+        <div>
+            <button onClick={handleReset}>리셋</button>
+        </div>
+    )
 }
 ```
 
@@ -178,95 +178,102 @@ import { flyTo, setView } from 'src/globals/cesium/cesiumUtils'
 import { useAppSelector } from 'src/globals/store/redux/reduxHooks'
 
 function MyComponent() {
-  const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
+    const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
 
-  const handleFlyToSeoul = () => {
-    // 애니메이션과 함께 이동 (경도, 위도, 높이, 지속시간)
-    flyTo(viewer, 126.978, 37.5665, 10000, 2.0)
-  }
+    const handleFlyToSeoul = () => {
+        // 애니메이션과 함께 이동 (경도, 위도, 높이, 지속시간)
+        flyTo(viewer, 126.978, 37.5665, 10000, 2.0)
+    }
 
-  const handleJumpToTokyo = () => {
-    // 즉시 이동
-    setView(viewer, 139.6917, 35.6895, 10000)
-  }
+    const handleJumpToTokyo = () => {
+        // 즉시 이동
+        setView(viewer, 139.6917, 35.6895, 10000)
+    }
 
-  return (
-    <div>
-      <button onClick={handleFlyToSeoul}>서울로 이동</button>
-      <button onClick={handleJumpToTokyo}>도쿄로 이동</button>
-    </div>
-  )
+    return (
+        <div>
+            <button onClick={handleFlyToSeoul}>서울로 이동</button>
+            <button onClick={handleJumpToTokyo}>도쿄로 이동</button>
+        </div>
+    )
 }
 ```
 
 ### 엔티티 관리
 
 ```tsx
-import { addEntity, removeEntity, removeAllEntities } from 'src/globals/cesium/cesiumUtils'
+import {
+    addEntity,
+    removeEntity,
+    removeAllEntities,
+} from 'src/globals/cesium/cesiumUtils'
 import { useAppSelector } from 'src/globals/store/redux/reduxHooks'
 
 function MyComponent() {
-  const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
+    const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
 
-  const handleAddMarker = () => {
-    addEntity(viewer, 'marker-1', {
-      position: { longitude: 126.978, latitude: 37.5665, height: 0 },
-      point: {
-        pixelSize: 15,
-        color: '#FF0000',
-      },
-      label: {
-        text: '서울',
-        font: '14px sans-serif',
-        fillColor: '#FFFFFF',
-      },
-    })
-  }
+    const handleAddMarker = () => {
+        addEntity(viewer, 'marker-1', {
+            position: { longitude: 126.978, latitude: 37.5665, height: 0 },
+            point: {
+                pixelSize: 15,
+                color: '#FF0000',
+            },
+            label: {
+                text: '서울',
+                font: '14px sans-serif',
+                fillColor: '#FFFFFF',
+            },
+        })
+    }
 
-  const handleRemoveMarker = () => {
-    removeEntity(viewer, 'marker-1')
-  }
+    const handleRemoveMarker = () => {
+        removeEntity(viewer, 'marker-1')
+    }
 
-  const handleClearAll = () => {
-    removeAllEntities(viewer)
-  }
+    const handleClearAll = () => {
+        removeAllEntities(viewer)
+    }
 
-  return (
-    <div>
-      <button onClick={handleAddMarker}>마커 추가</button>
-      <button onClick={handleRemoveMarker}>마커 제거</button>
-      <button onClick={handleClearAll}>전체 제거</button>
-    </div>
-  )
+    return (
+        <div>
+            <button onClick={handleAddMarker}>마커 추가</button>
+            <button onClick={handleRemoveMarker}>마커 제거</button>
+            <button onClick={handleClearAll}>전체 제거</button>
+        </div>
+    )
 }
 ```
 
 ### Viewer 유효성 검사
 
 ```tsx
-import { isValidViewer, safeDestroyViewer } from 'src/globals/cesium/cesiumUtils'
+import {
+    isValidViewer,
+    safeDestroyViewer,
+} from 'src/globals/cesium/cesiumUtils'
 
 function MyComponent() {
-  const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
+    const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
 
-  const handleCheck = () => {
-    if (isValidViewer(viewer)) {
-      console.log('Viewer가 유효합니다')
-    } else {
-      console.log('Viewer가 유효하지 않습니다')
+    const handleCheck = () => {
+        if (isValidViewer(viewer)) {
+            console.log('Viewer가 유효합니다')
+        } else {
+            console.log('Viewer가 유효하지 않습니다')
+        }
     }
-  }
 
-  const handleDestroy = () => {
-    safeDestroyViewer(viewer)
-  }
+    const handleDestroy = () => {
+        safeDestroyViewer(viewer)
+    }
 
-  return (
-    <div>
-      <button onClick={handleCheck}>유효성 검사</button>
-      <button onClick={handleDestroy}>Viewer 파괴</button>
-    </div>
-  )
+    return (
+        <div>
+            <button onClick={handleCheck}>유효성 검사</button>
+            <button onClick={handleDestroy}>Viewer 파괴</button>
+        </div>
+    )
 }
 ```
 
@@ -278,14 +285,14 @@ function MyComponent() {
 
 ```typescript
 export const cesiumConfig = {
-  baseUrl: CESIUM_BASE_URL,
-  defaultViewerOptions: {
-    terrainProvider: undefined,
-    animation: true,
-    timeline: true,
-    fullscreenButton: true,
-    // ... 기타 옵션
-  } as const,
+    baseUrl: CESIUM_BASE_URL,
+    defaultViewerOptions: {
+        terrainProvider: undefined,
+        animation: true,
+        timeline: true,
+        fullscreenButton: true,
+        // ... 기타 옵션
+    } as const,
 } as const
 ```
 
@@ -295,16 +302,16 @@ export const cesiumConfig = {
 import { MapViewer } from 'src/globals/cesium/ui/MapViewer'
 
 function MyComponent() {
-  return (
-    <MapViewer
-      height="800px"
-      options={{
-        animation: false,
-        timeline: false,
-        geocoder: false,
-      }}
-    />
-  )
+    return (
+        <MapViewer
+            height="800px"
+            options={{
+                animation: false,
+                timeline: false,
+                geocoder: false,
+            }}
+        />
+    )
 }
 ```
 
@@ -312,10 +319,10 @@ function MyComponent() {
 
 ```typescript
 interface CesiumState {
-  viewer: CesiumViewer | null    // Viewer 인스턴스
-  isInitialized: boolean          // 초기화 여부
-  isLoading: boolean              // 로딩 상태
-  error: string | null            // 에러 메시지
+    viewer: CesiumViewer | null // Viewer 인스턴스
+    isInitialized: boolean // 초기화 여부
+    isLoading: boolean // 로딩 상태
+    error: string | null // 에러 메시지
 }
 ```
 
@@ -327,14 +334,14 @@ interface CesiumState {
 export type CesiumViewer = Viewer
 
 export interface CesiumViewerOptions extends ViewerOptions {
-  container: HTMLElement
+    container: HTMLElement
 }
 
 export interface CesiumState {
-  viewer: CesiumViewer | null
-  isInitialized: boolean
-  isLoading: boolean
-  error: string | null
+    viewer: CesiumViewer | null
+    isInitialized: boolean
+    isLoading: boolean
+    error: string | null
 }
 ```
 
@@ -346,13 +353,13 @@ export interface CesiumState {
 import { MapViewer, MapControls } from 'src/globals/cesium'
 
 function HomePage() {
-  return (
-    <div className="p-4">
-      <h1>Cesium 지도</h1>
-      <MapControls className="mb-4" />
-      <MapViewer height="600px" />
-    </div>
-  )
+    return (
+        <div className="p-4">
+            <h1>Cesium 지도</h1>
+            <MapControls className="mb-4" />
+            <MapViewer height="600px" />
+        </div>
+    )
 }
 ```
 
@@ -364,20 +371,20 @@ import { useAppSelector } from 'src/globals/store/redux/reduxHooks'
 import { addEntity } from 'src/globals/cesium/cesiumUtils'
 
 function MyComponent() {
-  const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
+    const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
 
-  useEffect(() => {
-    if (viewer) {
-      // Viewer가 준비되면 마커 추가
-      addEntity(viewer, 'my-marker', {
-        position: { longitude: 126.978, latitude: 37.5665 },
-        point: { pixelSize: 20, color: '#00FF00' },
-        label: { text: '내 위치' },
-      })
-    }
-  }, [viewer])
+    useEffect(() => {
+        if (viewer) {
+            // Viewer가 준비되면 마커 추가
+            addEntity(viewer, 'my-marker', {
+                position: { longitude: 126.978, latitude: 37.5665 },
+                point: { pixelSize: 20, color: '#00FF00' },
+                label: { text: '내 위치' },
+            })
+        }
+    }, [viewer])
 
-  return <div>마커가 추가되었습니다</div>
+    return <div>마커가 추가되었습니다</div>
 }
 ```
 
@@ -389,20 +396,16 @@ import { useAppSelector } from 'src/globals/store/redux/reduxHooks'
 import { flyTo } from 'src/globals/cesium/cesiumUtils'
 
 function CustomControls() {
-  const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
+    const viewer = useAppSelector((state) => state.cesiumReducer.viewer)
 
-  const handleCustomAction = useCallback(() => {
-    if (viewer) {
-      // 특정 위치로 이동
-      flyTo(viewer, 127.5, 37.5, 5000, 3.0)
-    }
-  }, [viewer])
+    const handleCustomAction = useCallback(() => {
+        if (viewer) {
+            // 특정 위치로 이동
+            flyTo(viewer, 127.5, 37.5, 5000, 3.0)
+        }
+    }, [viewer])
 
-  return (
-    <button onClick={handleCustomAction}>
-      커스텀 위치로 이동
-    </button>
-  )
+    return <button onClick={handleCustomAction}>커스텀 위치로 이동</button>
 }
 ```
 

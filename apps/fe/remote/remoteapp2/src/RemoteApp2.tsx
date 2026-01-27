@@ -10,15 +10,13 @@ interface FormFieldProps {
     defaultValue: string
 }
 
-function FormField({
-    id,
-    label,
-    type = 'text',
-    defaultValue,
-}: FormFieldProps) {
+function FormField({ id, label, type = 'text', defaultValue }: FormFieldProps) {
     return (
         <div>
-            <label htmlFor={id} className="mb-1 block text-sm font-medium text-gray-700">
+            <label
+                htmlFor={id}
+                className="mb-1 block text-sm font-medium text-gray-700"
+            >
                 {label}
             </label>
             <input

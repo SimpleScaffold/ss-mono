@@ -1,14 +1,14 @@
 /**
  * 환경 설정 로더
- * 
+ *
  * 환경 변수 MF_ENV를 통해 환경별 설정을 로드합니다.
- * 
+ *
  * 사용 가능한 환경:
  * - 'local': 로컬 개발 환경 (기본값)
  * - 'server-dev': 개발 서버 환경
  * - 'server-prod': 프로덕션 서버 환경
  * - 'dev-remote': Dev-Remote 모드 (host는 로컬, remote는 prod)
- * 
+ *
  * 예시:
  *   MF_ENV=server-dev yarn dev
  *   MF_ENV=dev-remote yarn dev --filter=@repo/host-app

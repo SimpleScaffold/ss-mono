@@ -7,3 +7,15 @@ coverage
 *.lock
 yarn.lock
 package-lock.json
+
+# Build artifacts and temp files (must be before !apps/fe/**)
+**/dist/**
+**/.__mf__temp/**
+**/.vite/**
+
+# Explicitly include apps/fe even though it's in .gitignore
+!apps/fe/**
+# But exclude build artifacts and temp files
+apps/fe/**/dist/**
+apps/fe/**/.__mf__temp/**
+apps/fe/**/.vite/**

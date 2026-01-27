@@ -20,19 +20,13 @@ interface RemoteAppSectionProps {
     children: React.ReactNode
 }
 
-function RemoteAppSection({
-    title,
-    appName,
-    children,
-}: RemoteAppSectionProps) {
+function RemoteAppSection({ title, appName, children }: RemoteAppSectionProps) {
     return (
         <section className="mt-8 border-t pt-8">
             <h2 className="mb-4 text-2xl font-bold text-gray-900">{title}</h2>
             <Suspense
                 fallback={
-                    <div className="py-8 text-center">
-                        Loading {appName}...
-                    </div>
+                    <div className="py-8 text-center">Loading {appName}...</div>
                 }
             >
                 {children}
@@ -47,7 +41,11 @@ interface ItemCardProps {
     buttonSize?: 'default' | 'sm'
 }
 
-function ItemCard({ title, description, buttonSize = 'default' }: ItemCardProps) {
+function ItemCard({
+    title,
+    description,
+    buttonSize = 'default',
+}: ItemCardProps) {
     return (
         <div className="rounded-lg bg-white p-6 shadow">
             <h2 className="mb-2 text-xl font-semibold">{title}</h2>
@@ -81,7 +79,10 @@ function ProfileDialog() {
                 >
                     <div className="grid gap-4">
                         <div className="grid gap-3">
-                            <label htmlFor={nameId} className="text-sm font-medium">
+                            <label
+                                htmlFor={nameId}
+                                className="text-sm font-medium"
+                            >
                                 Name
                             </label>
                             <input
@@ -91,7 +92,10 @@ function ProfileDialog() {
                             />
                         </div>
                         <div className="grid gap-3">
-                            <label htmlFor={emailId} className="text-sm font-medium">
+                            <label
+                                htmlFor={emailId}
+                                className="text-sm font-medium"
+                            >
                                 Email
                             </label>
                             <input

@@ -33,7 +33,7 @@ const REMOTE_APP_URLS = {
 function waitForRemoteApp(
     remoteUrl: string,
     maxRetries = MAX_RETRIES,
-    delay = RETRY_DELAY_MS
+    delay = RETRY_DELAY_MS,
 ): Promise<void> {
     return new Promise((resolve) => {
         let retryCount = 0
@@ -47,8 +47,8 @@ function waitForRemoteApp(
                         } else {
                             reject(
                                 new Error(
-                                    `HTTP ${response.statusCode ?? 'unknown'}`
-                                )
+                                    `HTTP ${response.statusCode ?? 'unknown'}`,
+                                ),
                             )
                         }
                     })
@@ -71,7 +71,7 @@ function waitForRemoteApp(
 
                 if (retryCount >= maxRetries) {
                     console.warn(
-                        '⚠ Remote app did not become ready, continuing anyway...'
+                        '⚠ Remote app did not become ready, continuing anyway...',
                     )
                     resolve()
                     return
