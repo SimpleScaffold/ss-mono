@@ -2,15 +2,15 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # 1. 로컬 환경의 node 명령어 확인
-if command -v node >/dev/null 2>&1; then
+if command -v node > /dev/null 2>&1; then
     node scripts/hooks/pre-commit.js || exit 0
     exit 0
 fi
 
 # 2. Windows에서 WSL의 node를 호출 시도 (GitHub Desktop 사용자 등)
-if command -v wsl >/dev/null 2>&1; then
+if command -v wsl > /dev/null 2>&1; then
     # WSL 내부에서 node가 있는지 확인 후 실행
-    if wsl command -v node >/dev/null 2>&1; then
+    if wsl command -v node > /dev/null 2>&1; then
         wsl node scripts/hooks/pre-commit.js || exit 0
         exit 0
     fi

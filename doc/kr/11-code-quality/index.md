@@ -135,10 +135,8 @@ export default [
 ```bash
 # 모든 파일 포맷팅
 yarn format
-
 # 특정 파일/디렉토리 포맷팅
 yarn prettier --write "src/**/*.{ts,tsx}"
-
 # 포맷팅 확인만 (변경하지 않음)
 yarn prettier --check "**/*.{js,jsx,ts,tsx,json,css,scss,md}"
 ```
@@ -148,23 +146,8 @@ yarn prettier --check "**/*.{js,jsx,ts,tsx,json,css,scss,md}"
 ```bash
 # 모든 파일 린팅
 yarn lint
-
-
-
-
-
-ㅊㅊㅊㅊㅊㅊ
-
-
-
-
-
-
-
-
 # 특정 파일/디렉토리 린팅
 yarn eslint "src/**/*.{ts,tsx}"
-
 # 자동 수정 가능한 문제 수정
 yarn eslint --fix "src/**/*.{ts,tsx}"
 ```
@@ -224,11 +207,13 @@ Prettier의 `prettier-plugin-tailwindcss` 플러그인이 Tailwind CSS 클래스
 본 프로젝트는 다양한 로컬 개발 환경(WSL, nvm, corepack 등)을 고려하여 **"최소 공통분모 전략"**을 사용합니다.
 
 #### 🎯 핵심 원칙
+
 1. **로컬 Hook은 관대하게 (Soft-fail)**: 로컬에서 hook 실행이 실패하거나 `node` 환경이 없어도 커밋은 허용됩니다. (개발 흐름 보호)
 2. **강제 검증은 CI에서 (Hard-fail)**: 실제 코드 품질 통제는 GitHub Actions 등 CI 환경에서만 엄격하게 수행합니다.
 3. **JS 단일 진입점**: 모든 분기 로직은 `scripts/hooks/pre-commit.js` 내부에서 관리합니다.
 
 #### 팀 규칙
+
 - 로컬 hook이 작동하지 않아도 정상입니다. 당황하지 말고 커밋하세요.
 - 최종 검증은 PR의 CI 결과만 신뢰합니다.
 - CI가 실패하면 절대 머지할 수 없으므로, 로컬 hook이 실패했더라도 결국 코드는 수정되어야 합니다.
@@ -236,16 +221,18 @@ Prettier의 `prettier-plugin-tailwindcss` 플러그인이 Tailwind CSS 클래스
 #### 설정 방법 (이미 설정됨)
 
 1. **의존성 설치**:
-   ```bash
-   yarn add -D husky lint-staged
-   ```
+
+    ```bash
+    yarn add -D husky lint-staged
+    ```
 
 2. **Husky 초기화**:
-   ```bash
-   yarn prepare
-   # 또는 직접 실행
-   yarn husky
-   ```
+
+    ```bash
+    yarn prepare
+    # 또는 직접 실행
+    yarn husky
+    ```
 
 3. **Pre-commit Hook**:
    `.husky/pre-commit`은 단순히 Node.js 스크립트를 호출하며 실패 시 `exit 0`을 보장합니다.
@@ -283,12 +270,12 @@ Prettier의 `prettier-plugin-tailwindcss` 플러그인이 Tailwind CSS 클래스
 
 #### 로컬 Hook vs CI 검증
 
-| 항목 | 로컬 Hook | CI |
-|------|-----------|-----|
-| 목적 | 개발 편의성 | 코드 품질 보장 |
+| 항목    | 로컬 Hook             | CI                    |
+| ------- | --------------------- | --------------------- |
+| 목적    | 개발 편의성           | 코드 품질 보장        |
 | 실패 시 | 커밋 허용 (soft-fail) | 커밋 차단 (hard-fail) |
-| 환경 | 다양한 환경 지원 | 표준화된 환경 |
-| 우회 | 가능 (정상 동작) | 불가능 |
+| 환경    | 다양한 환경 지원      | 표준화된 환경         |
+| 우회    | 가능 (정상 동작)      | 불가능                |
 
 #### 예제
 
@@ -320,16 +307,16 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint        # ESLint 검증
-      - run: yarn format:check  # Prettier 검증
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: .nvmrc
+            - run: yarn install --frozen-lockfile
+            - run: yarn lint # ESLint 검증
+            - run: yarn format:check # Prettier 검증
 ```
 
 **중요**: CI에서 실패하면 PR 머지가 불가능하므로, 코드 품질이 보장됩니다.
@@ -370,8 +357,6 @@ jobs:
 2. 필요한 플러그인이 설치되어 있는지 확인
 3. TypeScript 설정이 올바른지 확인
 
-
-
 ### 충돌하는 규칙이 있는 경우
 
 Prettier와 ESLint가 충돌하는 경우, `eslint-config-prettier`를 사용하여 ESLint의 포맷팅 관련 규칙을 비활성화할 수 있습니다. 현재 프로젝트에서는 충돌이 없도록 설정되어 있습니다.
@@ -385,42 +370,46 @@ Prettier와 ESLint가 충돌하는 경우, `eslint-config-prettier`를 사용하
 **중요**: 로컬 hook 실패는 정상입니다. 최종 검증은 CI에서 수행됩니다.
 
 1. **수동 실행 테스트**:
-   ```bash
-   # 터미널에서 직접 테스트
-   node scripts/hooks/pre-commit.js
-   ```
+
+    ```bash
+    # 터미널에서 직접 테스트
+    node scripts/hooks/pre-commit.js
+    ```
 
 2. **패키지 매니저 확인**:
-   ```bash
-   # 사용 가능한 패키지 매니저 확인
-   which pnpm yarn npm
-   pnpm --version || yarn --version || npm --version
-   ```
+
+    ```bash
+    # 사용 가능한 패키지 매니저 확인
+    which pnpm yarn npm
+    pnpm --version || yarn --version || npm --version
+    ```
 
 3. **node_modules 확인**:
-   ```bash
-   # lint-staged 설치 확인
-   ls -la node_modules/.bin/lint-staged
-   ls -la node_modules/lint-staged/bin/lint-staged.js
-   ```
+
+    ```bash
+    # lint-staged 설치 확인
+    ls -la node_modules/.bin/lint-staged
+    ls -la node_modules/lint-staged/bin/lint-staged.js
+    ```
 
 4. **수동 실행**:
-   ```bash
-   # 스테이징된 파일이 있는 상태에서
-   yarn lint-staged
-   # 또는
-   npx lint-staged
-   ```
+    ```bash
+    # 스테이징된 파일이 있는 상태에서
+    yarn lint-staged
+    # 또는
+    npx lint-staged
+    ```
 
 #### GitHub Desktop 사용자
 
 GitHub Desktop에서 hook이 작동하지 않아도 **정상**입니다:
 
 - 로컬 hook은 개발 편의용입니다
-- 실패해도 커밋이 허용됩니다 (soft-fail)
-- 최종 검증은 CI에서 수행됩니다
+  -- 실패해도 커밋이 허용됩니다 (soft-fail)
+  -- 최종 검증은 CI에서 수행됩니다
 
 **대안**: 터미널에서 커밋하면 정상 작동합니다:
+
 ```bash
 git add .
 git commit -m "feat: 새로운 기능"

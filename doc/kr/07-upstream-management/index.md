@@ -121,7 +121,7 @@ merge 전에 upstream의 변경사항을 미리 확인:
 ```bash
 git checkout upstream-main
 git log main..upstream-main  # main에 없는 커밋 확인
-git diff main..upstream-main  # 변경사항 diff 확인
+git diff main..upstream-main # 변경사항 diff 확인
 ```
 
 ### 선택적 Merge

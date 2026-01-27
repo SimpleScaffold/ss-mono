@@ -14,7 +14,7 @@ function hasCommand(cmd) {
     try {
         spawnSync(cmd, ['--version'], {
             stdio: 'ignore',
-            shell: true
+            shell: true,
         })
         return true
     } catch {
@@ -32,7 +32,7 @@ function run(cmd) {
     })
 }
 
-console.log('🔍 [Local Verify] Checking code quality...');
+console.log('🔍 [Local Verify] Checking code quality...')
 
 try {
     if (hasCommand('yarn')) {
@@ -42,16 +42,23 @@ try {
     } else if (hasCommand('npm')) {
         run('npm run lint-staged')
     } else {
-        const directJsPath = join(repoRoot, 'node_modules/lint-staged/bin/lint-staged.js')
+        const directJsPath = join(
+            repoRoot,
+            'node_modules/lint-staged/bin/lint-staged.js',
+        )
         if (existsSync(directJsPath)) {
             run(`node "${directJsPath}"`)
         } else {
-            console.warn('⚠️  [Local Verify] No package manager or lint-staged found. Skipping local check.')
+            console.warn(
+                '⚠️  [Local Verify] No package manager or lint-staged found. Skipping local check.',
+            )
         }
     }
     console.log('✅ [Local Verify] Done.\n')
 } catch (e) {
-    console.warn('\n⚠️  [Local Verify] Execution failed. Final check will be done in CI.')
+    console.warn(
+        '\n⚠️  [Local Verify] Execution failed. Final check will be done in CI.',
+    )
 }
 
 process.exit(0)
