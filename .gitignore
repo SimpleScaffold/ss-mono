@@ -13,6 +13,10 @@ build
 .next
 out
 .turbo
+**/.turbo
+**/.turbo/**
+*.turbo.log
+turbo-*.log
 
 # Environment variables
 .env
