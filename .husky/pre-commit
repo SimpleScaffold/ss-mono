@@ -1,6 +1,11 @@
 #!/usr/bin/env sh
-# Husky 9.x - Simple trigger only
-# 로컬 hook은 개발 편의용 (soft-fail)
-# 모든 강제 검증은 CI에서만 수행
+. "$(dirname "$0")/_/husky.sh"
 
-node scripts/hooks/pre-commit.js || exit 0
+# 로컬 hook은 개발 편의용 (soft-fail)
+# node가 없거나 스크립트가 실패해도 커밋을 막지 않습니다.
+if command -v node >/dev/null 2>&1; then
+    node scripts/hooks/pre-commit.js || exit 0
+else
+    # GitHub Desktop 등 node가 PATH에 없는 경우 조용히 넘어갑니다.
+    exit 0
+fi
