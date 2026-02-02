@@ -4,6 +4,8 @@ SS Mono Final 모노레포의 구조를 설명합니다.
 
 ## 전체 구조
 
+2
+
 ```
 ss-mono-final/
 ├── apps/                          # 애플리케이션
