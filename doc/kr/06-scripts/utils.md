@@ -38,24 +38,6 @@ const content = await readFileSafe(filePath)
 await writeFileSafe(filePath, content)
 ```
 
-### 허스키 설정 예제
-
-`.husky/pre-commit` 파일에서 사용:
-
-```bash
-#!/usr/bin/env node
-import { readFileSafe, writeFileSafe } from '../../scripts/utils/cross-platform.js';
-
-// 파일 읽기 및 정규화
-const content = await readFileSafe('./src/index.ts');
-
-// 변경사항 적용
-const newContent = content.replace(/old/g, 'new');
-
-// 파일 쓰기
-await writeFileSafe('./src/index.ts', newContent);
-```
-
 ## API
 
 ### `getDirname(importMetaUrl)`

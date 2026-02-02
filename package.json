@@ -18,8 +18,7 @@
         "build": "turbo run build",
         "preview": "turbo run preview",
         "lint": "turbo run lint",
-        "format": "prettier --write . --ignore-path .prettierignore",
-        "prepare": "husky"
+        "format": "prettier --write . --ignore-path .prettierignore"
     },
     "devDependencies": {
         "@antdevx/vite-plugin-hmr-sync": "^1.0.0",
@@ -29,7 +28,6 @@
         "@types/react": "^19.0.0",
         "@types/react-dom": "^19.0.0",
         "@vitejs/plugin-react": "^4.0.0",
-        "husky": "^9.1.7",
         "lint-staged": "^15.2.11",
         "prettier": "^3.0.0",
         "prettier-plugin-sh": "^0.14.0",
