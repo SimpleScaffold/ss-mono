@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# 1. 환경 진단 및 Windows 환경 대응
+if command -v wsl.exe >/dev/null 2>&1 && [ -z "$WSL_DISTRO_NAME" ]; then
+    echo "Environment: Windows detected. Proxying to WSL..."
+    
+    # 현재 Windows 경로를 WSL 경로로 변환
+    WSL_PATH=$(wsl.exe wslpath -u "$(pwd)" | tr -d '\r')
+    
+    # 1단계: zsh 대화형 쉘로 yarn 경로 탐색
+    YARN_ABS_PATH=$(wsl.exe zsh -ic "which yarn" 2>/dev/null | tr -d '\r')
+    
+    # 2단계: 실패 시 NVM 기본 경로에서 직접 탐색
+    if [ -z "$YARN_ABS_PATH" ] || echo "$YARN_ABS_PATH" | grep -q "not found"; then
+        YARN_ABS_PATH=$(wsl.exe zsh -c "ls \$HOME/.nvm/versions/node/*/bin/yarn 2>/dev/null | tail -n 1" | tr -d '\r')
+    fi
+
+    if [ -n "$YARN_ABS_PATH" ]; then
+        echo "Found WSL yarn at: $YARN_ABS_PATH"
+        # yarn이 위치한 디렉토리를 PATH에 추가하여 node 실행 환경 확보
+        NODE_DIR=$(dirname "$YARN_ABS_PATH")
+        # --no-stash를 사용하여 부분 스테이징 시 발생하는 충돌을 방지
+        wsl.exe zsh -c "export PATH=\"$NODE_DIR:\$PATH\"; cd \"$WSL_PATH\" && \"$YARN_ABS_PATH\" lint-staged --no-stash"
+        exit $?
+    else
+        echo "Warning: Trying login shell with --no-stash..."
+        wsl.exe zsh -lc "cd \"$WSL_PATH\" && yarn lint-staged --no-stash"
+        exit $?
+    fi
+fi
+
+# 2. Linux / WSL 내부 환경 대응
+echo "Environment: Linux/WSL internal."
+# --no-stash를 사용하여 부분 스테이징 시 발생하는 충돌을 방지
+yarn lint-staged --no-stash
