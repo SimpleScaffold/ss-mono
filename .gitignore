@@ -89,6 +89,10 @@ coverage
 .vite
 *.timestamp-*.mjs
 
+# Module Federation
+__mf__temp
+.mf
+
 # TypeScript
 *.tsbuildinfo
 
